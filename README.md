@@ -1,19 +1,21 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/F_-jgkTW)
-# Nome do projeto
+# MRP
 
-Escreva um ou dois  parágrafo resumindo o objetivo do seu projeto.
+O objetivo do meu projeto é desenvolver um sistema de Manufacturing Resource Planning (MRP) que otimiza e automatiza os processos de planejamento de recursos em uma linha de produção. Este sistema integrará funcionalidades de controle de inventário, gestão de ordens de produção, e previsão de demanda, proporcionando uma visão clara e centralizada de todas as operações de manufatura. Com isso, busca-se melhorar a eficiência operacional, reduzir custos e garantir a disponibilidade de materiais, facilitando a tomada de decisões estratégicas dentro da empresa.
 
 ## Integrantes
 
-* Nome completo do aluno 1
-* Nome completo do aluno 2
-* Nome completo do aluno 3
-* Nome completo do aluno 4
+* Daniel Estevam Pacheco de Souza
+* Eduardo Bandeira de Melo Guimarães
+* Eric Rodrigues Diniz
+* Lucas Machado de Oliveira Andrade
+* Mariana Eliza Alves Costa
+* Vítor Lion Guimarães Rodrigues
 
 ## Orientadores
 
-* Nome completo do professor 1
-* Nome completo do professor 2
+* Hugo Bastos de Paula
+* Cleiton Silva Tavares
 
 ## Instruções de utilização
 
