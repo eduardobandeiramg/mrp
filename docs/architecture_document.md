@@ -24,7 +24,7 @@ _Instituto de Informática e Ciências Exatas – Pontifícia Universidade de Mi
 
 ---
 
-_**Resumo**. Escrever aqui o resumo. O resumo deve contextualizar rapidamente o trabalho, descrever seu objetivo e, ao final, 
+_**Resumo**. Escrever aqui o resumo. O resumo deve contextualizar rapidamente o trabalho, descrever seu objetivo e, ao final,
 mostrar algum resultado relevante do trabalho (até 10 linhas)._
 
 ---
@@ -93,11 +93,24 @@ _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural
 
 _Enumere os requisitos funcionais previstos para a sua aplicação. Concentre-se nos requisitos funcionais que sejam críticos para a definição arquitetural. Lembre-se de listar todos os requisitos que são necessários para garantir cobertura arquitetural. Esta seção deve conter uma lista de requisitos ainda sem modelagem. Na coluna Prioridade utilize uma escala (do mais prioritário para o menos): Essencial, Desejável, Opcional._
 
-| **ID** | **Descrição** | **Prioridade** | **Plataforma** |
-| --- | --- | --- | --- |
-| RF001 | | | _web_ |
-| RF002 | | | _mobile_ |
-| RF003 | | | _web e mobile_ |
+| **ID** | **Descrição** | **Prioridade** | **Plataforma** | **Tipo Usuário**
+| --- | --- | --- | --- | --- |
+| RF001 | Cadastro dos produtos | Obrigatório | _web_ | Gestor |
+| RF002 | Cadastro dos materiais | Obrigatório | _web_ | Gestor |
+| RF003 | Cadastro de hierarquia | Obrigatório | _web_ | Gestor |
+| RF004 | Adição de estoque | Obrigatório | _mobile_ | Estoque |
+| RF005 | Saída de peças | Obrigatório | _mobile_ | Estoque |
+| RF006 | Apontamento do fim da construção | Obrigatório | _mobile_ | Operador |
+| RF007 | Serviço de alerta | Obrigatório | _web e mobile_ | Todos |
+| RF008 | Solicitação de peças | Obrigatório | _mobile_ | Operador |
+| RF009 | Planejamento da operação | Desejável | _web_ | Gestor |
+| RF010 | Gestão do operadores | Desejável | _web_ | Gestor |
+| RF011 | Gestão de peças críticas | Desejável | _web_ | Gestor |
+| RF012 | Apontamento do início da construção | Desejável | _mobile_ | Operador |
+| RF013 | Solicitação de peça extra | Opcional | _mobile_ | Operador |
+| RF014 | Sinalização de defeitos | Opcional | _mobile_ | Estoque |
+| RF015 | Cadastro de linha de montagem | Opcional | _web_ | Gestor |
+| RF016 | Cadastro de posto de montagem | Opcional | _web_ | Gestor |
 | | | | |
 | | | | |
 
@@ -109,8 +122,11 @@ _Enumere os requisitos não-funcionais previstos para a sua aplicação. Entre o
 
 | **ID** | **Descrição** |
 | --- | --- |
-| RNF001 | |
-| RNF002 | |
+| RNF001 | Serviços de mensageria utilizando kafka |
+| RNF002 | Senhas utilizando via hash |
+| RNF003 | Login utilizando JWT |
+| RNF004 | Testes unitários utilizando JEST |
+| RNF005 | Testes de ponta a ponta utilizando PLAYWRIGHT |
 | | |
 | | |
 | | |
