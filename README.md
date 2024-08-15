@@ -16,6 +16,7 @@ O objetivo do meu projeto é desenvolver um sistema de Manufacturing Resource Pl
 
 * Hugo Bastos de Paula
 * Cleiton Silva Tavares
+* Ramon Lacerda Marques
 
 ## Instruções de utilização
 
