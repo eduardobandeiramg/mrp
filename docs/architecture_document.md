@@ -1,19 +1,20 @@
-# TITULO DO PROJETO
+# MRP
 
 
-**Nome completo do Aluno 1, email do aluno 1**
+* Daniel Estevam Pacheco de Souza, 1381298@sga.pucminas.br
+* Eduardo Bandeira de Melo Guimarães, 	1336504@sga.pucminas.br
+* Eric Rodrigues Diniz, 1283264@sga.pucminas.br
 
-**Nome completo do Aluno 2, email do aluno 2**
-
-**Nome completo do Aluno 3, email do aluno 3**
-
+* Lucas Machado de Oliveira Andrade, 1377053@sga.pucminas.br
+* Mariana Eliza Alves Costa, 1078276@sga.pucminas.br
+* Vítor Lion Guimarães Rodrigues, 1323991@sga.pucminas.br
 ---
 
 Professores:
 
-**Prof. Nome do Prof 1**
-
-**Prof. Nome do Prof 2**
+* Hugo Bastos de Paula
+* Cleiton Silva Tavares
+* Ramon Lacerda Marques
 
 
 ---
@@ -24,8 +25,7 @@ _Instituto de Informática e Ciências Exatas – Pontifícia Universidade de Mi
 
 ---
 
-_**Resumo**. Escrever aqui o resumo. O resumo deve contextualizar rapidamente o trabalho, descrever seu objetivo e, ao final,
-mostrar algum resultado relevante do trabalho (até 10 linhas)._
+_**Resumo**. Este projeto visa o desenvolvimento de um sistema de Manufacturing Resource Planning (MRP) focado na otimização e automação dos processos de planejamento de recursos em uma linha de produção. O sistema oferece funcionalidades essenciais, como cadastro e gestão de produtos, materiais, e hierarquias, bem como controle de estoque e gestão de operadores, acessíveis tanto via web quanto dispositivos móveis. A solução incorpora serviços de mensageria utilizando Kafka, autenticação segura com JWT, e testes automatizados para garantir a robustez e confiabilidade do sistema. Como resultado, o sistema promete melhorar a eficiência operacional, reduzir custos e garantir a disponibilidade de materiais, proporcionando uma visão centralizada e estratégica das operações de manufatura._
 
 ---
 
@@ -34,6 +34,7 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 | **Data** | **Autor** | **Descrição** | **Versão** |
 | --- | --- | --- | --- |
 | **[dd/mm/aaaa]** | [Nome do autor] | [Descrever as principais alterações realizadas no documento, evidenciando as seções ou capítulos alterados] | [X] |
+| **[15/08/2024]** | [Eric Rodrigues Diniz] | [Alteração do nome do projeto, nome dos alunos, sumário. Criação do resumo, histórico de versões, requisitos funcionais e não funcionais.] | [1.0] |
 | | | | |
 | | | | |
 
@@ -45,7 +46,7 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 	1.3. Definições e Abreviaturas <br />
 
 2. [Requisitos](#requisitos "Requisitos") <br />
-'	2.1. Requisitos Funcionais <br />
+	2.1. Requisitos Funcionais <br />
 	2.2. Requisitos Não-Funcionais <br />
 	2.3. Restrições Arquiteturais <br />
 	2.4. Mecanismos Arquiteturais <br />
