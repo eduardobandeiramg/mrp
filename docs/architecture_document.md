@@ -36,6 +36,8 @@ _**Resumo**. Este projeto visa o desenvolvimento de um sistema de Manufacturing 
 | **[dd/mm/aaaa]** | [Nome do autor] | [Descrever as principais alterações realizadas no documento, evidenciando as seções ou capítulos alterados] | [X] |
 | **[15/08/2024]** | [Eric Rodrigues Diniz] | [Alteração do nome do projeto, nome dos alunos, sumário. Criação do resumo, histórico de versões, requisitos funcionais e não funcionais.] | [1.0] |
 | **[15/08/2024]** | [Eric Rodrigues Diniz] | [Alteração da seção 1: apresentação, problema, objetivos do trabalho. Em seguida, seção 2.3: Restrições Arquiteturais, e seção 2.4: Mecanismos Arquiteturais] | [1.1] |
+| **[16/08/2024]** | [Mariana ELiza Alves Costa] | [Adição de detalhes sobre o uso de Flutter para mobile] | [1.2]      |
+
 | | | | |
 | | | | |
 
@@ -140,9 +142,7 @@ _Enumere os requisitos não-funcionais previstos para a sua aplicação. Entre o
 | RNF003 | Login utilizando JWT |
 | RNF004 | Testes unitários utilizando JEST |
 | RNF005 | Testes de ponta a ponta utilizando PLAYWRIGHT |
-| | |
-| | |
-| | |
+
 
 Obs: acrescente mais linhas, se necessário.
 
@@ -166,11 +166,13 @@ As restrições arquiteturais impostas ao projeto, que limitam as soluções can
 |:------------------|:--------------------------------|:----------------------------------|
 | Persistência      | ORM                             | Hibernate                         |
 | Front end         | Single Page Application (SPA)   | Vue.js                            |
-| Back end          | Framework Web para APIs RESTful | NodeJs                       	  |
+| Mobile            | Dispositivo móvel               | Flutter                           |
+| Back end          | Framework Web para APIs RESTful | Node.js                           |
 | Integração        | APIs RESTful                    | Axios        		         	  |
 | Log do sistema    | Logging Framework               | Logback                           |
 | Teste de Software | Test-Driven Development (TDD)   | Jest e Playwright 				  |
 | Deploy            | CI/CD Pipelines                 | AWS                     		  |
+
 
 
 <a name="modelagem"></a>
