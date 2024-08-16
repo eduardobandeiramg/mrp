@@ -35,6 +35,7 @@ _**Resumo**. Este projeto visa o desenvolvimento de um sistema de Manufacturing 
 | --- | --- | --- | --- |
 | **[dd/mm/aaaa]** | [Nome do autor] | [Descrever as principais alterações realizadas no documento, evidenciando as seções ou capítulos alterados] | [X] |
 | **[15/08/2024]** | [Eric Rodrigues Diniz] | [Alteração do nome do projeto, nome dos alunos, sumário. Criação do resumo, histórico de versões, requisitos funcionais e não funcionais.] | [1.0] |
+| **[15/08/2024]** | [Eric Rodrigues Diniz] | [Alteração da seção 1: apresentação, problema, objetivos do trabalho. Em seguida, seção 2.3: Restrições Arquiteturais, e seção 2.4: Mecanismos Arquiteturais] | [1.1] |
 | | | | |
 | | | | |
 
@@ -70,16 +71,27 @@ _**Resumo**. Este projeto visa o desenvolvimento de um sistema de Manufacturing 
 <a name="apresentacao"></a>
 # 1. Apresentação
 
-_Faça uma introdução ao projeto, apresentando o contexto onde o projeto se situa. É importante deixar claro para o leitor os aspectos que configuram o problema que será apresentado na sequência. Apresente, se possível, números reais que demonstram a relevância do problema apresentado._
+O projeto de desenvolvimento de um sistema Manufacturing Resource Planning (MRP) surge como uma resposta às crescentes demandas das indústrias por eficiência operacional e otimização de recursos. Em um contexto onde a gestão de estoques e a sincronização das operações de produção são cruciais, muitas empresas enfrentam desafios significativos, como o risco de rupturas de estoque ou, inversamente, a acumulação excessiva de materiais. Estes problemas não apenas afetam a produtividade, mas também impactam diretamente os custos operacionais.
+
+Estudos mostram que até 65% dos consumidores procuram alternativas em outras lojas quando não encontram um produto disponível, evidenciando a importância de uma gestão de estoques precisa e eficiente. O modelo tradicional de produção, como o Just in Time (JIT) e o Sistema Toyota de Produção (STP), embora eficazes, dependem fortemente de uma comunicação ágil e precisa entre diferentes setores da empresa, algo que muitas vezes falta nas operações modernas.
+
+Neste cenário, o sistema MRP proposto visa não apenas a centralização e otimização do controle de inventário, mas também a melhoria na comunicação entre as áreas de produção, estoque, e compras. Com uma abordagem orientada a dados e uma integração em tempo real, o sistema promete reduzir custos, evitar perdas por rupturas e aprimorar a eficiência operacional das empresas, tornando-se uma ferramenta essencial para a gestão moderna de cadeias de suprimentos.
 
 
 ## 1.1. Problema
 
-_Nesse momento você deve apresentar o problema que a sua aplicação deve resolver. No entanto, não é a hora de comentar sobre a aplicação._
+A falta de visibilidade em tempo real sobre o inventário e a comunicação ineficiente entre os setores de produção, estoque e compras nas indústrias resultam em dois problemas principais: rupturas de estoque, que interrompem o fluxo de produção e impactam a satisfação do cliente, e o acúmulo excessivo de materiais, que aumenta os custos operacionais e causa desperdício. Esses desafios são exacerbados pela ausência de sistemas integrados que prevejam com precisão as necessidades de materiais, levando a ineficiências operacionais que comprometem a competitividade das empresas no mercado.
 
 ## 1.2. Objetivos do trabalho
 
-_Aqui você deve descrever os objetivos do trabalho indicando que o objetivo geral é apresentar a descrição do projeto arquitetural da aplicação escolhida. Apresente também os objetivos específicos do projeto, descrevendo onde você vai concentrar sua atenção na descrição arquitetural, ou seja, os pontos onde você vai aprofundar no seu trabalho._
+O objetivo geral deste trabalho é apresentar a descrição detalhada do projeto arquitetural de um sistema de Manufacturing Resource Planning (MRP), projetado para otimizar e automatizar o planejamento de recursos em uma linha de produção. Este sistema visa proporcionar uma solução eficiente para os desafios de gestão de estoque e sincronização de operações, abordando problemas críticos como rupturas de estoque e acúmulo excessivo de materiais.
+
+Os objetivos específicos deste projeto incluem:
+
+* Desenvolver uma arquitetura que integre de forma eficaz as funções de controle de inventário, gestão de ordens de produção e previsão de demanda, garantindo uma visão centralizada das operações de manufatura.
+* Detalhar a implementação de serviços de mensageria em tempo real utilizando Kafka, para assegurar a comunicação dinâmica e eficiente entre os setores de produção, estoque e compras.
+* Apresentar as estratégias de autenticação e segurança da aplicação, com foco no uso de senhas hash e login via JWT, para proteger as informações críticas do sistema.
+* Explorar as abordagens para testes automatizados, incluindo testes unitários com JEST e testes de ponta a ponta utilizando PLAYWRIGHT, com o intuito de garantir a confiabilidade e robustez do sistema em diferentes cenários de uso.
 
 ## 1.3. Definições e Abreviaturas
 
@@ -136,27 +148,30 @@ Obs: acrescente mais linhas, se necessário.
 
 ## 2.3. Restrições Arquiteturais
 
-_Enumere as restrições arquiteturais. Lembre-se de que as restrições arquiteturais geralmente não são consideradas requisitos uma vez que limitam a solução candidata. Os requisitos não impõem restrição, mas precisam ser satisfeitos._
+As restrições arquiteturais impostas ao projeto, que limitam as soluções candidatas e devem ser consideradas no desenvolvimento do sistema MRP, são as seguintes:
 
-As restrições impostas ao projeto que afetam sua arquitetura são (por exemplo):
-
-- O software deverá ser desenvolvido em Python/Django;
-- A comunicação da API deve seguir o padrão RESTful.
+- O software deverá ser desenvolvido em NodeJS para o backend, que oferece suporte robusto para criação de serviços web escaláveis.
+- A interface do usuário para a web deverá ser implementada em Vue.js, garantindo uma experiência de usuário interativa e responsiva.
+- A interface para dispositivos móveis deverá ser desenvolvida utilizando Flutter, permitindo a criação de uma aplicação multiplataforma com desempenho próximo ao nativo.
+- A comunicação da API entre frontend e backend deve seguir o padrão RESTful, facilitando a integração e a interoperabilidade entre os diferentes componentes do sistema.
+- O sistema de mensageria deve ser implementado utilizando Apache Kafka, para assegurar a entrega de mensagens em tempo real e a alta disponibilidade do sistema.
+- As credenciais dos usuários devem ser armazenadas utilizando hashing seguro, preferencialmente com bcrypt, garantindo a proteção dos dados sensíveis.
+- O mecanismo de autenticação e autorização deve ser baseado em JSON Web Tokens (JWT), proporcionando uma maneira segura e escalável de gerenciar sessões de usuários.
+- A solução deve ser hospedada em serviços de nuvem, utilizando AWS, aproveitando seus recursos para escalabilidade, segurança e disponibilidade contínua.
+- Os testes automatizados devem ser conduzidos utilizando JEST para testes unitários e PLAYWRIGHT para testes de ponta a ponta, assegurando a qualidade e a funcionalidade do sistema em diferentes ambientes de uso.
 
 ## 2.4. Mecanismos Arquiteturais
 
-_Visão geral dos mecanismos que compõem a arquitetura do sosftware baseando-se em três estados: (1) análise, (2) design e (3) implementação. Em termos de Análise devem ser listados os aspectos gerais que compõem a arquitetura do software como: persistência, integração com sistemas legados, geração de logs do sistema, ambiente de front end, tratamento de exceções, formato dos testes, formato de distribuição/implantação (deploy), entre outros. Em Design deve-se identificar o padrão tecnológico a seguir para cada mecanismo identificado na análise. Em Implementação, deve-se identificar o produto a ser utilizado na solução.
- Ex: Análise (Persistência), Design (ORM), Implementação (Hibernate)._
+| **Análise**           | **Design**                          | **Implementação**                     |
+|:------------------|:--------------------------------|:----------------------------------|
+| Persistência      | ORM                             | Hibernate                         |
+| Front end         | Single Page Application (SPA)   | Vue.js                            |
+| Back end          | Framework Web para APIs RESTful | NodeJs                       	  |
+| Integração        | APIs RESTful                    | Axios        		         	  |
+| Log do sistema    | Logging Framework               | Logback                           |
+| Teste de Software | Test-Driven Development (TDD)   | Jest e Playwright 				  |
+| Deploy            | CI/CD Pipelines                 | AWS                     		  |
 
-| **Análise** | **Design** | **Implementação** |
-| --- | --- | --- |
-| Persistência | | |
-| Front end | | |
-| Back end | | |
-| Integração | | |
-| Log do sistema | | |
-| Teste de Software | | |
-| Deploy | | |
 
 <a name="modelagem"></a>
 # 3. Modelagem e Projeto Arquitetural
