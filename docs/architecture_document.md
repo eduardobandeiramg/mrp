@@ -214,15 +214,46 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 
 ### Histórias de Usuário
 
-_Nesta seção, você deve descrever estórias de usuários seguindo os métodos ágeis. Lembre-se das características de qualidade das estórias de usuários, ou seja, o que é preciso para descrever boas histórias de usuários._
+**Cadastro de Produtos e Materiais:**
 
-Exemplos de Histórias de Usuário:
+- **Como gestor**, eu quero poder cadastrar novos produtos e materiais no sistema, para que eu possa garantir que todas as informações necessárias estejam disponíveis para a produção.
 
-- Como Fulano eu quero poder convidar meus amigos para que a gente possa se reunir...
+**Adição e Remoção de Estoque:**
 
-- Como Cicrano eu quero poder organizar minhas tarefas diárias, para que...
+- **Como responsável pelo estoque**, eu quero poder adicionar ou remover peças do estoque através do aplicativo móvel, para que eu possa manter o inventário sempre atualizado e preciso.
 
-- Como gerente eu quero conseguir entender o progresso do trabalho do meu time, para que eu possa ter relatórios periódicos dos nossos acertos e falhas.
+**Apontamento de Construção:**
+
+- **Como operador**, eu quero poder registrar o início e o fim da construção de produtos, para que eu possa documentar corretamente o progresso da produção.
+
+**Solicitação de Peças Extras:**
+
+- **Como operador**, eu quero poder solicitar peças extras diretamente do chão de fábrica usando o aplicativo móvel, para que eu possa evitar atrasos na produção devido à falta de materiais.
+
+**Gestão de Operadores e Planejamento de Operações:**
+
+- **Como gestor**, eu quero poder gerenciar a equipe de operadores e planejar as operações, para que eu possa otimizar o uso dos recursos e garantir a eficiência da produção.
+
+**Serviço de Alerta:**
+
+- **Como usuário (gestor, operador ou responsável pelo estoque)**, eu quero receber alertas automáticos quando certas condições forem atingidas, como níveis baixos de estoque, para que eu possa agir rapidamente e evitar problemas.
+
+**Gestão de Peças Críticas:**
+
+- **Como gestor**, eu quero poder monitorar e gerenciar peças críticas no sistema, para que eu possa tomar medidas proativas e evitar interrupções na produção.
+
+**Sinalização de Defeitos:**
+
+- **Como responsável pelo estoque**, eu quero poder sinalizar defeitos em peças diretamente no aplicativo móvel, para que eu possa garantir que apenas materiais de qualidade sejam utilizados na produção.
+
+**Cadastro de Linhas e Postos de Montagem:**
+
+- **Como gestor**, eu quero poder cadastrar novas linhas e postos de montagem no sistema, para que eu possa adaptar a produção a diferentes tipos de produtos ou requisitos.
+
+**Comunicação em Tempo Real:**
+
+- **Como usuário do sistema (gestor, operador ou responsável pelo estoque)**, eu quero que todas as minhas ações sejam comunicadas em tempo real para os outros setores, para que todos estejam alinhados e informados sobre o estado atual da produção e do estoque.
+
 
 ## 3.2. Visão Lógica
 
