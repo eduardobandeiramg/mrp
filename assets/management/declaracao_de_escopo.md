@@ -14,9 +14,9 @@
 
 **Professores:**
 
-Prof. Hugo Bastos de Paula
-Prof. Cleiton Silva Tavares
-Prof. Ramon Lacerda Marques
+* Prof. Hugo Bastos de Paula
+* Prof. Cleiton Silva Tavares
+* Prof. Ramon Lacerda Marques
 
 ---
 
