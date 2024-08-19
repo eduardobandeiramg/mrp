@@ -39,6 +39,8 @@ _**Resumo**. Este projeto visa o desenvolvimento de um sistema de Manufacturing 
 | **[16/08/2024]** | [Mariana Eliza Alves Costa] | [Adição de detalhes sobre o uso de Flutter para mobile] | [1.2]      |
 | **[16/08/2024]** | [Mariana Eliza Alves Costa] | [Adição de Definições e Abreviaturas] | [1.3]      |
 | **[16/08/2024]** | [Eric Rodrigues Diniz] | [Adição do diagrama de visão geral na seção 3] | [1.4]      |
+| **[19/08/2024]** | [Eric Rodrigues Diniz] | [Adição das Funcionalidades Previstas do Sistema na seção 3.1] | [1.5]      |
+| **[19/08/2024]** | [Eduardo Bandeira de Melo] | [Adição de histórias de usuário na seção 3.1] | [1.6]
 
 ## SUMÁRIO
 
@@ -185,23 +187,72 @@ Obs: substitua esta imagem por outra, adequada ao seu projeto (cada arquitetura 
 
 _Apresente uma lista simples com as funcionalidades previstas no projeto (escopo do produto)._
 
-1. O sistema deve...
-2. O sistema deve...
-3. ...
+### Funcionalidades Previstas do Sistema
+
+1. O sistema deve permitir o cadastro de produtos, materiais e hierarquias através de uma interface web para gestores.
+
+2. O sistema deve possibilitar a adição e a remoção de peças do estoque via aplicativo móvel, direcionado ao pessoal do setor de Estoque.
+
+3. O sistema deve permitir o apontamento do início e fim da construção dos produtos pelos operadores através do aplicativo móvel.
+
+4. O sistema deve enviar alertas automáticos para todos os usuários (gestores, operadores e pessoal do estoque) via web e mobile.
+
+5. O sistema deve permitir a solicitação de peças por operadores diretamente no chão de fábrica utilizando o aplicativo móvel.
+
+6. O sistema deve oferecer ferramentas para o planejamento de operações e a gestão de operadores, acessíveis via interface web para gestores.
+
+7. O sistema deve gerenciar peças críticas, permitindo o acompanhamento detalhado e as ações corretivas por gestores via web.
+
+8. O sistema deve permitir a sinalização de defeitos e a solicitação de peças extras pelos operadores através do aplicativo móvel.
+
+9. O sistema deve fornecer funcionalidades para o cadastro de linhas e postos de montagem por gestores através da interface web.
+
+10. O sistema deve garantir a comunicação em tempo real entre os setores de produção, estoque e compras utilizando serviços de mensageria (Kafka).
 
 Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os professores/orientadores do trabalho.
 
 ### Histórias de Usuário
 
-_Nesta seção, você deve descrever estórias de usuários seguindo os métodos ágeis. Lembre-se das características de qualidade das estórias de usuários, ou seja, o que é preciso para descrever boas histórias de usuários._
+**Cadastro de Produtos e Materiais:**
 
-Exemplos de Histórias de Usuário:
+- **Como gestor**, eu quero poder cadastrar novos produtos e materiais no sistema, para que eu possa garantir que todas as informações necessárias estejam disponíveis para a produção.
 
-- Como Fulano eu quero poder convidar meus amigos para que a gente possa se reunir...
+**Adição e Remoção de Estoque:**
 
-- Como Cicrano eu quero poder organizar minhas tarefas diárias, para que...
+- **Como responsável pelo estoque**, eu quero poder adicionar ou remover peças do estoque através do aplicativo móvel, para que eu possa manter o inventário sempre atualizado e preciso.
 
-- Como gerente eu quero conseguir entender o progresso do trabalho do meu time, para que eu possa ter relatórios periódicos dos nossos acertos e falhas.
+**Apontamento de Construção:**
+
+- **Como operador**, eu quero poder registrar o início e o fim da construção de produtos, para que eu possa documentar corretamente o progresso da produção.
+
+**Solicitação de Peças Extras:**
+
+- **Como operador**, eu quero poder solicitar peças extras diretamente do chão de fábrica usando o aplicativo móvel, para que eu possa evitar atrasos na produção devido à falta de materiais.
+
+**Gestão de Operadores e Planejamento de Operações:**
+
+- **Como gestor**, eu quero poder gerenciar a equipe de operadores e planejar as operações, para que eu possa otimizar o uso dos recursos e garantir a eficiência da produção.
+
+**Serviço de Alerta:**
+
+- **Como usuário (gestor, operador ou responsável pelo estoque)**, eu quero receber alertas automáticos quando certas condições forem atingidas, como níveis baixos de estoque, para que eu possa agir rapidamente e evitar problemas.
+
+**Gestão de Peças Críticas:**
+
+- **Como gestor**, eu quero poder monitorar e gerenciar peças críticas no sistema, para que eu possa tomar medidas proativas e evitar interrupções na produção.
+
+**Sinalização de Defeitos:**
+
+- **Como responsável pelo estoque**, eu quero poder sinalizar defeitos em peças diretamente no aplicativo móvel, para que eu possa garantir que apenas materiais de qualidade sejam utilizados na produção.
+
+**Cadastro de Linhas e Postos de Montagem:**
+
+- **Como gestor**, eu quero poder cadastrar novas linhas e postos de montagem no sistema, para que eu possa adaptar a produção a diferentes tipos de produtos ou requisitos.
+
+**Comunicação em Tempo Real:**
+
+- **Como usuário do sistema (gestor, operador ou responsável pelo estoque)**, eu quero que todas as minhas ações sejam comunicadas em tempo real para os outros setores, para que todos estejam alinhados e informados sobre o estado atual da produção e do estoque. 
+
 
 ## 3.2. Visão Lógica
 
