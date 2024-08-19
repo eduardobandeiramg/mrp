@@ -40,6 +40,7 @@ _**Resumo**. Este projeto visa o desenvolvimento de um sistema de Manufacturing 
 | **[16/08/2024]** | [Mariana Eliza Alves Costa] | [Adição de Definições e Abreviaturas] | [1.3]      |
 | **[16/08/2024]** | [Eric Rodrigues Diniz] | [Adição do diagrama de visão geral na seção 3] | [1.4]      |
 | **[19/08/2024]** | [Eric Rodrigues Diniz] | [Adição das Funcionalidades Previstas do Sistema na seção 3.1] | [1.5]      |
+| **[19/08/2024]** | [Eduardo Bandeira de Melo] | [Adição de histórias de usuário na seção 3.1] | [1.6]
 
 ## SUMÁRIO
 
