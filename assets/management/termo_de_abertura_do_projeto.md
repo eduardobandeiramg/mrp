@@ -56,26 +56,26 @@ A implementação do sistema MRP justifica-se pelos diversos benefícios que tra
 
 **1.7 Qualidade esperada do produto final (requisitos de qualidade):**
 
-* Confiabilidade: O sistema deve ser estável e capaz de suportar múltiplos usuários e grandes volumes de dados sem comprometer o desempenho.
+* Confiabilidade: O sistema deve permanecer disponível de acordo com as diretrizes de SLA da AWS para uma virtual machine.
 
-* Segurança: Garantir a proteção dos dados através de criptografia, autenticação JWT e armazenamento seguro de senhas.
+* Segurança: Garantir a proteção dos dados através de criptografia Hash no armazenamento de senhas, autenticação JWT com claims para garantir mínimo acesso disponível.
 
-* Eficiência: O sistema deve operar de maneira eficiente, com tempos de resposta rápidos e uso otimizado de recursos.
+* Eficiência: O sistema deve conseguir ser utilizado simultaneamente por usuários tablet e web com dependência de internet para consumo e envio de informações de forma consistente.
 
-* Usabilidade: A interface deve ser intuitiva e fácil de usar, permitindo que os usuários realizem suas tarefas de forma eficiente.
+* Usabilidade: A interface deve ser intuitiva e fácil de usar, permitindo que os usuários realizem suas tarefas de forma eficiente baseado nas heurísticas de Nielsen para qualidade do design intuitivo.
 
-* Escalabilidade: O sistema deve ser capaz de escalar conforme necessário, suportando o crescimento da empresa e a complexidade das operações.
+* Escalabilidade: O sistema deve ser capaz de escalar conforme necessário para um aumento na quantidade de usuários em uma única localidade. Mas, deve possuir uma implementação em núvem capaz de escalar para múltiplas localidades através de uma escala horizontal das máquinas virtuais.
 
 ## **2. ESCOPO PRELIMINAR E PREMISSAS** |
 
 **2.1 O que será feito (escopo do projeto)**
 * Desenvolvimento de um sistema MRP (Planejamento de Recursos de Manufatura) para automatizar o planejamento e gestão de recursos em uma linha de produção.
 * Implementação de funcionalidades para cadastro e gestão de produtos, materiais, e controle de estoque.
-* Integração de serviços de mensageria em tempo real utilizando Kafka para garantir a comunicação eficiente entre os setores de produção, estoque e compras.
-* Desenvolvimento de uma interface de usuário responsiva e intuitiva, utilizando Vue.js para a web e Flutter para dispositivos móveis.
-Implementação de mecanismos de segurança, incluindo autenticação via JWT e armazenamento seguro de senhas com hashing.
-* Realização de testes automatizados (unitários e de ponta a ponta) para assegurar a qualidade e confiabilidade do sistema.
-* Hospedagem do sistema na nuvem (AWS) para garantir escalabilidade e alta disponibilidade.
+* Integração de serviços de mensageria em tempo real utilizando Kafka para garantir a comunicação eficiente entre os setores de produção e estoque.
+* Desenvolvimento de uma interface de usuário responsiva para tablets, utilizando Vue.js para a web e Flutter para dispositivos móveis.
+* Implementação de mecanismos de segurança, incluindo autenticação via JWT e armazenamento seguro de senhas com hash.
+* Realização de testes unitários e de ponta a ponta para assegurar a qualidade e confiabilidade do sistema.
+* Hospedagem do sistema na nuvem (AWS) para garantir escalabilidade e disponibilidade de acordo com a SLA da prestadora de serviços públicos cloud.
 
 
 **2.2 O que não será feito no projeto (contra-escopo)**
@@ -87,7 +87,7 @@ Implementação de mecanismos de segurança, incluindo autenticação via JWT e 
 
 **2.3 Resultados / serviços / produtos a serem entregues**
 
-| **1.** | Sistema MRP completo, incluindo módulos de cadastro e gestão de produtos, materiais, e controle de estoque. |
+| **1.** | Sistema MRP, incluindo módulos de cadastro e gestão de produtos, materiais, e controle de estoque. |
 | --- | --- |
 | **2.** | Interface de usuário responsiva para web e dispositivos móveis, desenvolvida em Vue.js e Flutter, respectivamente. |
 | **3.** | Implementação de serviços de mensageria em tempo real com Kafka, integração via APIs RESTful, e segurança com autenticação JWT. |

@@ -107,14 +107,14 @@ _Enumere os requisitos funcionais previstos para a sua aplicação. Concentre-se
 
 | **ID** | **Descrição** | **Prioridade** | **Plataforma** | **Tipo Usuário**
 | --- | --- | --- | --- | --- |
-| RF001 | Cadastro dos produtos | Obrigatório | _web_ | Gestor |
-| RF002 | Cadastro dos materiais | Obrigatório | _web_ | Gestor |
-| RF003 | Cadastro de hierarquia | Obrigatório | _web_ | Gestor |
-| RF004 | Adição de estoque | Obrigatório | _mobile_ | Estoque |
-| RF005 | Saída de peças | Obrigatório | _mobile_ | Estoque |
-| RF006 | Apontamento do fim da construção | Obrigatório | _mobile_ | Operador |
-| RF007 | Serviço de alerta | Obrigatório | _web e mobile_ | Todos |
-| RF008 | Solicitação de peças | Obrigatório | _mobile_ | Operador |
+| RF001 | Cadastro dos produtos | Essencial | _web_ | Gestor |
+| RF002 | Cadastro dos materiais | Essencial | _web_ | Gestor |
+| RF003 | Cadastro de hierarquia | Essencial | _web_ | Gestor |
+| RF004 | Adição de estoque | Essencial | _mobile_ | Estoque |
+| RF005 | Saída de peças | Essencial | _mobile_ | Estoque |
+| RF006 | Apontamento do fim da construção | Essencial | _mobile_ | Operador |
+| RF007 | Serviço de alerta | Essencial | _web e mobile_ | Todos |
+| RF008 | Solicitação de peças | Essencial | _mobile_ | Operador |
 | RF009 | Planejamento da operação | Desejável | _web_ | Gestor |
 | RF010 | Gestão do operadores | Desejável | _web_ | Gestor |
 | RF011 | Gestão de peças críticas | Desejável | _web_ | Gestor |
@@ -123,8 +123,6 @@ _Enumere os requisitos funcionais previstos para a sua aplicação. Concentre-se
 | RF014 | Sinalização de defeitos | Opcional | _mobile_ | Estoque |
 | RF015 | Cadastro de linha de montagem | Opcional | _web_ | Gestor |
 | RF016 | Cadastro de posto de montagem | Opcional | _web_ | Gestor |
-| | | | |
-| | | | |
 
 Obs: acrescente mais linhas, se necessário.
 
