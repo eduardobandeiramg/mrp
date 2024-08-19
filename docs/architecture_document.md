@@ -211,18 +211,35 @@ _Apresente os artefatos que serão utilizados descrevendo em linhas gerais as mo
 
 ### Diagrama de Classes
 
-![Diagrama de classes](imagens/classes.gif "Diagrama de classes")
-
-
+![Diagrama de classes](imagens/diagram_classes.drawio.png "Diagrama de classes")
 **Figura 2 – Diagrama de classes (exemplo). Fonte: o próprio autor.**
 
 Obs: Acrescente uma breve descrição sobre o diagrama apresentado na Figura 3.
+
+### Descrição Geral do Diagrama de Classes
+
+Este diagrama de classes representa a estrutura de um sistema MRP, destacando as principais entidades e suas interações:
+
+1. **ProductionPlan (Plano de Produção)**: Planeja e aprova a produção, relacionado com **Production** para iniciar e finalizar.
+2. **Production (Produção)**: Gerencia o processo de produção, vinculado a um plano de produção.
+3. **Product (Produto)**: Detalha os produtos a serem fabricados, vinculado ao plano de produção.
+4. **Material**: Descreve e gerencia os materiais necessários para a produção, interligando produtos, estoque, fornecedores e necessidades.
+5. **Stock (Estoque)**: Controla o estoque de materiais, verificando e separando o necessário para a produção.
+6. **Need (Necessidade)**: Representa as necessidades de materiais para a produção, gerando solicitações e aprovações.
+7. **Supplier (Fornecedor)**: Gerencia fornecedores e materiais fornecidos, enviando solicitações conforme necessário.
+8. **Purchase (Compra)**: Gerencia o processo de compra de materiais, da solicitação à entrega.
+9. **User (Usuário)**: Gerencia usuários, suas permissões e autenticação.
+
+### Relações Entre as Classes
+
+O diagrama reflete como as classes interagem para gerenciar o planejamento, execução da produção, controle de estoque, e compras, assegurando a eficiência do sistema MRP.
+
 
 ### Diagrama de componentes
 
 _Apresente o diagrama de componentes da aplicação, indicando, os elementos da arquitetura e as interfaces entre eles. Liste os estilos/padrões arquiteturais utilizados e faça uma descrição sucinta dos componentes indicando o papel de cada um deles dentro da arquitetura/estilo/padrão arquitetural. Indique também quais componentes serão reutilizados (navegadores, SGBDs, middlewares, etc), quais componentes serão adquiridos por serem proprietários e quais componentes precisam ser desenvolvidos._
 
-![Diagrama de componentes](imagens/componentes.png "Diagrama de componentes")
+![Diagrama de componentes](imagens/componentes.drawio.png "Diagrama de componentes")
 
 **Figura 3 – Diagrama de Componentes (exemplo). Fonte: o próprio autor.**
 
@@ -230,16 +247,74 @@ _Apresente uma descrição detalhada dos artefatos que constituem o diagrama de 
 
 Ex: conforme diagrama apresentado na Figura X, as entidades participantes da solução são:
 
-- **Componente 1** - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nunc magna, accumsan eget porta a, tincidunt sed mauris. Suspendisse orci nulla, sagittis a lorem laoreet, tincidunt imperdiet ipsum. Morbi malesuada pretium suscipit.
-- **Componente 2** - Praesent nec nisi hendrerit, ullamcorper tortor non, rutrum sem. In non lectus tortor. Nulla vel tincidunt eros.
+### Descrição dos Componentes do Diagrama de Gestão de Estoque
+
+1. **Usuário**:
+   - **Navegador Web**: Interface através da qual o usuário interage com o sistema para realizar ações como programação da produção, solicitação de estoque, solicitação de peça extra, gestão de rupturas e compras.
+
+2. **Front-end (Vue.js)**:
+   - **Aplicativo Web para Controle de Gestão de Estoque**: Desenvolvido em Vue.js, este aplicativo permite ao usuário visualizar e gerenciar o estoque, executar ajustes de pedidos, e validar solicitações diretamente no navegador.
+
+3. **Back-end (Spring Boot)**:
+   - **Controladora**: Gerencia a comunicação entre o front-end e o back-end, processando solicitações do usuário e enviando os dados necessários.
+   - **Services**: Camada de serviços que contém a lógica de negócios, como verificação de materiais em estoque, busca de peças, e confirmação de compras.
+
+4. **Banco de Dados (MariaDB)**:
+   - Armazena todas as informações essenciais do sistema, incluindo dados sobre materiais, fornecedores, pedidos de compra, e estado do estoque.
+
+5. **Módulo de Integração**:
+   - Facilita a interação entre os diferentes componentes do sistema, garantindo que as ações realizadas no front-end sejam refletidas corretamente no banco de dados e nos serviços do back-end.
+
+6. **Funções de Gestão de Estoque**:
+   - **Verificar Material Estoque**: Consulta o banco de dados para validar a quantidade de materiais disponíveis.
+   - **Buscar Peças Estoque**: Localiza peças específicas dentro do estoque.
+   - **Verificar Peças Faltantes**: Identifica materiais que precisam ser repostos para evitar rupturas.
+   - **Confirmar Peças**: Registra a chegada de materiais ao estoque e atualiza os níveis de estoque.
+   - **Cadastrar Compra**: Processa novas compras de materiais, incluindo a quantidade solicitada e a data de entrega esperada.
+
+Este sistema integra as funcionalidades necessárias para gerenciar de forma eficiente o estoque em um ambiente de produção, garantindo que todas as operações sejam realizadas de maneira sincronizada entre o front-end, back-end e banco de dados.
 
 ## 3.3. Modelo de dados (opcional)
 
 _Caso julgue necessário para explicar a arquitetura, apresente o diagrama de classes ou diagrama de Entidade/Relacionamentos ou tabelas do banco de dados. Este modelo pode ser essencial caso a arquitetura utilize uma solução de banco de dados distribuídos ou um banco NoSQL._
 
-![Diagrama de Entidade Relacionamento (ER) ](imagens/der.png "Diagrama de Entidade Relacionamento (ER) ")
+![Diagrama de Entidade Relacionamento (ER) ](imagens/der_diagram_final.png "Diagrama de Entidade Relacionamento (ER) ")
 
 **Figura 4 – Diagrama de Entidade Relacionamento (ER) - exemplo. Fonte: o próprio autor.**
+
+### Descrição Geral do Diagrama de Entidade-Relacionamento (DER)
+
+1. **Production Plan (Plano de Produção)**:
+   - Detalha os planos de produção, incluindo datas e quantidades, e se relaciona com **Production**.
+
+2. **Production (Produção)**:
+   - Armazena informações sobre produções específicas, vinculadas ao plano de produção.
+
+3. **Need (Necessidade)**:
+   - Registra as necessidades de materiais para a produção, associada a **Production** e **Material**.
+
+4. **Product (Produto)**:
+   - Define os produtos, incluindo descrição e código, e se relaciona com **Production Plan** e **Hierarchies**.
+
+5. **Material**:
+   - Descreve os materiais necessários para a produção, vinculados a **Stock**, **Supplier** e **Hierarchies**.
+
+6. **Stock (Estoque)**:
+   - Gerencia a quantidade de materiais em estoque e separados para a produção.
+
+7. **Purchase (Compra)**:
+   - Registra pedidos de compra de materiais, associados a **Supplier** e **Material**.
+
+8. **Supplier (Fornecedor)**:
+   - Armazena informações sobre os fornecedores, vinculados aos materiais que fornecem.
+
+9. **User (Usuário)**:
+   - Gerencia informações de login e autenticação para acessar o sistema.
+
+10. **Hierarchies (Hierarquias)**:
+    - Estabelece a relação entre produtos e materiais, indicando quantidades e linhas de produção.
+
+Este diagrama representa a estrutura básica do banco de dados, mostrando como as entidades se inter-relacionam para suportar a funcionalidade do sistema MRP.
 
 Obs: Acrescente uma breve descrição sobre o diagrama apresentado na Figura 3.
 
