@@ -253,7 +253,7 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 
 **Comunicação em Tempo Real:**
 
-- **Como usuário do sistema (gestor, operador ou responsável pelo estoque)**, eu quero que todas as minhas ações sejam comunicadas em tempo real para os outros setores, para que todos estejam alinhados e informados sobre o estado atual da produção e do estoque.
+- **Como usuário do sistema (gestor, operador ou responsável pelo estoque)**, eu quero que todas as minhas ações sejam comunicadas em tempo real para os outros setores, para que todos estejam alinhados e informados sobre o estado atual da produção e do estoque. 
 
 
 ## 3.2. Visão Lógica
