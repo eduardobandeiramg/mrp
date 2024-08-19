@@ -3,20 +3,20 @@
 
 **Gerentes de Projeto:**
 
-Daniel Estevam Pacheco de Souza, 1381298@sga.pucminas.br
-Eduardo Bandeira de Melo Guimarães, 1336504@sga.pucminas.br
-Eric Rodrigues Diniz, 1283264@sga.pucminas.br
-Lucas Machado de Oliveira Andrade, 1377053@sga.pucminas.br 
-Mariana Eliza Alves Costa, 1078276@sga.pucminas.br
-Vítor Lion Guimarães Rodrigues, 1323991@sga.pucminas.br
+* Daniel Estevam Pacheco de Souza, 1381298@sga.pucminas.br
+* Eduardo Bandeira de Melo Guimarães, 1336504@sga.pucminas.br
+* Eric Rodrigues Diniz, 1283264@sga.pucminas.br
+* Lucas Machado de Oliveira Andrade, 1377053@sga.pucminas.br
+* Mariana Eliza Alves Costa, 1078276@sga.pucminas.br
+* Vítor Lion Guimarães Rodrigues, 1323991@sga.pucminas.br
 
 ---
 
 **Professores:**
 
-Prof. Hugo Bastos de Paula  
-Prof. Cleiton Silva Tavares  
-Prof. Ramon Lacerda Marques  
+Prof. Hugo Bastos de Paula
+Prof. Cleiton Silva Tavares
+Prof. Ramon Lacerda Marques
 
 ---
 
@@ -70,4 +70,3 @@ O projeto tem como objetivo desenvolver um sistema MRP (Manufacturing Resource P
 | **Início do Desenvolvimento**       | Configuração do ambiente, primeiras implementações do back-end e front-end |
 | **Primeira Entrega Parcial**        | Cadastro de produtos e materiais, funcionalidades básicas de estoque |
 | **Entrega Final**                   | Sistema completo e testado, incluindo todas as funcionalidades, documentação e treinamento de usuários |
-
