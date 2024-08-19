@@ -187,9 +187,27 @@ Obs: substitua esta imagem por outra, adequada ao seu projeto (cada arquitetura 
 
 _Apresente uma lista simples com as funcionalidades previstas no projeto (escopo do produto)._
 
-1. O sistema deve...
-2. O sistema deve...
-3. ...
+### Funcionalidades Previstas do Sistema
+
+1. O sistema deve permitir o cadastro de produtos, materiais e hierarquias através de uma interface web para gestores.
+
+2. O sistema deve possibilitar a adição e a remoção de peças do estoque via aplicativo móvel, direcionado ao pessoal do setor de Estoque.
+
+3. O sistema deve permitir o apontamento do início e fim da construção dos produtos pelos operadores através do aplicativo móvel.
+
+4. O sistema deve enviar alertas automáticos para todos os usuários (gestores, operadores e pessoal do estoque) via web e mobile.
+
+5. O sistema deve permitir a solicitação de peças por operadores diretamente no chão de fábrica utilizando o aplicativo móvel.
+
+6. O sistema deve oferecer ferramentas para o planejamento de operações e a gestão de operadores, acessíveis via interface web para gestores.
+
+7. O sistema deve gerenciar peças críticas, permitindo o acompanhamento detalhado e as ações corretivas por gestores via web.
+
+8. O sistema deve permitir a sinalização de defeitos e a solicitação de peças extras pelos operadores através do aplicativo móvel.
+
+9. O sistema deve fornecer funcionalidades para o cadastro de linhas e postos de montagem por gestores através da interface web.
+
+10. O sistema deve garantir a comunicação em tempo real entre os setores de produção, estoque e compras utilizando serviços de mensageria (Kafka).
 
 Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os professores/orientadores do trabalho.
 
