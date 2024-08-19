@@ -1,20 +1,27 @@
 # Registro das Partes Interessadas - PROJETO
 
-## Gerentes de Projeto:
-Daniel Estevam Pacheco de Souza - daniel.estevam@sga.pucminas.br  
-Eduardo Bandeira de Melo Guimarães  
-Eric Rodrigues Diniz  
-Lucas Machado de Oliveira Andrade  
-Mariana Eliza Alves Costa  
-Vítor Lion Guimarães Rodrigues  
+**Gerentes de Projeto:**
 
-## Professores:
-Hugo Bastos de Paula  
-Cleiton Silva Tavares  
-Ramon Lacerda Marques  
+* Daniel Estevam Pacheco de Souza, 1381298@sga.pucminas.br
+* Eduardo Bandeira de Melo Guimarães, 1336504@sga.pucminas.br
+* Eric Rodrigues Diniz, 1283264@sga.pucminas.br
+* Lucas Machado de Oliveira Andrade, 1377053@sga.pucminas.br
+* Mariana Eliza Alves Costa, 1078276@sga.pucminas.br
+* Vítor Lion Guimarães Rodrigues, 1323991@sga.pucminas.br
 
-Curso de Engenharia de Software, Unidade Praça da Liberdade  
-Instituto de Informática e Ciências Exatas – Pontifícia Universidade de Minas Gerais (PUC MINAS), Belo Horizonte – MG – Brasil
+---
+
+**Professores:**
+
+* Prof. Hugo Bastos de Paula
+* Prof. Cleiton Silva Tavares
+* Prof. Ramon Lacerda Marques
+
+---
+
+_Curso de Engenharia de Software, Unidade Praça da Liberdade_
+
+_Instituto de Informática e Ciências Exatas – Pontifícia Universidade de Minas Gerais (PUC MINAS), Belo Horizonte – MG – Brasil_
 
 ---
 
