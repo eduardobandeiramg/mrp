@@ -114,30 +114,32 @@ Implementação de mecanismos de segurança, incluindo autenticação via JWT e 
 ## 3. ESTIMATIVA DE PRAZO
 
 
-**3.1 Prazo previsto (horas):** 9999
+**3.1 Prazo previsto (horas):** 1.064
 
-**3.2 Data prevista de início:  **\_\_\_\_\_ /\_\_\_\_\_ /\_\_\_\_\_
-**3.3 Data prevista de término: **\_\_\_\_\_ /\_\_\_\_\_ /\_\_\_\_\_
+**3.2 Data prevista de início: 05/08/2024**
+**3.3 Data prevista de término: 16/12/2024**
 
 ## 4. ESTIMATIVA DE CUSTO
 
 | Item de custo | Qtd. horas | Valor / hora  | Valor total |
 | --- | --- | --- | --- |
-| **4.1 Recursos Humanos** **(especifique):** |  |  |  |
-| **4.2 Hardware (especifique):** |  |  |  |
-| **4.3 Rede e serviços de hospedagem:** |  |  |  |
-| **4.4 Software de terceiros:** |  |  |  |
-| **4.5 Serviços e treinamento:** |  |  |  |
-| **4.6 Total Geral:** |  |  |  |
+| **4.1 Recursos Humanos** *(Desenvolvedores, Designers, Gerente de Projeto)* | 1.064 | R$ 0,00 | R$ 0,00 |
+| **4.2 Hardware** *(Servidores, Equipamentos de Desenvolvimento)* | N/A | N/A | R$ 0,00 |
+| **4.3 Rede e serviços de hospedagem** *(AWS, Domínio, Certificados SSL)* | N/A | N/A | R$ 0,00 |
+| **4.4 Software de terceiros** *(Licenças de Software, APIs, Ferramentas de Desenvolvimento)* | N/A | N/A | R$ 0,00 |
+| **4.5 Serviços e treinamento** *(Treinamento de Equipe, Consultorias)* | N/A | N/A | R$ 0,00 |
+| **4.6 Total Geral:** | 1.064 horas | | **R$ 0,00** |
+
 
 ## 5. PARTES INTERESSADAS
 
-| Nome | Papel no projeto | Assinatura |
-| --- | --- | --- |
-|     |     |     |
-|     |     |     |
-|     |     |     |
-|     |     |     |
+| Nome           | Papel no projeto | Assinatura |
+| -------------- | ---------------- | ---------- |
+| Não se aplica  | Gestor           |            |
+| Não se aplica  | Operador         |            |
+| Não se aplica  | Estoque          |            |
+
+
 
 **Observações:**
 
