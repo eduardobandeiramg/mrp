@@ -1,4 +1,4 @@
-# Ata de Reunião Semanal - Nome do Projeto
+# Ata de Reunião Semanal - MRP
 
 ## Informações
 
