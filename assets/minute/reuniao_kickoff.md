@@ -1,4 +1,4 @@
-# Ata de Reunião de Kickoff - Nome do Projeto
+# Ata de Reunião de Kickoff - MRP
 
 ## Informações
 
