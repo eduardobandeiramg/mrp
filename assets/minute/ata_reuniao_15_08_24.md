@@ -2,7 +2,7 @@
 
 ## Informações
 
-**Data/hora:** 15-08-2024
+**Data/hora:** 15-08-2024 15:00
 **Local:** Microsoft Teams
 **Motivo da reunião:** Planejamento geral do projeto (Product backlog)
 **Secretário:** Vítor Lion Guimarães Rodrigues
@@ -22,7 +22,7 @@ Estiveram presentes na reunião:
 
 | Item                                     | Descrição                                                                                                                                                                         |
 | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Fechamento do Planejamenento da Sprint 1 | • Definição final do tema. <br>• Definição de requisitos obrigatórios. <br>• Definição de requisitos desejáveis. <br>• Definição de requisitos opcionais. <br>•Criação de issues. |
+| Fechamento do Planejamento da Sprint 1 | • Definição final do tema. <br>• Definição de requisitos obrigatórios. <br>• Definição de requisitos desejáveis. <br>• Definição de requisitos opcionais. <br>•Criação de issues. |
 
 ## Notas e Decisões
 
