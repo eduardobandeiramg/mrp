@@ -177,7 +177,7 @@ As restrições arquiteturais impostas ao projeto, que limitam as soluções can
 
 _Apresente uma visão geral da solução proposta para o projeto e explique brevemente esse diagrama de visão geral, de forma textual. Esse diagrama não precisa seguir os padrões da UML, e deve ser completo e tão simples quanto possível, apresentando a macroarquitetura da solução._
 
-![Visão Geral da Solução](imagens/DiagramaVisaoGeral.jpeg "Visão Geral da Solução")
+![Visão Geral da Solução](imagens/diagrama_visao_v2.png "Visão Geral da Solução")
 
 **Figura 1 - Visão Geral da Solução (fonte: https://medium.com)**
 
@@ -251,7 +251,7 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 
 **Comunicação em Tempo Real:**
 
-- **Como usuário do sistema (gestor, operador ou responsável pelo estoque)**, eu quero que todas as minhas ações sejam comunicadas em tempo real para os outros setores, para que todos estejam alinhados e informados sobre o estado atual da produção e do estoque. 
+- **Como usuário do sistema (gestor, operador ou responsável pelo estoque)**, eu quero que todas as minhas ações sejam comunicadas em tempo real para os outros setores, para que todos estejam alinhados e informados sobre o estado atual da produção e do estoque.
 
 
 ## 3.2. Visão Lógica
@@ -323,7 +323,7 @@ Ex: conforme diagrama apresentado na Figura X, as entidades participantes da sol
 
 Este sistema integra as funcionalidades necessárias para gerenciar de forma eficiente o estoque em um ambiente de produção, garantindo que todas as operações sejam realizadas de maneira sincronizada entre o front-end, back-end e banco de dados.
 
-## 3.3. Modelo de dados (opcional)
+## 3.3. Diagrama Lógico
 
 _Caso julgue necessário para explicar a arquitetura, apresente o diagrama de classes ou diagrama de Entidade/Relacionamentos ou tabelas do banco de dados. Este modelo pode ser essencial caso a arquitetura utilize uma solução de banco de dados distribuídos ou um banco NoSQL._
 
