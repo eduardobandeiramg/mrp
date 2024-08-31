@@ -134,14 +134,14 @@ _Enumere os requisitos não-funcionais previstos para a sua aplicação. Entre o
 
 | **ID** | **Descrição** |
 | --- | --- |
-| RNF001 | Serviços de mensageria utilizando kafka |
-| RNF002 | Senhas utilizando via hash |
-| RNF003 | Login utilizando JWT |
-| RNF004 | Testes unitários utilizando JEST |
-| RNF005 | Testes de ponta a ponta utilizando PLAYWRIGHT |
-
-
-Obs: acrescente mais linhas, se necessário.
+| **RNF001** | Utilizar serviço de mensageria para notificação dos usuários |
+| **RNF002** | Todas as senhas devem ser gravadas utilizando sistema de criptografia em Hash |
+| **RNF003** | Disponibilização do serviço em HTTPS em nuvem pública |
+| **RNF004** | O sistema deve ser capaz de escalar horizontalmente para suportar um aumento no número de usuários simultâneos. |
+| **RNF005** | Todas as comunicações do sistema devem ser criptografadas utilizando SSL/TLS. |
+| **RNF006** | O sistema deve ter uma disponibilidade de 99%, com downtime máximo de 3 hora por mês. |
+| **RNF007** | O sistema deve ser fácil de usar, com uma curva de aprendizado que não exceda 2 horas para novos usuários. |
+| **RNF008** | O sistema deve ser capaz de operar em múltiplos sistemas operacionais (Windows, Linux, macOS,) sem modificações. |
 
 ## 2.3. Restrições Arquiteturais
 
