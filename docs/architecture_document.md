@@ -12,8 +12,8 @@
 
 Professores:
 
-* Hugo Bastos de Paula
 * Cleiton Silva Tavares
+* Hugo Bastos de Paula
 * Ramon Lacerda Marques
 
 
@@ -33,14 +33,14 @@ _**Resumo**. Este projeto visa o desenvolvimento de um sistema de Manufacturing 
 
 | **Data** | **Autor** | **Descrição** | **Versão** |
 | --- | --- | --- | --- |
-| **[dd/mm/aaaa]** | [Nome do autor] | [Descrever as principais alterações realizadas no documento, evidenciando as seções ou capítulos alterados] | [X] |
 | **[15/08/2024]** | [Eric Rodrigues Diniz] | [Alteração do nome do projeto, nome dos alunos, sumário. Criação do resumo, histórico de versões, requisitos funcionais e não funcionais.] | [1.0] |
 | **[15/08/2024]** | [Eric Rodrigues Diniz] | [Alteração da seção 1: apresentação, problema, objetivos do trabalho. Em seguida, seção 2.3: Restrições Arquiteturais, e seção 2.4: Mecanismos Arquiteturais] | [1.1] |
 | **[16/08/2024]** | [Mariana Eliza Alves Costa] | [Adição de detalhes sobre o uso de Flutter para mobile] | [1.2]      |
 | **[16/08/2024]** | [Mariana Eliza Alves Costa] | [Adição de Definições e Abreviaturas] | [1.3]      |
 | **[16/08/2024]** | [Eric Rodrigues Diniz] | [Adição do diagrama de visão geral na seção 3] | [1.4]      |
 | **[19/08/2024]** | [Eric Rodrigues Diniz] | [Adição das Funcionalidades Previstas do Sistema na seção 3.1] | [1.5]      |
-| **[19/08/2024]** | [Eduardo Bandeira de Melo] | [Adição de histórias de usuário na seção 3.1] | [1.6]
+| **[19/08/2024]** | [Eduardo Bandeira de Melo] | [Adição de histórias de usuário na seção 3.1] | [1.6] |
+| **[31/08/2024]** | [Vítor Lion Guimarães Rodrigues] | [Revisão Seção 1.2: Objetivo Geral] | [1.7]
 
 ## SUMÁRIO
 
@@ -84,13 +84,12 @@ A falta de visibilidade em tempo real sobre o inventário e a comunicação inef
 
 ## 1.2. Objetivos do trabalho
 
-O objetivo geral deste trabalho é  automatizar o planejamento de recursos em uma linha de produção, visando proporcionar uma solução eficiente para os desafios de gestão de estoque e sincronização de operações, abordando problemas críticos como rupturas de estoque e acúmulo excessivo de materiais.
-Neste cenário, o sistema MRP proposto visa não apenas a centralização e otimização do controle de inventário, mas também a melhoria na comunicação entre as áreas de produção, estoque, e compras. Com uma abordagem orientada a dados e uma integração em tempo real, o sistema promete reduzir custos, evitar perdas por rupturas e aprimorar a eficiência operacional das empresas, tornando-se uma ferramenta essencial para a gestão moderna de cadeias de suprimentos.
+Desenvolver um sistema para automatizar o planejamento de recursos em uma linha de produção e a gestão de estoque, sincronizando as operações e identificando problemas como rupturas de estoque e acúmulo excessivo de materiais. O objetivo é centralizar e otimizar o controle de inventário, melhorar a comunicação entre as áreas de produção, estoque e compras, além de utilizar uma abordagem orientada a dados e integração em tempo real. Assim, espera-se reduzir custos, minimizar perdas por ruptura e aprimorar a eficiência operacional, tornando o sistema uma ferramenta essencial para a gestão moderna da cadeia de suprimentos.
 
-Os objetivos específicos deste projeto incluem:
+Objetivos específicos deste projeto incluem:
 
 * Desenvolver uma arquitetura que integre de forma eficaz as funções de controle de inventário, gestão de ordens de produção e previsão de demanda, garantindo uma visão centralizada das operações de manufatura.
-* Detalhar a implementação de serviços de mensageria em tempo real utilizando Kafka, para assegurar a comunicação dinâmica e eficiente entre os setores de produção, estoque e compras.
+* Implementar serviços de mensageria em tempo real utilizando Kafka, assegurando a comunicação dinâmica e eficiente entre os setores de produção, estoque e compras.
 * Apresentar as estratégias de autenticação e segurança da aplicação, com foco no uso de senhas hash e login via JWT, para proteger as informações críticas do sistema.
 * Explorar as abordagens para testes automatizados, incluindo testes unitários com JEST e testes de ponta a ponta utilizando PLAYWRIGHT, com o intuito de garantir a confiabilidade e robustez do sistema em diferentes cenários de uso.
 
