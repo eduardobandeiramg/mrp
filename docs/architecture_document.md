@@ -95,7 +95,31 @@ Objetivos específicos deste projeto incluem:
 
 ## 1.3. Definições e Abreviaturas
 
-MRP - Manufacturing Resource Planning ou Planejamento de Recursos de Manufatura_
+
+| Abreviatura | Nome Completo                                     | Definição                                 |
+|-------------|---------------------------------------------------|-------------------------------------------|
+| MRP         | Manufacturing Resource Planning                   | Sistema de Planejamento de Recursos       |
+| JIT         | Just in Time                                      | Metodologia de Produção                   |
+| STP         | Sistema Toyota de Produção                        | Metodologia de Produção                   |
+| Kafka       | Apache Kafka                                      | Sistema de Mensageria                     |
+| JWT         | JSON Web Tokens                                   | Método de Autenticação                    |
+| JEST        | JavaScript Testing Framework                      | Framework de Testes                       |
+| PLAYWRIGHT  | Playwright                                        | Framework de Testes                       |
+| ORM         | Object-Relational Mapping                         | Mapeamento de Dados                       |
+| SPA         | Single Page Application                           | Arquitetura de Aplicações Web             |
+| API         | Application Programming Interface                 | Interface de Programação                  |
+| HTTPS       | Hypertext Transfer Protocol Secure                | Protocolo de Segurança de Dados           |
+| SSL/TLS     | Secure Sockets Layer / Transport Layer Security   | Protocolo de Segurança de Dados           |
+| NodeJS      | Node.js                                           | Ambiente de Execução de JavaScript        |
+| Vue.js      | Vue.js                                            | Framework JavaScript                      |
+| Flutter     | Flutter                                           | Framework de Desenvolvimento Móvel        |
+| RESTful     | Representational State Transfer                   | Arquitetura de Software                   |
+| DER         | Diagrama de Entidade-Relacionamento               | Diagrama                                  |
+| RF          | Requisito Funcional                               | Tipo de Requisito                         |
+| RNF         | Requisito Não-Funcional                           | Tipo de Requisito                         |
+
+
+
 
 <a name="requisitos"></a>
 # 2. Requisitos
