@@ -121,14 +121,23 @@ A implementação do sistema MRP é justificada pelos significativos benefícios
 
 ## 4. ESTIMATIVA DE CUSTO
 
-| Item de custo | Qtd. horas | Valor / hora  | Valor total |
+| **Item de custo** | **Qtd. horas** | **Valor / hora** | **Valor total** |
 | --- | --- | --- | --- |
-| **4.1 Recursos Humanos** *(Desenvolvedores, Designers, Gerente de Projeto)* | 1.064 | R$ 0,00 | R$ 0,00 |
-| **4.2 Hardware** *(Servidores, Equipamentos de Desenvolvimento)* | N/A | N/A | R$ 0,00 |
-| **4.3 Rede e serviços de hospedagem** *(AWS, Domínio, Certificados SSL)* | N/A | N/A | R$ 0,00 |
-| **4.4 Software de terceiros** *(Licenças de Software, APIs, Ferramentas de Desenvolvimento)* | N/A | N/A | R$ 0,00 |
-| **4.5 Serviços e treinamento** *(Treinamento de Equipe, Consultorias)* | N/A | N/A | R$ 0,00 |
-| **4.6 Total Geral:** | 1.064 horas | | **R$ 0,00** |
+| **4.1 Recursos Humanos** *(Desenvolvedores, Designers, Gerente de Projeto)* | 1.064 | R$ 22,00 | R$ 23.408,00 |
+| - Desenvolvedores (Node.js, Flutter, Vue.js) | 900 horas | R$ 22,00 | R$ 19.800,00 |
+| - Gerente de Projeto | 164 horas | R$ 22,00 | R$ 3.608,00 |
+| **4.2 Hardware** *(Servidores, Equipamentos de Desenvolvimento)* | N/A | N/A | R$ 5.000,00 |
+| - Servidores locais para desenvolvimento | N/A | N/A | R$ 3.500,00 |
+| - Equipamentos de desenvolvimento (laptops, monitores) | N/A | N/A | R$ 1.500,00 |
+| **4.3 Rede e serviços de hospedagem** *(AWS, Domínio, Certificados SSL)* | N/A | N/A | R$ 1.500,00 |
+| - AWS (nuvem para hospedagem, storage) | N/A | N/A | R$ 1.000,00 |
+| - Registro de domínio e certificados SSL | N/A | N/A | R$ 500,00 |
+| **4.4 Software de terceiros** *(Licenças de Software, APIs, Ferramentas de Desenvolvimento)* | N/A | N/A | R$ 2.000,00 |
+| - Licenças (APIs de pagamento, analítica, etc.) | N/A | N/A | R$ 2.000,00 |
+| **4.5 Serviços e treinamento** *(Treinamento de Equipe, Consultorias)* | N/A | N/A | R$ 2.000,00 |
+| - Treinamento em novas ferramentas e frameworks | N/A | N/A | R$ 2.000,00 |
+| **4.6 Total Geral:** | 1.064 horas | | **R$ 33.908,00** |
+
 
 
 ## 5. PARTES INTERESSADAS
