@@ -266,7 +266,7 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 
 **Sinalização de Defeitos:**
 
-- **Como responsável pelo estoque**, eu quero poder sinalizar defeitos em peças diretamente no aplicativo móvel, para que eu possa garantir que apenas materiais de qualidade sejam utilizados na produção.
+- **Como responsável pelo estoque**, eu quero poder sinalizar defeitos em peças, para que eu possa garantir que apenas materiais de qualidade sejam utilizados na produção.
 
 **Cadastro de Linhas e Postos de Montagem:**
 
