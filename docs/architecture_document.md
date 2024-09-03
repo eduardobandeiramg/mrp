@@ -160,7 +160,7 @@ _Enumere os requisitos não-funcionais previstos para a sua aplicação. Entre o
 | **RNF003** | Disponibilização do serviço em HTTPS em nuvem pública |
 | **RNF004** | O sistema deve ser capaz de escalar horizontalmente para suportar um aumento no número de usuários simultâneos. |
 | **RNF005** | Todas as comunicações do sistema devem ser criptografadas utilizando SSL/TLS. |
-| **RNF006** | O sistema deve ter uma disponibilidade de 99%, com downtime máximo de 3 hora por mês. |
+| **RNF006** | O sistema deve ter uma disponibilidade de 99%, com downtime máximo de 3 horas por mês. |
 | **RNF007** | O sistema deve ser fácil de usar, com uma curva de aprendizado que não exceda 2 horas para novos usuários. |
 | **RNF008** | O sistema deve ser capaz de operar em múltiplos sistemas operacionais (Windows, Linux, macOS,) sem modificações. |
 
