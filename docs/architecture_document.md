@@ -132,22 +132,20 @@ _Enumere os requisitos funcionais previstos para a sua aplicação. Concentre-se
 
 | **ID** | **Descrição** | **Prioridade** | **Plataforma** | **Tipo Usuário**
 | --- | --- | --- | --- | --- |
-| RF001 | Cadastro dos produtos | Essencial | _web_ | Gestor |
-| RF002 | Cadastro dos materiais | Essencial | _web_ | Gestor |
-| RF003 | Cadastro de hierarquia | Essencial | _web_ | Gestor |
-| RF004 | Adição de estoque | Essencial | _mobile_ | Estoque |
-| RF005 | Saída de peças | Essencial | _mobile_ | Estoque |
-| RF006 | Apontamento do fim da construção | Essencial | _mobile_ | Operador |
-| RF007 | Serviço de alerta | Essencial | _web e mobile_ | Todos |
-| RF008 | Solicitação de peças | Essencial | _mobile_ | Operador |
-| RF009 | Planejamento da operação | Desejável | _web_ | Gestor |
-| RF010 | Gestão do operadores | Desejável | _web_ | Gestor |
-| RF011 | Gestão de peças críticas | Desejável | _web_ | Gestor |
+| RF001 | Gerenciar produtos | Essencial | _web_ | Gestor |
+| RF002 | Gerenciar materiais | Essencial | _web_ | Gestor |
+| RF003 | Gerenciar hierarquia | Essencial | _web_ | Gestor |
+| RF004 | Atualização de estoque para reabastecimento de peças  | Essencial | _mobile_ | Estoque |
+| RF005 | Atualização de estoque para baixa de peças que foram encaminhadas para linha de produção  | Essencial | _mobile_ | Estoque |
+| RF006 | Sinalização de fim da construção | Essencial | _mobile_ | Operador |
+| RF007 | Sinalização de início de produção | Essencial | _web e mobile_ | Todos |
+| RF008 | Sinalização de peças em nível crítico de quantidade em estoque | Essencial | _mobile_ | Operador |
+| RF009 | Planejamento de produção | Desejável | _web_ | Gestor |
+| RF010 | Gestão de pessoas | Desejável | _web_ | Gestor |
+| RF011 | Gestao de linha de montagem | Desejável | _web_ | Gestor |
 | RF012 | Apontamento do início da construção | Desejável | _mobile_ | Operador |
-| RF013 | Solicitação de peça extra | Opcional | _mobile_ | Operador |
-| RF014 | Sinalização de defeitos | Opcional | _mobile_ | Estoque |
-| RF015 | Cadastro de linha de montagem | Opcional | _web_ | Gestor |
-| RF016 | Cadastro de posto de montagem | Opcional | _web_ | Gestor |
+| RF013 | solicitação de peças sobressalentes individualmente para caso de quebras ou defeitos de produção  | Opcional | _mobile_ | Operador |
+| RF014 | Sinalização de defeitos na produçao | Opcional | _mobile_ | Estoque |
 
 Obs: acrescente mais linhas, se necessário.
 
