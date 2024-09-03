@@ -162,7 +162,8 @@ _Enumere os requisitos não-funcionais previstos para a sua aplicação. Entre o
 | **RNF005** | Todas as comunicações do sistema devem ser criptografadas utilizando SSL/TLS. |
 | **RNF006** | O sistema deve ter uma disponibilidade de 99%, com downtime máximo de 3 horas por mês. |
 | **RNF007** | O sistema deve ser fácil de usar, com uma curva de aprendizado que não exceda 2 horas para novos usuários. |
-| **RNF008** | O sistema deve ser capaz de operar em múltiplos sistemas operacionais (Windows, Linux, macOS,) sem modificações. |
+| **RNF008** | O sistema deve ser capaz de operar nos navegadores google chrome a partir da versao 90 e safari da versao 17, sem modificações. |
+| **RNF009** | O sistema deve ser capaz de operar no android a partir da versao 13 e ios 15 |
 
 ## 2.3. Restrições Arquiteturais
 
