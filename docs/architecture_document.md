@@ -241,7 +241,7 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 
 **Adição e Remoção de Estoque:**
 
-- **Como responsável pelo estoque**, eu quero poder adicionar ou remover peças do estoque através do aplicativo móvel, para que eu possa manter o inventário sempre atualizado e preciso.
+- **Como responsável pelo estoque**, eu quero poder adicionar ou remover peças do estoque, para que eu possa manter o inventário sempre atualizado e preciso.
 
 **Apontamento de Construção:**
 
@@ -249,7 +249,7 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 
 **Solicitação de Peças Extras:**
 
-- **Como operador**, eu quero poder solicitar peças extras diretamente do chão de fábrica usando o aplicativo móvel, para que eu possa evitar atrasos na produção devido à falta de materiais.
+- **Como operador**, eu quero poder solicitar peças extras diretamente do chão de fábrica, para que eu possa evitar atrasos na produção devido à falta de materiais.
 
 **Gestão de Operadores e Planejamento de Operações:**
 
