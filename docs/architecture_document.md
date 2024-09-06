@@ -96,27 +96,27 @@ Objetivos específicos deste projeto incluem:
 ## 1.3. Definições e Abreviaturas
 
 
-| Abreviatura | Nome Completo                                     | Definição                                 |
-|-------------|---------------------------------------------------|-------------------------------------------|
-| MRP         | Manufacturing Resource Planning                   | Sistema de Planejamento de Recursos       |
-| JIT         | Just in Time                                      | Metodologia de Produção                   |
-| STP         | Sistema Toyota de Produção                        | Metodologia de Produção                   |
-| Kafka       | Apache Kafka                                      | Sistema de Mensageria                     |
-| JWT         | JSON Web Tokens                                   | Método de Autenticação                    |
-| JEST        | JavaScript Testing Framework                      | Framework de Testes                       |
-| PLAYWRIGHT  | Playwright                                        | Framework de Testes                       |
-| ORM         | Object-Relational Mapping                         | Mapeamento de Dados                       |
-| SPA         | Single Page Application                           | Arquitetura de Aplicações Web             |
-| API         | Application Programming Interface                 | Interface de Programação                  |
-| HTTPS       | Hypertext Transfer Protocol Secure                | Protocolo de Segurança de Dados           |
-| SSL/TLS     | Secure Sockets Layer / Transport Layer Security   | Protocolo de Segurança de Dados           |
-| NodeJS      | Node.js                                           | Ambiente de Execução de JavaScript        |
-| Vue.js      | Vue.js                                            | Framework JavaScript                      |
-| Flutter     | Flutter                                           | Framework de Desenvolvimento Móvel        |
-| RESTful     | Representational State Transfer                   | Arquitetura de Software                   |
-| DER         | Diagrama de Entidade-Relacionamento               | Diagrama                                  |
-| RF          | Requisito Funcional                               | Tipo de Requisito                         |
-| RNF         | Requisito Não-Funcional                           | Tipo de Requisito                         |
+| <p style="text-align: center;">Abreviatura</p> | <p style="text-align: center;">Significado</p> |
+|-------------|------------------------------------------------|
+| MRP         | Manufacturing Resource Planning                |
+| JIT         | Just in Time                                   |
+| STP         | Sistema Toyota de Produção                     |
+| Kafka       | Apache Kafka                                   |
+| JWT         | JSON Web Tokens                                |
+| JEST        | JavaScript Testing Framework                   |
+| PLAYWRIGHT  | Playwright                                     |
+| ORM         | Object-Relational Mapping                      |
+| SPA         | Single Page Application                        |
+| API         | Application Programming Interface              |
+| HTTPS       | Hypertext Transfer Protocol Secure             |
+| SSL/TLS     | Secure Sockets Layer / Transport Layer Security|
+| NodeJS      | Node.js                                        | 
+| Vue.js      | Vue.js                                         |
+| Flutter     | Flutter                                        |
+| RESTful     | Representational State Transfer                | 
+| DER         | Diagrama de Entidade-Relacionamento            |
+| RF          | Requisito Funcional                            | 
+| RNF         | Requisito Não-Funcional                        |
 
 
 
