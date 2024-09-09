@@ -40,7 +40,10 @@ _**Resumo**. Este projeto visa o desenvolvimento de um sistema de Manufacturing 
 | **[16/08/2024]** | [Eric Rodrigues Diniz] | [Adição do diagrama de visão geral na seção 3] | [1.4]      |
 | **[19/08/2024]** | [Eric Rodrigues Diniz] | [Adição das Funcionalidades Previstas do Sistema na seção 3.1] | [1.5]      |
 | **[19/08/2024]** | [Eduardo Bandeira de Melo] | [Adição de histórias de usuário na seção 3.1] | [1.6] |
-| **[31/08/2024]** | [Vítor Lion Guimarães Rodrigues] | [Revisão Seção 1.2: Objetivo Geral] | [1.7]
+| **[31/08/2024]** | [Vítor Lion Guimarães Rodrigues] | [Revisão Seção 1.2: Objetivo Geral] | [1.7] |
+| **[03/09/2024]** | [Eric Rodrigues Diniz] | [Revisão da seção 2.2 e 3.1: Requisitos Não-Funcionais e Histórias de usuário ] | [1.8] |
+| **[04/09/2024]** | [Eric Rodrigues Diniz] | [Revisão da seção 2.2: Requisitos Não-Funcionais] | [1.9] |
+
 
 ## SUMÁRIO
 
@@ -110,12 +113,12 @@ Objetivos específicos deste projeto incluem:
 | API         | Application Programming Interface              |
 | HTTPS       | Hypertext Transfer Protocol Secure             |
 | SSL/TLS     | Secure Sockets Layer / Transport Layer Security|
-| NodeJS      | Node.js                                        | 
+| NodeJS      | Node.js                                        |
 | Vue.js      | Vue.js                                         |
 | Flutter     | Flutter                                        |
-| RESTful     | Representational State Transfer                | 
+| RESTful     | Representational State Transfer                |
 | DER         | Diagrama de Entidade-Relacionamento            |
-| RF          | Requisito Funcional                            | 
+| RF          | Requisito Funcional                            |
 | RNF         | Requisito Não-Funcional                        |
 
 
