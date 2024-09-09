@@ -226,7 +226,7 @@ _Apresente uma lista simples com as funcionalidades previstas no projeto (escopo
 
 6. O sistema deve oferecer ferramentas para o planejamento de operações e a gestão de operadores, acessíveis via interface web para gestores.
 
-7. O sistema deve gerenciar peças críticas, permitindo o acompanhamento detalhado e as ações corretivas por gestores via web.
+7. O sistema deve gerenciar peças próximas do rompimento, permitindo o acompanhamento detalhado e as ações corretivas por gestores via web.
 
 8. O sistema deve permitir a sinalização de defeitos e a solicitação de peças extras pelos operadores através do aplicativo móvel.
 
@@ -262,9 +262,9 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 
 - **Como usuário (gestor, operador ou responsável pelo estoque)**, eu quero receber alertas automáticos quando certas condições forem atingidas, como níveis baixos de estoque, para que eu possa agir rapidamente e evitar problemas.
 
-**Gestão de Peças Críticas:**
+**Gestão de Ruptura:**
 
-- **Como gestor**, eu quero poder monitorar e gerenciar peças críticas no sistema, para que eu possa tomar medidas proativas e evitar interrupções na produção.
+- **Como gestor**, eu quero poder monitorar e gerenciar peças próximas do rompimento no sistema, para que eu possa tomar medidas proativas e evitar interrupções na produção.
 
 **Sinalização de Defeitos:**
 
