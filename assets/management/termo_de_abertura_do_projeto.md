@@ -60,7 +60,7 @@ A implementação do sistema MRP é justificada pelos significativos benefícios
 
 * Segurança: Garantir a proteção dos dados através de criptografia Hash no armazenamento de senhas, autenticação JWT com claims para garantir mínimo acesso disponível.
 
-* Eficiência: O sistema deve conseguir ser utilizado simultaneamente por usuários tablet e web com dependência de internet para consumo e envio de informações de forma consistente.
+* Eficiência: O sistema deve conseguir ser utilizado simultaneamente por 60 usuários tablet e web com dependência de internet para consumo e envio de informações de forma consistente.
 
 * Usabilidade: A interface deve ser intuitiva e fácil de usar, permitindo que os usuários realizem suas tarefas de forma eficiente baseado nas heurísticas de Nielsen para qualidade do design intuitivo.
 
