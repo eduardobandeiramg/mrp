@@ -12,8 +12,8 @@
 
 Professores:
 
-* Hugo Bastos de Paula
 * Cleiton Silva Tavares
+* Hugo Bastos de Paula
 * Ramon Lacerda Marques
 
 
@@ -33,14 +33,17 @@ _**Resumo**. Este projeto visa o desenvolvimento de um sistema de Manufacturing 
 
 | **Data** | **Autor** | **Descrição** | **Versão** |
 | --- | --- | --- | --- |
-| **[dd/mm/aaaa]** | [Nome do autor] | [Descrever as principais alterações realizadas no documento, evidenciando as seções ou capítulos alterados] | [X] |
 | **[15/08/2024]** | [Eric Rodrigues Diniz] | [Alteração do nome do projeto, nome dos alunos, sumário. Criação do resumo, histórico de versões, requisitos funcionais e não funcionais.] | [1.0] |
 | **[15/08/2024]** | [Eric Rodrigues Diniz] | [Alteração da seção 1: apresentação, problema, objetivos do trabalho. Em seguida, seção 2.3: Restrições Arquiteturais, e seção 2.4: Mecanismos Arquiteturais] | [1.1] |
 | **[16/08/2024]** | [Mariana Eliza Alves Costa] | [Adição de detalhes sobre o uso de Flutter para mobile] | [1.2]      |
 | **[16/08/2024]** | [Mariana Eliza Alves Costa] | [Adição de Definições e Abreviaturas] | [1.3]      |
 | **[16/08/2024]** | [Eric Rodrigues Diniz] | [Adição do diagrama de visão geral na seção 3] | [1.4]      |
 | **[19/08/2024]** | [Eric Rodrigues Diniz] | [Adição das Funcionalidades Previstas do Sistema na seção 3.1] | [1.5]      |
-| **[19/08/2024]** | [Eduardo Bandeira de Melo] | [Adição de histórias de usuário na seção 3.1] | [1.6]
+| **[19/08/2024]** | [Eduardo Bandeira de Melo] | [Adição de histórias de usuário na seção 3.1] | [1.6] |
+| **[31/08/2024]** | [Vítor Lion Guimarães Rodrigues] | [Revisão Seção 1.2: Objetivo Geral] | [1.7] |
+| **[03/09/2024]** | [Eric Rodrigues Diniz] | [Revisão da seção 2.2 e 3.1: Requisitos Não-Funcionais e Histórias de usuário ] | [1.8] |
+| **[04/09/2024]** | [Eric Rodrigues Diniz] | [Revisão da seção 2.2: Requisitos Não-Funcionais] | [1.9] |
+
 
 ## SUMÁRIO
 
@@ -84,19 +87,42 @@ A falta de visibilidade em tempo real sobre o inventário e a comunicação inef
 
 ## 1.2. Objetivos do trabalho
 
-O objetivo geral deste trabalho é  automatizar o planejamento de recursos em uma linha de produção, visando proporcionar uma solução eficiente para os desafios de gestão de estoque e sincronização de operações, abordando problemas críticos como rupturas de estoque e acúmulo excessivo de materiais.
-Neste cenário, o sistema MRP proposto visa não apenas a centralização e otimização do controle de inventário, mas também a melhoria na comunicação entre as áreas de produção, estoque, e compras. Com uma abordagem orientada a dados e uma integração em tempo real, o sistema promete reduzir custos, evitar perdas por rupturas e aprimorar a eficiência operacional das empresas, tornando-se uma ferramenta essencial para a gestão moderna de cadeias de suprimentos.
+Desenvolver um sistema para automatizar o planejamento de recursos em uma linha de produção e a gestão de estoque, sincronizando as operações e identificando problemas como rupturas de estoque e acúmulo excessivo de materiais. O objetivo é centralizar e otimizar o controle de inventário, melhorar a comunicação entre as áreas de produção, estoque e compras, além de utilizar uma abordagem orientada a dados e integração em tempo real. Assim, espera-se reduzir custos, minimizar perdas por ruptura e aprimorar a eficiência operacional, tornando o sistema uma ferramenta essencial para a gestão moderna da cadeia de suprimentos.
 
-Os objetivos específicos deste projeto incluem:
+Objetivos específicos deste projeto incluem:
 
 * Desenvolver uma arquitetura que integre de forma eficaz as funções de controle de inventário, gestão de ordens de produção e previsão de demanda, garantindo uma visão centralizada das operações de manufatura.
-* Detalhar a implementação de serviços de mensageria em tempo real utilizando Kafka, para assegurar a comunicação dinâmica e eficiente entre os setores de produção, estoque e compras.
+* Implementar serviços de mensageria em tempo real utilizando Kafka, assegurando a comunicação dinâmica e eficiente entre os setores de produção, estoque e compras.
 * Apresentar as estratégias de autenticação e segurança da aplicação, com foco no uso de senhas hash e login via JWT, para proteger as informações críticas do sistema.
 * Explorar as abordagens para testes automatizados, incluindo testes unitários com JEST e testes de ponta a ponta utilizando PLAYWRIGHT, com o intuito de garantir a confiabilidade e robustez do sistema em diferentes cenários de uso.
 
 ## 1.3. Definições e Abreviaturas
 
-MRP - Manufacturing Resource Planning ou Planejamento de Recursos de Manufatura_
+
+| <p style="text-align: center;">Abreviatura</p> | <p style="text-align: center;">Significado</p> |
+|-------------|------------------------------------------------|
+| MRP         | Manufacturing Resource Planning                |
+| JIT         | Just in Time                                   |
+| STP         | Sistema Toyota de Produção                     |
+| Kafka       | Apache Kafka                                   |
+| JWT         | JSON Web Tokens                                |
+| JEST        | JavaScript Testing Framework                   |
+| PLAYWRIGHT  | Playwright                                     |
+| ORM         | Object-Relational Mapping                      |
+| SPA         | Single Page Application                        |
+| API         | Application Programming Interface              |
+| HTTPS       | Hypertext Transfer Protocol Secure             |
+| SSL/TLS     | Secure Sockets Layer / Transport Layer Security|
+| NodeJS      | Node.js                                        |
+| Vue.js      | Vue.js                                         |
+| Flutter     | Flutter                                        |
+| RESTful     | Representational State Transfer                |
+| DER         | Diagrama de Entidade-Relacionamento            |
+| RF          | Requisito Funcional                            |
+| RNF         | Requisito Não-Funcional                        |
+
+
+
 
 <a name="requisitos"></a>
 # 2. Requisitos
@@ -109,22 +135,20 @@ _Enumere os requisitos funcionais previstos para a sua aplicação. Concentre-se
 
 | **ID** | **Descrição** | **Prioridade** | **Plataforma** | **Tipo Usuário**
 | --- | --- | --- | --- | --- |
-| RF001 | Cadastro dos produtos | Essencial | _web_ | Gestor |
-| RF002 | Cadastro dos materiais | Essencial | _web_ | Gestor |
-| RF003 | Cadastro de hierarquia | Essencial | _web_ | Gestor |
-| RF004 | Adição de estoque | Essencial | _mobile_ | Estoque |
-| RF005 | Saída de peças | Essencial | _mobile_ | Estoque |
-| RF006 | Apontamento do fim da construção | Essencial | _mobile_ | Operador |
-| RF007 | Serviço de alerta | Essencial | _web e mobile_ | Todos |
-| RF008 | Solicitação de peças | Essencial | _mobile_ | Operador |
-| RF009 | Planejamento da operação | Desejável | _web_ | Gestor |
-| RF010 | Gestão do operadores | Desejável | _web_ | Gestor |
-| RF011 | Gestão de peças críticas | Desejável | _web_ | Gestor |
+| RF001 | Gerenciar produtos | Essencial | _web_ | Gestor |
+| RF002 | Gerenciar materiais | Essencial | _web_ | Gestor |
+| RF003 | Gerenciar hierarquia | Essencial | _web_ | Gestor |
+| RF004 | Atualização de estoque para reabastecimento de peças  | Essencial | _mobile_ | Estoque |
+| RF005 | Atualização de estoque para baixa de peças que foram encaminhadas para linha de produção  | Essencial | _mobile_ | Estoque |
+| RF006 | Sinalização de fim da construção | Essencial | _mobile_ | Operador |
+| RF007 | Sinalização de início de produção | Essencial | _web e mobile_ | Todos |
+| RF008 | Sinalização de peças em nível crítico de quantidade em estoque | Essencial | _mobile_ | Operador |
+| RF009 | Planejamento de produção | Desejável | _web_ | Gestor |
+| RF010 | Gestão de pessoas | Desejável | _web_ | Gestor |
+| RF011 | Gestao de linha de montagem | Desejável | _web_ | Gestor |
 | RF012 | Apontamento do início da construção | Desejável | _mobile_ | Operador |
-| RF013 | Solicitação de peça extra | Opcional | _mobile_ | Operador |
-| RF014 | Sinalização de defeitos | Opcional | _mobile_ | Estoque |
-| RF015 | Cadastro de linha de montagem | Opcional | _web_ | Gestor |
-| RF016 | Cadastro de posto de montagem | Opcional | _web_ | Gestor |
+| RF013 | solicitação de peças sobressalentes individualmente para caso de quebras ou defeitos de produção  | Opcional | _mobile_ | Operador |
+| RF014 | Sinalização de defeitos na produçao | Opcional | _mobile_ | Estoque |
 
 Obs: acrescente mais linhas, se necessário.
 
@@ -134,14 +158,15 @@ _Enumere os requisitos não-funcionais previstos para a sua aplicação. Entre o
 
 | **ID** | **Descrição** |
 | --- | --- |
-| RNF001 | Serviços de mensageria utilizando kafka |
-| RNF002 | Senhas utilizando via hash |
-| RNF003 | Login utilizando JWT |
-| RNF004 | Testes unitários utilizando JEST |
-| RNF005 | Testes de ponta a ponta utilizando PLAYWRIGHT |
-
-
-Obs: acrescente mais linhas, se necessário.
+| **RNF001** | Utilizar serviço de mensageria para notificação dos usuários |
+| **RNF002** | Todas as senhas devem ser gravadas utilizando sistema de criptografia em Hash |
+| **RNF003** | Disponibilização do serviço em HTTPS em nuvem pública |
+| **RNF004** | O sistema deve ser capaz de escalar horizontalmente para suportar um aumento no número de usuários simultâneos. |
+| **RNF005** | Todas as comunicações do sistema devem ser criptografadas utilizando SSL/TLS. |
+| **RNF006** | O sistema deve ter uma disponibilidade de 99%, com downtime máximo de 3 horas por mês. |
+| **RNF007** | O sistema deve ser fácil de usar, com uma curva de aprendizado que não exceda 2 horas para novos usuários. |
+| **RNF008** | O sistema deve ser capaz de operar nos navegadores google chrome a partir da versao 90 e safari da versao 17, sem modificações. |
+| **RNF009** | O sistema deve ser capaz de operar no android a partir da versao 13 e ios 15 |
 
 ## 2.3. Restrições Arquiteturais
 
@@ -201,7 +226,7 @@ _Apresente uma lista simples com as funcionalidades previstas no projeto (escopo
 
 6. O sistema deve oferecer ferramentas para o planejamento de operações e a gestão de operadores, acessíveis via interface web para gestores.
 
-7. O sistema deve gerenciar peças críticas, permitindo o acompanhamento detalhado e as ações corretivas por gestores via web.
+7. O sistema deve gerenciar peças próximas do rompimento, permitindo o acompanhamento detalhado e as ações corretivas por gestores via web.
 
 8. O sistema deve permitir a sinalização de defeitos e a solicitação de peças extras pelos operadores através do aplicativo móvel.
 
@@ -219,7 +244,7 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 
 **Adição e Remoção de Estoque:**
 
-- **Como responsável pelo estoque**, eu quero poder adicionar ou remover peças do estoque através do aplicativo móvel, para que eu possa manter o inventário sempre atualizado e preciso.
+- **Como responsável pelo estoque**, eu quero poder adicionar ou remover peças do estoque, para que eu possa manter o inventário sempre atualizado e preciso.
 
 **Apontamento de Construção:**
 
@@ -227,7 +252,7 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 
 **Solicitação de Peças Extras:**
 
-- **Como operador**, eu quero poder solicitar peças extras diretamente do chão de fábrica usando o aplicativo móvel, para que eu possa evitar atrasos na produção devido à falta de materiais.
+- **Como operador**, eu quero poder solicitar peças extras diretamente do chão de fábrica, para que eu possa evitar atrasos na produção devido à falta de materiais.
 
 **Gestão de Operadores e Planejamento de Operações:**
 
@@ -237,13 +262,13 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 
 - **Como usuário (gestor, operador ou responsável pelo estoque)**, eu quero receber alertas automáticos quando certas condições forem atingidas, como níveis baixos de estoque, para que eu possa agir rapidamente e evitar problemas.
 
-**Gestão de Peças Críticas:**
+**Gestão de Ruptura:**
 
-- **Como gestor**, eu quero poder monitorar e gerenciar peças críticas no sistema, para que eu possa tomar medidas proativas e evitar interrupções na produção.
+- **Como gestor**, eu quero poder monitorar e gerenciar peças próximas do rompimento no sistema, para que eu possa tomar medidas proativas e evitar interrupções na produção.
 
 **Sinalização de Defeitos:**
 
-- **Como responsável pelo estoque**, eu quero poder sinalizar defeitos em peças diretamente no aplicativo móvel, para que eu possa garantir que apenas materiais de qualidade sejam utilizados na produção.
+- **Como responsável pelo estoque**, eu quero poder sinalizar defeitos em peças, para que eu possa garantir que apenas materiais de qualidade sejam utilizados na produção.
 
 **Cadastro de Linhas e Postos de Montagem:**
 
