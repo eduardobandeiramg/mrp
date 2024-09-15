@@ -18,7 +18,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <router-view />
+    <router-view /> 
   </div>
 </template>
 
