@@ -139,7 +139,6 @@ A implementação do sistema MRP é justificada pelos significativos benefícios
 | **4.6 Total Geral:** | 1.064 horas | | **R$ 33.908,00** |
 
 
-
 ## 5. PARTES INTERESSADAS
 
 | **Nome**                                 | **Função**                     | **Descrição**                                          |
