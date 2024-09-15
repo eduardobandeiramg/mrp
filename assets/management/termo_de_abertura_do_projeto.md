@@ -142,11 +142,15 @@ A implementação do sistema MRP é justificada pelos significativos benefícios
 
 ## 5. PARTES INTERESSADAS
 
-| Nome           | Papel no projeto | Assinatura |
-| -------------- | ---------------- | ---------- |
-| Não se aplica  | Gestor           |            |
-| Não se aplica  | Operador         |            |
-| Não se aplica  | Estoque          |            |
+| **Nome**                                 | **Função**                     | **Descrição**                                          |
+|------------------------------------------|---------------------------------|--------------------------------------------------------|
+| Daniel Estevam Pacheco de Souza           | Desenvolvedor                  | Desenvolvedor Backend                                  |
+| Eduardo Bandeira de Melo Guimarães        | Desenvolvedor                  | Desenvolvedor Mobile                                   |
+| Eric Rodrigues Diniz                      | Desenvolvedor / Gerente        | Gerente de Projetos / Scrum Master                     |
+| Lucas Machado de Oliveira Andrade         | Desenvolvedor / Gerente        | Tech Lead / Desenvolvedor Backend                      |
+| Mariana Eliza Alves Costa                 | Desenvolvedor                  | Desenvolvedor Frontend / P.O                           |
+| Vítor Lion Guimarães Rodrigues            | Desenvolvedor                  | Desenvolvedor DevOps                                   |
+
 
 
 
