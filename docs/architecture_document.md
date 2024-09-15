@@ -239,6 +239,9 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 ### Histórias de Usuário
 
 **Cadastro de Produtos e Materiais:**
+- **Como usuário**, registrado, 
+eu quero fazer login no sistema utilizando meu e-mail e senha, 
+para que eu possa acessar as funcionalidades disponíveis e personalizadas para minha conta.
 
 - **Como gestor**, eu quero poder cadastrar novos produtos e materiais no sistema, para que eu possa garantir que todas as informações necessárias estejam disponíveis para a produção.
 
