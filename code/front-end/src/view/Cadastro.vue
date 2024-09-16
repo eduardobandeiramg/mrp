@@ -1,7 +1,18 @@
 <template>
-  <div class="login">
+  <div class="cadastro-container">
     <h1>Registrar</h1>
     <form @submit.prevent="loginUser">
+      <div class="form-group">
+        <label for="email">E-mail:</label>
+        <input
+          type="email"
+          id="email"
+          v-model="email"
+          placeholder="Email"
+          required
+        />
+      </div>
+
       <div class="form-group">
         <label for="username">Usuário:</label>
         <input
@@ -25,17 +36,6 @@
       </div>
 
       <div class="form-group">
-        <label for="auth">Autenticação:</label>
-        <input
-          type="text"
-          id="auth"
-          v-model="auth"
-          placeholder="Auth"
-          required
-        />
-      </div>
-
-      <div class="form-group">
         <label for="role">Função:</label>
         <select id="role" v-model="role" required>
           <option disabled value="">Selecione a Função</option>
@@ -50,18 +50,14 @@
   </div>
 </template>
 
-
-
 <script>
-import Login from "@/model/Login.js";
 export default {
   data() {
     return {
+      email: "",      // Novo campo de email
       username: "",
       password: "",
-      auth: "",
       role: "",
-      login: new Login(),
     };
   },
   methods: {
@@ -69,78 +65,66 @@ export default {
       // Lógica de autenticação
     },
     logar() {
-      localStorage.setItem("usuario", JSON.stringify(this.login));
-      this.$router.push({
-        name: "home",
-      });
+      // Ação de login
     },
   },
 };
 </script>
-
 <style scoped>
-h1 {
-  color: white;
+.cadastro-container {
+  width: 100%; /* Ocupa toda a largura do container */
+  max-width: 600px; /* Limita a largura máxima do formulário */
+  padding: 40px;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 
-.login {
-  max-width: 300px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
+h1 {
+  margin-bottom: 30px;
+  color: #fff;
 }
 
 .form-group {
   margin-bottom: 15px;
-  color: white;
 }
 
 label {
   display: block;
   font-weight: bold;
+  color: #fff; /* Ajuste da cor das letras para branco */
 }
 
-input, select {
+input,
+select {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  margin-top: 5px;
-  background-color: #333;
-  color: #fff;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background-color: #222;
+  color: #fff; /* Cor do texto branca */
+  font-size: 16px;
+}
+
+input::placeholder {
+  color: #aaa;
 }
 
 button {
   background: #00b300;
   color: white;
-  padding: 10px;
+  padding: 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-}
-
-button:hover {
-  background-color: #009900;
-}
-
-/* Estilo ao passar o mouse sobre o botão */
-button:hover {
-  opacity: 0.9;
-}
-
-/* Estilo de alinhamento */
-.register-button {
   width: 100%;
-  padding: 15px;
-  margin-top: 15px;
   font-weight: bold;
-  background-color: #00b300;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
+  margin-top: 20px;
 }
 
-.register-button:hover {
+button:hover {
   background-color: #009900;
 }
 </style>

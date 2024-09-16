@@ -5,7 +5,6 @@ import Login from "@/view/Login.vue";
 import Cadastro from "@/view/Cadastro.vue";
 
 
-
 const routes = [
   
   {
@@ -23,6 +22,7 @@ const routes = [
         path: "/login",
         component: Login,
       },
+
      
     
     ]
