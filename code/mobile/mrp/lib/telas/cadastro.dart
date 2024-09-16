@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Cadastro extends StatelessWidget {
-  GlobalKey chave = GlobalKey<FormState>();
+  final chave = GlobalKey<FormState>();
   TextEditingController controladorNome = TextEditingController();
   TextEditingController controladorEmail = TextEditingController();
   TextEditingController controladorSenha = TextEditingController();
@@ -18,6 +18,7 @@ class Cadastro extends StatelessWidget {
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Form(
+          key: chave,
           child: Column(
             children: [
               SizedBox(
@@ -42,6 +43,8 @@ class Cadastro extends StatelessWidget {
                   validator: (valor) {
                     if (valor == null) {
                       return "Valor inválido!";
+                    } else if (valor.isEmpty) {
+                      return "valor vazio!";
                     } else {
                       return null;
                     }
@@ -60,6 +63,8 @@ class Cadastro extends StatelessWidget {
                   validator: (valor) {
                     if (valor == null) {
                       return "valor inválido!";
+                    } else if (valor.isEmpty) {
+                      return "valor vazio!";
                     } else {
                       return null;
                     }
@@ -82,6 +87,8 @@ class Cadastro extends StatelessWidget {
                   validator: (valor) {
                     if (valor == null) {
                       return "valor inválido!";
+                    } else if (valor.isEmpty) {
+                      return "valor vazio!";
                     } else {
                       return null;
                     }
@@ -104,6 +111,8 @@ class Cadastro extends StatelessWidget {
                   validator: (valor) {
                     if (valor == null) {
                       return "valor inválido!";
+                    } else if (valor.isEmpty) {
+                      return "valor vazio!";
                     } else {
                       return null;
                     }
@@ -124,7 +133,9 @@ class Cadastro extends StatelessWidget {
                     Size(largura * 0.4, altura * 0.047),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  chave.currentState!.validate();
+                },
                 child: Text(
                   "Criar conta",
                   style: TextStyle(color: Colors.white),

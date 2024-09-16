@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mrp/telas/cadastro.dart';
+import 'package:mrp/telas/esqueci_senha.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -9,7 +10,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  GlobalKey chave = GlobalKey<FormState>();
+  final chave = GlobalKey<FormState>();
   TextEditingController controladorEmail = TextEditingController();
   TextEditingController controladorSenha = TextEditingController();
 
@@ -46,6 +47,8 @@ class _LoginState extends State<Login> {
                   validator: (valor) {
                     if (valor == null) {
                       return "Valor inválido!";
+                    } else if (valor.isEmpty) {
+                      return "valor inválido!";
                     } else {
                       return null;
                     }
@@ -64,6 +67,8 @@ class _LoginState extends State<Login> {
                   validator: (valor) {
                     if (valor == null) {
                       return "valor inválido!";
+                    } else if (valor.isEmpty) {
+                      return "valor inválido!";
                     } else {
                       return null;
                     }
@@ -75,7 +80,13 @@ class _LoginState extends State<Login> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => EsqueciSenha(),
+                    ),
+                  );
+                },
                 child: Text("Esqueci minha senha"),
               ),
               TextButton(
@@ -89,7 +100,9 @@ class _LoginState extends State<Login> {
                 height: altura * 0.2,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  chave.currentState!.validate();
+                },
                 child: Text(
                   "entrar",
                   style: TextStyle(
