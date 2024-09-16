@@ -10,6 +10,7 @@ async function bootstrap() {
 		.setTitle('MRP')
 		.setDescription('Manufacturing Resource Planning')
 		.setVersion('1.0')
+		.addBearerAuth()
 		.build();
 
 	const document = SwaggerModule.createDocument(app, config);
