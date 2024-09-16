@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router"; // Certifique-se de importar createRouter
 
 import Home from "@/view/Home.vue";
-
+import Login from "@/view/Login.vue";
+import Cadastro from "@/view/Cadastro.vue";
 
 
 const routes = [
@@ -11,7 +12,17 @@ const routes = [
     name:"home",
     component: Home, // Use o layout principal em todas as rotas
     children: [
-      
+     
+      {
+        path: "/cadastro",
+        component: Cadastro,
+      },
+     
+      {
+        path: "/login",
+        component: Login,
+      },
+
      
     
     ]
