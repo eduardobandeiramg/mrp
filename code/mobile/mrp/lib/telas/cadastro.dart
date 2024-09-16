@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/telas/cadastro.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
-
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
+class Cadastro extends StatelessWidget {
   GlobalKey chave = GlobalKey<FormState>();
+  TextEditingController controladorNome = TextEditingController();
   TextEditingController controladorEmail = TextEditingController();
   TextEditingController controladorSenha = TextEditingController();
+  TextEditingController controladorSenha2 = TextEditingController();
+
+  Cadastro({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,20 +15,20 @@ class _LoginState extends State<Login> {
     double largura = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Form(
-          key: chave,
           child: Column(
             children: [
               SizedBox(
-                height: altura * 0.1,
+                height: altura * 0.01,
               ),
               Text(
-                "Entrar no app",
+                "Criar nova conta",
                 style: TextStyle(fontSize: altura * 0.03),
               ),
               SizedBox(
-                height: altura * 0.15,
+                height: altura * 0.13,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -40,9 +36,9 @@ class _LoginState extends State<Login> {
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: "e-mail",
+                    hintText: "nome",
                   ),
-                  controller: controladorEmail,
+                  controller: controladorNome,
                   validator: (valor) {
                     if (valor == null) {
                       return "Valor inválido!";
@@ -53,7 +49,29 @@ class _LoginState extends State<Login> {
                 ),
               ),
               SizedBox(
-                height: altura * 0.05,
+                height: altura * 0.01,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  obscureText: true,
+                  textAlign: TextAlign.center,
+                  controller: controladorEmail,
+                  validator: (valor) {
+                    if (valor == null) {
+                      return "valor inválido!";
+                    } else {
+                      return null;
+                    }
+                  },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "email",
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: altura * 0.01,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -74,33 +92,42 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              TextButton(
-                onPressed: () {},
-                child: Text("Esqueci minha senha"),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Cadastro()));
-                },
-                child: Text("Criar conta"),
-              ),
               SizedBox(
-                height: altura * 0.2,
+                height: altura * 0.01,
               ),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  "entrar",
-                  style: TextStyle(
-                    color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  obscureText: true,
+                  textAlign: TextAlign.center,
+                  controller: controladorSenha2,
+                  validator: (valor) {
+                    if (valor == null) {
+                      return "valor inválido!";
+                    } else {
+                      return null;
+                    }
+                  },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "confirme a senha",
                   ),
                 ),
+              ),
+              SizedBox(
+                height: altura * 0.18,
+              ),
+              ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all(Colors.indigo),
                   minimumSize: WidgetStateProperty.all(
                     Size(largura * 0.4, altura * 0.047),
                   ),
+                ),
+                onPressed: () {},
+                child: Text(
+                  "Criar conta",
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ],
