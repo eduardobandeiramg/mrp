@@ -14,6 +14,7 @@
     MYSQL_PORT=3306
     MYSQL_USERNAME=root
     MYSQL_PASSWORD=
+    JWT_SECRET=aebfde0b-ff4a-4f1c-9c43-a1c034d5b4b1
     ```
 
 2. Set the values for `MYSQL_ROOT_PASSWORD`, `MYSQL_PASSWORD`, and `MYSQL_DATABASE` as per your choice. Example:
@@ -25,6 +26,7 @@
     MYSQL_PORT=3306
     MYSQL_USERNAME=root
     MYSQL_PASSWORD=yourpassword
+    JWT_SECRET=aebfde0b-ff4a-4f1c-9c43-a1c034d5b4b1
     ```
 
 3. Open a terminal and navigate to the `/back-end` folder.
