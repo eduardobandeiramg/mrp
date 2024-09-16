@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mrp/telas/cadastro.dart';
 import 'package:mrp/telas/esqueci_senha.dart';
+import 'package:mrp/telas/tecnico/tela_principal_tecnico.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -101,7 +102,13 @@ class _LoginState extends State<Login> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  chave.currentState!.validate();
+                  if (chave.currentState!.validate()) {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => TelaPrincipalTecnico(),
+                      ),
+                    );
+                  }
                 },
                 child: Text(
                   "entrar",
