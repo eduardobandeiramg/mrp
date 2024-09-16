@@ -56,15 +56,15 @@ A implementação do sistema MRP é justificada pelos significativos benefícios
 
 **1.7 Qualidade esperada do produto final (requisitos de qualidade):**
 
-* Confiabilidade: O sistema deve permanecer disponível de acordo com as diretrizes de SLA da AWS para uma virtual machine.
+* Confiabilidade: O sistema deve manter uma disponibilidade de 99.95%, de acordo com as diretrizes de SLA da AWS para uma máquina virtual. A meta é que o sistema tenha, no máximo, 21,9 minutos de indisponibilidade por mês, garantindo o menor impacto possível nas operações.
 
-* Segurança: Garantir a proteção dos dados através de criptografia Hash no armazenamento de senhas, autenticação JWT com claims para garantir mínimo acesso disponível.
+* Segurança: Garantir a proteção dos dados através de criptografia Hash (bcrypt) no armazenamento de senhas e autenticação baseada em JWT (JSON Web Tokens) com claims, assegurando que cada usuário tenha o mínimo acesso necessário para desempenhar suas funções. Além disso, o sistema deve cumprir com as regulamentações de segurança padrão do setor.
 
-* Eficiência: O sistema deve conseguir ser utilizado simultaneamente por usuários tablet e web com dependência de internet para consumo e envio de informações de forma consistente.
+* Eficiência: O sistema deverá suportar até 60 usuários simultâneos (tanto em tablets quanto na web), com dependência de internet para o consumo e envio de informações em tempo real. O objetivo é garantir uma experiência consistente, sem perda de dados, com tempo de resposta de até 2 segundos em operações principais, mesmo com essa carga de usuários.
 
-* Usabilidade: A interface deve ser intuitiva e fácil de usar, permitindo que os usuários realizem suas tarefas de forma eficiente baseado nas heurísticas de Nielsen para qualidade do design intuitivo.
+* Usabilidade: A interface deve ser intuitiva e de fácil navegação, seguindo as heurísticas de Nielsen para garantir a qualidade no design e a eficiência do usuário ao realizar tarefas. O sistema deve permitir que usuários completem suas tarefas em no máximo 5 cliques ou ações, minimizando erros e necessidade de suporte.
 
-* Escalabilidade: O sistema deve ser capaz de escalar conforme necessário para um aumento na quantidade de usuários em uma única localidade. Mas, deve possuir uma implementação em núvem capaz de escalar para múltiplas localidades através de uma escala horizontal das máquinas virtuais.
+* Escalabilidade: O sistema deve ser escalável horizontalmente para suportar o aumento de usuários em uma única localidade. Além disso, a implementação em nuvem deve possibilitar a escalabilidade para múltiplas localidades, com adaptação automática às necessidades de expansão, garantindo que o sistema possa crescer conforme o negócio se expanda, sem comprometer o desempenho.
 
 ## **2. ESCOPO PRELIMINAR E PREMISSAS** |
 
@@ -139,14 +139,17 @@ A implementação do sistema MRP é justificada pelos significativos benefícios
 | **4.6 Total Geral:** | 1.064 horas | | **R$ 33.908,00** |
 
 
-
 ## 5. PARTES INTERESSADAS
 
-| Nome           | Papel no projeto | Assinatura |
-| -------------- | ---------------- | ---------- |
-| Não se aplica  | Gestor           |            |
-| Não se aplica  | Operador         |            |
-| Não se aplica  | Estoque          |            |
+| **Nome**                                 | **Função**                     | **Descrição**                                          |
+|------------------------------------------|---------------------------------|--------------------------------------------------------|
+| Daniel Estevam Pacheco de Souza           | Desenvolvedor                  | Desenvolvedor Backend                                  |
+| Eduardo Bandeira de Melo Guimarães        | Desenvolvedor                  | Desenvolvedor Mobile                                   |
+| Eric Rodrigues Diniz                      | Desenvolvedor / Gerente        | Gerente de Projetos / Scrum Master                     |
+| Lucas Machado de Oliveira Andrade         | Desenvolvedor / Gerente        | Tech Lead / Desenvolvedor Backend                      |
+| Mariana Eliza Alves Costa                 | Desenvolvedor                  | Desenvolvedor Frontend / P.O                           |
+| Vítor Lion Guimarães Rodrigues            | Desenvolvedor                  | Desenvolvedor DevOps                                   |
+
 
 
 

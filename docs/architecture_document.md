@@ -40,7 +40,10 @@ _**Resumo**. Este projeto visa o desenvolvimento de um sistema de Manufacturing 
 | **[16/08/2024]** | [Eric Rodrigues Diniz] | [Adição do diagrama de visão geral na seção 3] | [1.4]      |
 | **[19/08/2024]** | [Eric Rodrigues Diniz] | [Adição das Funcionalidades Previstas do Sistema na seção 3.1] | [1.5]      |
 | **[19/08/2024]** | [Eduardo Bandeira de Melo] | [Adição de histórias de usuário na seção 3.1] | [1.6] |
-| **[31/08/2024]** | [Vítor Lion Guimarães Rodrigues] | [Revisão Seção 1.2: Objetivo Geral] | [1.7]
+| **[31/08/2024]** | [Vítor Lion Guimarães Rodrigues] | [Revisão Seção 1.2: Objetivo Geral] | [1.7] |
+| **[03/09/2024]** | [Eric Rodrigues Diniz] | [Revisão da seção 2.2 e 3.1: Requisitos Não-Funcionais e Histórias de usuário ] | [1.8] |
+| **[04/09/2024]** | [Eric Rodrigues Diniz] | [Revisão da seção 2.2: Requisitos Não-Funcionais] | [1.9] |
+
 
 ## SUMÁRIO
 
@@ -110,12 +113,12 @@ Objetivos específicos deste projeto incluem:
 | API         | Application Programming Interface              |
 | HTTPS       | Hypertext Transfer Protocol Secure             |
 | SSL/TLS     | Secure Sockets Layer / Transport Layer Security|
-| NodeJS      | Node.js                                        | 
+| NodeJS      | Node.js                                        |
 | Vue.js      | Vue.js                                         |
 | Flutter     | Flutter                                        |
-| RESTful     | Representational State Transfer                | 
+| RESTful     | Representational State Transfer                |
 | DER         | Diagrama de Entidade-Relacionamento            |
-| RF          | Requisito Funcional                            | 
+| RF          | Requisito Funcional                            |
 | RNF         | Requisito Não-Funcional                        |
 
 
@@ -223,7 +226,7 @@ _Apresente uma lista simples com as funcionalidades previstas no projeto (escopo
 
 6. O sistema deve oferecer ferramentas para o planejamento de operações e a gestão de operadores, acessíveis via interface web para gestores.
 
-7. O sistema deve gerenciar peças críticas, permitindo o acompanhamento detalhado e as ações corretivas por gestores via web.
+7. O sistema deve gerenciar peças próximas do rompimento, permitindo o acompanhamento detalhado e as ações corretivas por gestores via web.
 
 8. O sistema deve permitir a sinalização de defeitos e a solicitação de peças extras pelos operadores através do aplicativo móvel.
 
@@ -236,6 +239,9 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 ### Histórias de Usuário
 
 **Cadastro de Produtos e Materiais:**
+- **Como usuário**, registrado, 
+eu quero fazer login no sistema utilizando meu e-mail e senha, 
+para que eu possa acessar as funcionalidades disponíveis e personalizadas para minha conta.
 
 - **Como gestor**, eu quero poder cadastrar novos produtos e materiais no sistema, para que eu possa garantir que todas as informações necessárias estejam disponíveis para a produção.
 
@@ -259,9 +265,9 @@ Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os profe
 
 - **Como usuário (gestor, operador ou responsável pelo estoque)**, eu quero receber alertas automáticos quando certas condições forem atingidas, como níveis baixos de estoque, para que eu possa agir rapidamente e evitar problemas.
 
-**Gestão de Peças Críticas:**
+**Gestão de Ruptura:**
 
-- **Como gestor**, eu quero poder monitorar e gerenciar peças críticas no sistema, para que eu possa tomar medidas proativas e evitar interrupções na produção.
+- **Como gestor**, eu quero poder monitorar e gerenciar peças próximas do rompimento no sistema, para que eu possa tomar medidas proativas e evitar interrupções na produção.
 
 **Sinalização de Defeitos:**
 
