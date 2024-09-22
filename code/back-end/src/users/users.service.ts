@@ -35,18 +35,28 @@ export class UsersService {
     }
   }
 
-  async validateUser(username: string, email: string): Promise<void>  {
+  async validateUser(username: string, email: string): Promise<void> {
+    const errors = [];
+  
     const existingUserByUsername = await this.findOne(username);
     if (existingUserByUsername) {
-      throw new ConflictException('Username já está em uso.');
+      errors.push('Username já está em uso');
     }
-
+  
     const existingUserByEmail = await this.findOne(email);
     if (existingUserByEmail) {
-      throw new ConflictException('Email já está em uso.');
+      errors.push('Email já está em uso');
+    }
+  
+    if (errors.length > 0) {
+      throw new ConflictException({
+        message: errors,
+        error: 'Bad Request',
+        statusCode: 400
+      });
     }
   }
-
+  
   async findOne(usernameOrEmail: string): Promise<User | undefined> {
     return this.usersRepository.findOne({
       where: [
