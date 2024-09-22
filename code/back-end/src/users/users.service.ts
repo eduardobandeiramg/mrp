@@ -14,7 +14,7 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<void> {
     
-	  const {username, email, password} = createUserDto;
+	  const {username, email, password, role} = createUserDto;
     await this.validateUser(username, email)
 
     const salt = await bcrypt.genSalt();
@@ -24,7 +24,8 @@ export class UsersService {
       username,
       email,
       password: hashPassword,
-      isActive: true
+      isActive: true,
+      role
     })
 
     try {
@@ -56,7 +57,8 @@ export class UsersService {
         id: true,
         username: true,
         email: true,
-        password: true
+        password: true,
+        role: true
       }
     });
   }
