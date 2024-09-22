@@ -7,69 +7,69 @@ import * as bcrypt from 'bcryptjs'
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>
-  ){}
+	constructor(
+		@InjectRepository(User)
+		private usersRepository: Repository<User>
+	){}
 
-  async create(createUserDto: CreateUserDto): Promise<void> {
+  	async create(createUserDto: CreateUserDto): Promise<void> {
     
-	  const {username, email, password, role} = createUserDto;
-    await this.validateUser(username, email)
+	  	const {username, email, password, role} = createUserDto;
+    	await this.validateUser(username, email)
 
-    const salt = await bcrypt.genSalt();
-    const hashPassword = await bcrypt.hash(password, salt);
+		const salt = await bcrypt.genSalt();
+		const hashPassword = await bcrypt.hash(password, salt);
 
-    const user = this.usersRepository.create({
-      username,
-      email,
-      password: hashPassword,
-      isActive: true,
-      role
-    })
+		const user = this.usersRepository.create({
+			username,
+			email,
+			password: hashPassword,
+			isActive: true,
+			role
+		})
 
-    try {
-      await this.usersRepository.save(user);
-    } catch (error) {
-      throw new InternalServerErrorException('Erro ao criar usuário.');
-    }
-  }
+		try {
+			await this.usersRepository.save(user);
+		} catch (error) {
+			throw new InternalServerErrorException('Erro ao criar usuário.');
+		}
+  	}
 
-  async validateUser(username: string, email: string): Promise<void> {
-    const errors = [];
+	async validateUser(username: string, email: string): Promise<void> {
+		const errors = [];
+	
+		const existingUserByUsername = await this.findOne(username);
+		if (existingUserByUsername) {
+			errors.push('Username já está em uso');
+		}
+	
+		const existingUserByEmail = await this.findOne(email);
+		if (existingUserByEmail) {
+			errors.push('Email já está em uso');
+		}
+	
+		if (errors.length > 0) {
+			throw new ConflictException({
+				message: errors,
+				error: 'Bad Request',
+				statusCode: 400
+			});
+		}
+	}
   
-    const existingUserByUsername = await this.findOne(username);
-    if (existingUserByUsername) {
-      errors.push('Username já está em uso');
-    }
-  
-    const existingUserByEmail = await this.findOne(email);
-    if (existingUserByEmail) {
-      errors.push('Email já está em uso');
-    }
-  
-    if (errors.length > 0) {
-      throw new ConflictException({
-        message: errors,
-        error: 'Bad Request',
-        statusCode: 400
-      });
-    }
-  }
-  
-  async findOne(usernameOrEmail: string): Promise<User | undefined> {
-    return this.usersRepository.findOne({
-      where: [
-        { username: usernameOrEmail },
-        { email: usernameOrEmail },
-      ],
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        password: true,
-        role: true
-      }
-    });
-  }
+	async findOne(usernameOrEmail: string): Promise<User | undefined> {
+		return this.usersRepository.findOne({
+			where: [
+				{ username: usernameOrEmail },
+				{ email: usernameOrEmail },
+			],
+			select: {
+				id: true,
+				username: true,
+				email: true,
+				password: true,
+				role: true
+			}
+		});
+	}
 }
