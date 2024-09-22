@@ -4,6 +4,7 @@ import * as bcrypt from 'bcryptjs';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -21,7 +22,7 @@ export class UsersService {
 
   	async create(createUserDto: CreateUserDto): Promise<void> {
     
-	  	const {username, email, password} = createUserDto;
+	  	const {username, email, password, role} = createUserDto;
     	await this.validateUser(username, email)
 
     	const hashPassword = await this.createHashPassword(password);
@@ -30,6 +31,7 @@ export class UsersService {
 			username,
 			email,
 			password: hashPassword,
+			role,
 			isActive: true
 		})
 
@@ -62,7 +64,8 @@ export class UsersService {
 				id: true,
 				username: true,
 				email: true,
-				password: true
+				password: true,
+				role: true
 			}
 		});
 	}
@@ -80,25 +83,21 @@ export class UsersService {
 		}
 	}
 
-	async update(newUser: User): Promise<void> {
+	async update(newUser: UpdateUserDto): Promise<void> {
 		const checkExistUser = await this.findOne(newUser.email);
 	
 		if (!checkExistUser) {
-		  throw new ConflictException('Usuário não encontrado.');
+		  	throw new ConflictException('Usuário não encontrado.');
 		}
-	
-		const salt = await bcrypt.genSalt();
-		const hashPassword = await bcrypt.hash(newUser.password, salt);
-	
+
 		try {
-		  await this.usersRepository.update(checkExistUser.id, {
-			username: newUser.username,
-			email: newUser.email,
-			password: hashPassword,
-			isActive: newUser.isActive,
-		  });
+			await this.usersRepository.update(checkExistUser.id, {
+				username: newUser.username,
+				email: newUser.email,
+				role: newUser.role
+			});
 		} catch (error) {
-		  throw new InternalServerErrorException('Erro ao atualizar o usuário.');
+		  	throw new InternalServerErrorException('Erro ao atualizar o usuário.');
 		}
 	}
 }
