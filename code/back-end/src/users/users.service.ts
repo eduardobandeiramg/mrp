@@ -12,13 +12,19 @@ export class UsersService {
 		private usersRepository: Repository<User>
 	){}
 
+	async createHashPassword(password: string): Promise<string> {
+    	const salt = await bcrypt.genSalt();
+    	const hashPassword = await bcrypt.hash(password, salt);
+
+		return hashPassword;
+	}
+
   	async create(createUserDto: CreateUserDto): Promise<void> {
     
 	  	const {username, email, password} = createUserDto;
     	await this.validateUser(username, email)
 
-    	const salt = await bcrypt.genSalt();
-    	const hashPassword = await bcrypt.hash(password, salt);
+    	const hashPassword = await this.createHashPassword(password);
 
 		const user = this.usersRepository.create({
 			username,
@@ -59,5 +65,18 @@ export class UsersService {
 				password: true
 			}
 		});
+	}
+
+	async updatePassword(id: string, password: string): Promise<User | undefined> { 
+		const user = await this.usersRepository.findOne({
+			where: { id }
+		});
+		const hashPassword = await this.createHashPassword(password);
+		user.password = hashPassword;
+		try {
+			return await this.usersRepository.save(user);
+		} catch (error) {
+			throw new InternalServerErrorException('Erro ao criar usuário.');
+		}
 	}
 }

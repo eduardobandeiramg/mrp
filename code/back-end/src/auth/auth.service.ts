@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
@@ -7,8 +7,9 @@ import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { nanoid } from 'nanoid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ResetToken } from './entitites/reset-token.entity';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import { MailService } from 'src/mails/mail.service';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -68,5 +69,25 @@ export class AuthService {
 		}
 	
 		return { message: 'If this user exists, they will receive an email' };
+	}
+
+	async resetPassword(resetPasswordDto: ResetPasswordDto) {
+
+		const currentDate = new Date();
+
+		const token = await this.resetTokensRepository.findOne({
+			where: {
+				token: resetPasswordDto.resetToken,
+				expiryDate: MoreThan(currentDate),
+			},
+			relations: ['user']
+		})
+	
+		if(!token) {
+		  throw new UnauthorizedException('Invalid link');
+		}
+	
+		const user = await this.usersService.updatePassword(token.user.id, resetPasswordDto.password);
+		await user;
 	}
 }
