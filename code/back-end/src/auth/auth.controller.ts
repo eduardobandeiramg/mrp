@@ -10,24 +10,24 @@ import { LoginDto } from './dto/login.dto';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-    private usersService: UsersService,
-  ) {}
+	constructor(
+		private authService: AuthService,
+		private usersService: UsersService,
+	) {}
 
-  @Public()
-  @UseGuards(LocalAuthGuard)
-  @Post('login')
-  @ApiBody({ type: LoginDto }) 
-  async login(@Request() req: Express.Request) {
-    return this.authService.login(req.user);
-  }
+	@Public()
+	@UseGuards(LocalAuthGuard)
+	@Post('login')
+	@ApiBody({ type: LoginDto }) 
+	async login(@Request() req: Express.Request) {
+		return this.authService.login(req.user);
+	}
 
-  @Public()
-  @HttpCode(204)
-  @Post('register')
-  async register(@Body() body: CreateUserDto) {
-    const user = await this.usersService.create(body);
-    return user;
-  }
+	@Public()
+	@HttpCode(204)
+	@Post('register')
+	async register(@Body() body: CreateUserDto) {
+		const user = await this.usersService.create(body);
+		return user;
+	}
 }
