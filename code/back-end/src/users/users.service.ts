@@ -7,59 +7,33 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>
-  ){}
+	constructor(
+		@InjectRepository(User)
+		private usersRepository: Repository<User>
+	){}
 
-  async create(createUserDto: CreateUserDto): Promise<void> {
+  	async create(createUserDto: CreateUserDto): Promise<void> {
 
-	  const {username, email, password} = createUserDto;
-    await this.validateUser(username, email)
+	  	const {username, email, password, role} = createUserDto;
+    	await this.validateUser(username, email)
 
-    const salt = await bcrypt.genSalt();
-    const hashPassword = await bcrypt.hash(password, salt);
+		const salt = await bcrypt.genSalt();
+		const hashPassword = await bcrypt.hash(password, salt);
 
-    const user = this.usersRepository.create({
-      username,
-      email,
-      password: hashPassword,
-      isActive: true
-    })
+		const user = this.usersRepository.create({
+			username,
+			email,
+			password: hashPassword,
+			isActive: true,
+			role
+		})
 
-    try {
-      await this.usersRepository.save(user);
-    } catch (error) {
-      throw new InternalServerErrorException('Erro ao criar usuário.');
-    }
-  }
-
-  async validateUser(username: string, email: string): Promise<void>  {
-    const existingUserByUsername = await this.findOne(username);
-    if (existingUserByUsername) {
-      throw new ConflictException('Username já está em uso.');
-    }
-
-    const existingUserByEmail = await this.findOne(email);
-    if (existingUserByEmail) {
-      throw new ConflictException('Email já está em uso.');
-    }
-  }
-
-  async findOne(usernameOrEmail: string): Promise<User | undefined> {
-    return this.usersRepository.findOne({
-      where: [
-        { username: usernameOrEmail },
-        { email: usernameOrEmail },
-      ],
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        password: true
-      }
-    });
-  }
+		try {
+			await this.usersRepository.save(user);
+		} catch (error) {
+			throw new InternalServerErrorException('Erro ao criar usuário.');
+		}
+  	}
 
   async update(newUser: User): Promise<void> {
     const checkExistUser = await this.findOne(newUser.email);
@@ -83,4 +57,41 @@ export class UsersService {
     }
   }
 
+	async validateUser(username: string, email: string): Promise<void> {
+		const errors = [];
+
+		const existingUserByUsername = await this.findOne(username);
+		if (existingUserByUsername) {
+			errors.push('Username já está em uso');
+		}
+
+		const existingUserByEmail = await this.findOne(email);
+		if (existingUserByEmail) {
+			errors.push('Email já está em uso');
+		}
+
+		if (errors.length > 0) {
+			throw new ConflictException({
+				message: errors,
+				error: 'Bad Request',
+				statusCode: 400
+			});
+		}
+	}
+
+	async findOne(usernameOrEmail: string): Promise<User | undefined> {
+		return this.usersRepository.findOne({
+			where: [
+				{ username: usernameOrEmail },
+				{ email: usernameOrEmail },
+			],
+			select: {
+				id: true,
+				username: true,
+				email: true,
+				password: true,
+				role: true
+			}
+		});
+	}
 }
