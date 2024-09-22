@@ -41,13 +41,16 @@ export default {
   flex-shrink: 0; /* A navbar não deve encolher */
 }
 
-/* Container do conteúdo centralizado */
+/* Estilos na main view */
 .content-container {
   flex-grow: 1; /* O conteúdo ocupará o restante do espaço */
   display: flex;
   justify-content: center;
   align-items: center; /* Centraliza vertical e horizontalmente */
+  width: 100%; /* Garante que o conteúdo ocupe toda a largura da tela */
+  padding: 20px; /* Adiciona espaçamento */
 }
+
 
 /* Garantir que a página de login ou qualquer outro conteúdo seja centralizado */
 .login-container {

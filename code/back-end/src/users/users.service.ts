@@ -1,9 +1,9 @@
 import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import * as bcrypt from 'bcryptjs';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcryptjs'
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -77,6 +77,28 @@ export class UsersService {
 			return await this.usersRepository.save(user);
 		} catch (error) {
 			throw new InternalServerErrorException('Erro ao criar usuário.');
+		}
+	}
+
+	async update(newUser: User): Promise<void> {
+		const checkExistUser = await this.findOne(newUser.email);
+	
+		if (!checkExistUser) {
+		  throw new ConflictException('Usuário não encontrado.');
+		}
+	
+		const salt = await bcrypt.genSalt();
+		const hashPassword = await bcrypt.hash(newUser.password, salt);
+	
+		try {
+		  await this.usersRepository.update(checkExistUser.id, {
+			username: newUser.username,
+			email: newUser.email,
+			password: hashPassword,
+			isActive: newUser.isActive,
+		  });
+		} catch (error) {
+		  throw new InternalServerErrorException('Erro ao atualizar o usuário.');
 		}
 	}
 }
