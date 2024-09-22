@@ -1,9 +1,9 @@
 import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import * as bcrypt from 'bcryptjs';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcryptjs'
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -13,7 +13,7 @@ export class UsersService {
 	){}
 
   	async create(createUserDto: CreateUserDto): Promise<void> {
-    
+
 	  	const {username, email, password, role} = createUserDto;
     	await this.validateUser(username, email)
 
@@ -35,19 +35,41 @@ export class UsersService {
 		}
   	}
 
+  async update(newUser: User): Promise<void> {
+    const checkExistUser = await this.findOne(newUser.email);
+
+    if (!checkExistUser) {
+      throw new ConflictException('Usuário não encontrado.');
+    }
+
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(newUser.password, salt);
+
+    try {
+      await this.usersRepository.update(checkExistUser.id, {
+        username: newUser.username,
+        email: newUser.email,
+        password: hashPassword,
+        isActive: newUser.isActive,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException('Erro ao atualizar o usuário.');
+    }
+  }
+
 	async validateUser(username: string, email: string): Promise<void> {
 		const errors = [];
-	
+
 		const existingUserByUsername = await this.findOne(username);
 		if (existingUserByUsername) {
 			errors.push('Username já está em uso');
 		}
-	
+
 		const existingUserByEmail = await this.findOne(email);
 		if (existingUserByEmail) {
 			errors.push('Email já está em uso');
 		}
-	
+
 		if (errors.length > 0) {
 			throw new ConflictException({
 				message: errors,
@@ -56,7 +78,7 @@ export class UsersService {
 			});
 		}
 	}
-  
+
 	async findOne(usernameOrEmail: string): Promise<User | undefined> {
 		return this.usersRepository.findOne({
 			where: [
