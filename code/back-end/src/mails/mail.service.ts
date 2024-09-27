@@ -20,7 +20,7 @@ export class MailService {
     async sendPasswordResetEmail(to: string, token: string, request: ExpressRequest) {
         const resetLink = `${request.protocol}://${request.headers.host}/reset-password?token=${token}`;
         const mailOptions = {
-            from: 'Auth-backend service',
+            from: 'MRP',
             to: to,
             subject: 'Password Reset Request',
             html: 
