@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Request, HttpCode, Put } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Request, HttpCode, Put, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Public } from './decorators/public.decorator';
@@ -8,6 +8,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { Request as ExpressRequest } from 'express';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -35,8 +36,8 @@ export class AuthController {
 
 	@Public()
 	@Post('forgot-password')
-	async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
-		return this.authService.forgotPassword(forgotPasswordDto);
+	async forgotPassword(@Req() request: ExpressRequest, @Body() forgotPasswordDto: ForgotPasswordDto) {
+		return this.authService.forgotPassword(forgotPasswordDto, request);
 	}
 
 	@Public()

@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
@@ -10,6 +10,7 @@ import { ResetToken } from './entitites/reset-token.entity';
 import { MoreThan, Repository } from 'typeorm';
 import { MailService } from 'src/mails/mail.service';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { Request as ExpressRequest } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +31,7 @@ export class AuthService {
 	}
 
 	async validateUser({username, password}: LoginDto) {
-		const user = await this.usersService.findOne(username);
+		const user = await this.usersService.findOneByUsernameOrEmail(username);
 		if(!user){
 			return null;
 		}
@@ -45,9 +46,9 @@ export class AuthService {
 		return user;
 	}
 
-	async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
+	async forgotPassword(forgotPasswordDto: ForgotPasswordDto, request: ExpressRequest) {
 		const { email } = forgotPasswordDto;
-		const user = await this.usersService.findOne(email);
+		const user = await this.usersService.findOneByUsernameOrEmail(email);
 	
 		if (user) {
 			const expiryDate = new Date();
@@ -65,7 +66,7 @@ export class AuthService {
 			} catch (e) {
 				return { message: 'If this user exists, they will receive an email' };
 			}
-			this.mailService.sendPasswordResetEmail(email, token);
+			this.mailService.sendPasswordResetEmail(email, token, request);
 		}
 	
 		return { message: 'If this user exists, they will receive an email' };
