@@ -84,7 +84,7 @@ export class UsersService {
 	}
 
 	async update(newUser: UpdateUserDto): Promise<void> {
-		const checkExistUser = await this.findOne(newUser.email);
+		const checkExistUser = await this.findOneByUsernameOrEmail(newUser.email);
 	
 		if (!checkExistUser) {
 		  	throw new ConflictException('Usuário não encontrado.');
