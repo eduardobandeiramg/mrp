@@ -131,42 +131,55 @@ _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural
 
 ## 2.1. Requisitos Funcionais
 
-_Enumere os requisitos funcionais previstos para a sua aplicação. Concentre-se nos requisitos funcionais que sejam críticos para a definição arquitetural. Lembre-se de listar todos os requisitos que são necessários para garantir cobertura arquitetural. Esta seção deve conter uma lista de requisitos ainda sem modelagem. Na coluna Prioridade utilize uma escala (do mais prioritário para o menos): Essencial, Desejável, Opcional._
-
-| **ID** | **Descrição** | **Prioridade** | **Plataforma** | **Tipo Usuário**
-| --- | --- | --- | --- | --- |
-| RF001 | Gerenciar produtos | Essencial | _web_ | Gestor |
-| RF002 | Gerenciar materiais | Essencial | _web_ | Gestor |
-| RF003 | Gerenciar hierarquia | Essencial | _web_ | Gestor |
-| RF004 | Atualização de estoque para reabastecimento de peças  | Essencial | _mobile_ | Estoque |
-| RF005 | Atualização de estoque para baixa de peças que foram encaminhadas para linha de produção  | Essencial | _mobile_ | Estoque |
-| RF006 | Sinalização de fim da construção | Essencial | _mobile_ | Operador |
-| RF007 | Sinalização de início de produção | Essencial | _web e mobile_ | Todos |
-| RF008 | Sinalização de peças em nível crítico de quantidade em estoque | Essencial | _mobile_ | Operador |
-| RF009 | Planejamento de produção | Desejável | _web_ | Gestor |
-| RF010 | Gestão de pessoas | Desejável | _web_ | Gestor |
-| RF011 | Gestao de linha de montagem | Desejável | _web_ | Gestor |
-| RF012 | Apontamento do início da construção | Desejável | _mobile_ | Operador |
-| RF013 | solicitação de peças sobressalentes individualmente para caso de quebras ou defeitos de produção  | Opcional | _mobile_ | Operador |
-| RF014 | Sinalização de defeitos na produçao | Opcional | _mobile_ | Estoque |
-
-Obs: acrescente mais linhas, se necessário.
+| **ID**   | **Descrição**                                                                 | **Prioridade** | **Plataforma**     | **Tipo Usuário**    |
+|----------|-------------------------------------------------------------------------------|----------------|-------------------|---------------------|
+| **RF001**    | Gerenciar produtos                                                            | Essencial      | _web_             | Gestor              |
+| **RF002**    | Gerenciar materiais                                                           | Essencial      | _web_             | Gestor              |
+| **RF003**    | Gerenciar hierarquia                                                          | Essencial      | _web_             | Gestor              |
+| **RF004**    | Atualização de estoque para reabastecimento de peças                          | Essencial      | _mobile_          | Estoque             |
+| **RF005**    | Atualização de estoque para baixa de peças que foram encaminhadas para linha de produção | Essencial      | _mobile_          | Estoque             |
+| **RF006**    | Sinalização de fim da construção                                              | Essencial      | _mobile_          | Operador            |
+| **RF007**    | Sinalização de início de produção                                             | Essencial      | _web e mobile_    | Todos               |
+| **RF008**    | Sinalização de peças em nível crítico de quantidade em estoque                | Essencial      | _mobile_          | Operador            |
+| **RF009**    | Cadastro de usuários com nome, e-mail, senha e escolha de um perfil (production-planner, production-operator, inventory-manager) | Essencial      | _web e mobile_    | Todos               |
+| **RF010**    | Autenticação por e-mail e senha para acessar funções personalizadas com base no perfil | Essencial      | _web e mobile_    | Todos               |
+| **RF011**    | Cadastro de novos produtos e materiais (production planner)                   | Essencial      | _web_             | Production Planner  |
+| **RF012**    | Planejamento de operações e alocação de recursos para otimizar a produção     | Essencial      | _web_             | Production Planner  |
+| **RF013**    | Alertas automáticos de rupturas de peças ou baixos níveis de estoque (production planner) | Essencial      | _web e mobile_    | Production Planner  |
+| **RF014**    | Cadastro e gestão de linhas e postos de montagem                              | Essencial      | _web_             | Production Planner  |
+| **RF015**    | Registro de início e fim da produção (production operator)                    | Essencial      | _mobile_          | Production Operator |
+| **RF016**    | Solicitação de peças extras diretamente do chão de fábrica (production operator) | Essencial      | _mobile_          | Production Operator |
+| **RF017**    | Notificação em tempo real de mudanças no planejamento de operações (production operator) | Essencial      | _mobile_          | Production Operator |
+| **RF018**    | Comunicação em tempo real das atividades dos operadores com outros setores    | Essencial      | _web e mobile_    | Production Operator |
+| **RF019**    | Adição e remoção de peças do estoque (inventory manager)                      | Essencial      | _web e mobile_    | Inventory Manager   |
+| **RF020**    | Sinalização de defeitos em peças para garantir que materiais defeituosos não sejam usados na produção | Essencial      | _web e mobile_    | Inventory Manager   |
+| **RF021**    | Alertas automáticos de baixos níveis de estoque ou necessidade de reposição   | Essencial      | _web e mobile_    | Inventory Manager   |
+| **RF022**    | Gerenciamento e monitoramento do estado das peças no inventário               | Essencial      | _web e mobile_    | Inventory Manager   |
+| **RF023**    | Planejamento de produção                                                      | Desejável      | _web_             | Gestor              |
+| **RF024**    | Gestão de pessoas                                                             | Desejável      | _web_             | Gestor              |
+| **RF025**    | Gestão de linha de montagem                                                   | Desejável      | _web_             | Gestor              |
+| **RF026**    | Apontamento do início da construção                                           | Desejável      | _mobile_          | Operador            |
+| **RF027**    | Solicitação de peças sobressalentes individualmente para caso de quebras ou defeitos de produção| Opcional       | _mobile_          | Operador            |
+| **RF028**    | Sinalização de defeitos na produção                                           | Opcional       | _mobile_          | Estoque             |
 
 ## 2.2. Requisitos Não-Funcionais
 
-_Enumere os requisitos não-funcionais previstos para a sua aplicação. Entre os requisitos não funcionais, inclua todos os requisitos que julgar importante do ponto de vista arquitetural ou seja os requisitos que terão impacto na definição da arquitetura. Os requisitos devem ser descritos de forma completa e preferencialmente quantitativa._
-
-| **ID** | **Descrição** |
-| --- | --- |
-| **RNF001** | Utilizar serviço de mensageria para notificação dos usuários |
-| **RNF002** | Todas as senhas devem ser gravadas utilizando sistema de criptografia em Hash |
-| **RNF003** | Disponibilização do serviço em HTTPS em nuvem pública |
-| **RNF004** | O sistema deve ser capaz de escalar horizontalmente para suportar um aumento no número de usuários simultâneos. |
-| **RNF005** | Todas as comunicações do sistema devem ser criptografadas utilizando SSL/TLS. |
-| **RNF006** | O sistema deve ter uma disponibilidade de 99%, com downtime máximo de 3 horas por mês. |
-| **RNF007** | O sistema deve ser fácil de usar, com uma curva de aprendizado que não exceda 2 horas para novos usuários. |
-| **RNF008** | O sistema deve ser capaz de operar nos navegadores google chrome a partir da versao 90 e safari da versao 17, sem modificações. |
-| **RNF009** | O sistema deve ser capaz de operar no android a partir da versao 13 e ios 15 |
+| **ID**   | **Descrição** |
+|------------|-------------------------------------------------------------|
+| **RNF001** | Utilizar serviço de mensageria para notificação dos usuários|
+| **RNF002** | Todas as senhas devem ser gravadas utilizando sistema de criptografia em Hash|
+| **RNF003** | Disponibilização do serviço em HTTPS em nuvem pública|
+| **RNF004** | O sistema deve ser capaz de escalar horizontalmente para suportar um aumento no número de usuários simultâneos.|
+| **RNF005** | Todas as comunicações do sistema devem ser criptografadas utilizando SSL/TLS|
+| **RNF006** | O sistema deve ter uma disponibilidade de 99%, com downtime máximo de 3 horas por mês|
+| **RNF007** | O sistema deve ser fácil de usar, com uma curva de aprendizado que não exceda 2 horas para novos usuários|
+| **RNF008** | O sistema deve ser capaz de operar nos navegadores Google Chrome a partir da versão 90 e Safari da versão 17, sem modificações|
+| **RNF009** | O sistema deve ser capaz de operar no Android a partir da versão 13 e iOS 15|
+| **RNF010** | O sistema deve garantir que cada usuário tenha acesso somente às funcionalidades de acordo com seu perfil|
+| **RNF011** | A comunicação entre o sistema e os usuários deve ser criptografada para proteger dados sensíveis|
+| **RNF012** | O sistema deve garantir atualizações e comunicação de status em tempo real|
+| **RNF013** | O sistema deve ser capaz de lidar com múltiplos usuários simultâneos sem comprometer o desempenho|
+| **RNF014** | Alertas devem ser enviados em tempo real quando níveis críticos de materiais forem atingidos ou eventos importantes ocorrerem|
 
 ## 2.3. Restrições Arquiteturais
 
