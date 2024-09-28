@@ -11,8 +11,8 @@ export class MailService {
             host: configService.getOrThrow<string>('EMAIL_HOST'),
             port: configService.getOrThrow('EMAIL_PORT'),
             auth: {
-                user: 'bartholome.emard@ethereal.email',
-                pass: 'zNV49KcV6P7bM5WN5z'
+                user: configService.getOrThrow<string>('EMAIL_USER'),
+                pass: configService.getOrThrow<string>('EMAIL_PASSWORD')
             }
         });
     }
