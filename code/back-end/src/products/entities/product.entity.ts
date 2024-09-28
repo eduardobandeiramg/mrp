@@ -1,24 +1,22 @@
+import { Line } from "src/Line/entities/line.entity";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class User {
+export class Product {
 
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
     @Column({ nullable: false, unique: true })
-    username: string;
+    description: string;
 
     @Column({ nullable: false, unique: true })
-    email: string;
+    code: string;
 
     @Column({ nullable: false, select: false })
-    password: string;
+    line: Line;
 
-    @Column({ default: false })
-    isActive: boolean;
-
-    constructor(user: Partial<User>) {
-        Object.assign(this, user);
+    constructor(product: Partial<Product>) {
+        Object.assign(this, product);
     }
 }
