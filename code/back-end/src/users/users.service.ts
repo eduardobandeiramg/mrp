@@ -43,18 +43,18 @@ export class UsersService {
   	}
 
   	async validateUser(username: string, email: string): Promise<void>  {
-		const existingUserByUsername = await this.findOne(username);
+		const existingUserByUsername = await this.findOneByUsernameOrEmail(username);
 		if (existingUserByUsername) {
 			throw new ConflictException('Username já está em uso.');
 		}
 
-		const existingUserByEmail = await this.findOne(email);
+		const existingUserByEmail = await this.findOneByUsernameOrEmail(email);
 		if (existingUserByEmail) {
 			throw new ConflictException('Email já está em uso.');
 		}
 	}
 
-	async findOne(usernameOrEmail: string): Promise<User | undefined> {
+	async findOneByUsernameOrEmail(usernameOrEmail: string): Promise<User | undefined> {
 		return this.usersRepository.findOne({
 			where: [
 				{ username: usernameOrEmail },
@@ -84,7 +84,7 @@ export class UsersService {
 	}
 
 	async update(newUser: UpdateUserDto): Promise<void> {
-		const checkExistUser = await this.findOne(newUser.email);
+		const checkExistUser = await this.findOneByUsernameOrEmail(newUser.email);
 	
 		if (!checkExistUser) {
 		  	throw new ConflictException('Usuário não encontrado.');

@@ -398,7 +398,40 @@ Obs: Acrescente uma breve descrição sobre o diagrama apresentado na Figura 3.
 <a name="solucao"></a>
 # 4. Projeto da Solução
 
-_Apresente as telas dos sistema construído com uma descrição sucinta de cada uma das interfaces._
+## Tela Cadastro de Usuário
+![Tela Cadastro de Usuário](imagens/cadastro_de_usuario.png "Tela Cadastro de Usuário")
+
+- Formulário de cadastro com os campos: 
+  - **Username** 
+  - **Password**
+  - **Auth** (código/token)
+  - **Role**
+- Botão "Register" para realizar o cadastro.
+
+## Tela Tabela de Usuários
+![Tela Tabela de Usuários](imagens/tabela_de_usuarios.png "Tela Tabela de Usuários")
+
+- Aviso: **"Usuário deve estar logado"**.
+- Tabela com colunas: 
+  - **Nome**
+  - **Tipo usuário**
+  - **Criador do acesso**
+  - **Data acesso criado**
+  - **Botões disponíveis** (editar, bloquear/desbloquear, excluir).
+- Botões na parte inferior:
+  - **"Alterar acesso"**
+  - **"Voltar"**
+
+## Tela Update de Usuários
+![Tela Update de Usuários](imagens/update_de_usuario.png "Tela Update de Usuários")
+
+- Formulário de atualização de dados: 
+  - **Username**
+  - **Password**
+  - **Auth**
+- Botões:
+  - **"Continuar"**
+  - **"Voltar"**
 
 <a name="avaliacao"></a>
 # 5. Avaliação da Arquitetura
