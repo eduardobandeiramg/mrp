@@ -1,97 +1,86 @@
 <template>
-  <div class="recover-password-container">
-    <h1>Recuperar Senha</h1>
-    <form @submit.prevent="enviarEmail">
-      <div class="form-group">
-        <label for="email">Digite seu e-mail:</label>
-        <input
-          type="email"
-          id="email"
-          v-model="email"
-          placeholder="Email"
-          required
-        />
-      </div>
-      <button type="submit" class="submit-button">Enviar Código</button>
-    </form>
+  <div class="recover-container">
+    <h2>Recuperar Senha</h2>
+    <div class="input-wrapper">
+      <label for="email">Digite seu e-mail:</label>
+      <input v-model="email" type="email" id="email" required />
+    </div>
+    <button @click="enviarEmail">Enviar E-mail</button>
+
+    <!-- Exibe a mensagem de sucesso ou erro -->
+    <p v-if="message" :class="{'success-message': success, 'error-message': !success}">
+      {{ message }}
+    </p>
   </div>
 </template>
 
 <script>
+import { forgotPassword } from '@/services/auth'; // Importando a função forgotPassword
+
 export default {
   data() {
     return {
-      email: "", // Campo para o email
+      email: '',
+      message: '', // Armazena a mensagem a ser exibida
+      success: false // Define se a mensagem é de sucesso ou erro
     };
   },
   methods: {
-    enviarEmail() {
-      // Aqui você faria a chamada para enviar o email de recuperação
-      // Simulação de envio de e-mail
-      console.log(`Enviando email para ${this.email}`);
-      
-      // Após o envio, redireciona o usuário para a página de verificação de código
-      this.$router.push({ name: "verificarCodigo" });
-    },
-  },
+    async enviarEmail() {
+      try {
+        const response = await forgotPassword(this.email);
+        if (response.status === 201) {
+          this.message = 'Se esse usuário existir, ele receberá um e-mail';
+          this.success = true;
+        } else {
+          this.message = 'Falha ao enviar o e-mail.';
+          this.success = false;
+        }
+      } catch (error) {
+        console.error('Erro ao enviar e-mail', error);
+        this.message = 'Erro ao enviar o e-mail.';
+        this.success = false;
+      }
+    }
+  }
 };
 </script>
 
 <style scoped>
-.recover-password-container {
-  width: 100%;
+.recover-container {
   max-width: 400px;
-  padding: 40px;
-  background-color: #1e1e1e;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  margin: 0 auto;
-}
-
-h1 {
-  margin-bottom: 30px;
-  color: #fff;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  color: #fff;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #333;
-  border-radius: 5px;
-  margin-top: 5px;
-  background-color: #222;
-  color: #fff;
-  font-size: 16px;
-}
-
-input::placeholder {
-  color: #aaa;
-}
-
-button {
-  background: #00b300;
+  margin: 100px auto;
+  padding: 20px;
+  background: #333;
   color: white;
-  padding: 15px;
+  text-align: center;
+  border-radius: 8px;
+}
+.input-wrapper {
+  margin-bottom: 20px;
+}
+input[type="email"] {
   width: 100%;
+  padding: 10px;
+  margin-top: 5px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
+}
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
+}
+.success-message {
+  color: green;
   margin-top: 20px;
 }
-
-button:hover {
-  background-color: #009900;
+.error-message {
+  color: red;
+  margin-top: 20px;
 }
 </style>

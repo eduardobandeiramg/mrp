@@ -7,5 +7,13 @@ module.exports = defineConfig({
                 'vue$': '@vue/compat'
             }
         }
+    },
+    devServer: {
+        proxy: {
+            '/auth': {
+                target: 'http://localhost:3000', // Substitua pela URL do backend
+                changeOrigin: true
+            }
+        }
     }
 });

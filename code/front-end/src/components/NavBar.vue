@@ -1,26 +1,44 @@
-<template>
-  <nav class="navbar">
-    <div class="nav-links">
-      <router-link to="/" class="nav-item">Home</router-link>
-      <router-link to="/produtos" class="nav-item">Gerir Produtos</router-link>
-      <router-link to="/pessoas" class="nav-item">Gerir Pessoas</router-link>
-      <router-link to="/planejamentos" class="nav-item">Gerir Planejamentos</router-link>
-    </div>
-    <div class="nav-login">
-      <router-link to="/login" class="login-button">Login</router-link>
-    </div>
-  </nav>
+<template class="template">
+  <v-app-bar class="nav-bar">
+    <v-container class="container">
+      <!-- Links da navbar -->
+      <div class="nav-links">
+        <v-btn text v-for="(link, index) in navLinks" :key="index" :to="link.to" class="mr-4 white--text">
+      <router-link :to="link.to" class="nav-item">{{ link.text }}</router-link>
+    </v-btn>
+      </div>
+
+      <!-- Botão de login à direita -->
+      <router-link to="/login" class="login-button">
+        Login
+      </router-link>
+    </v-container>
+  </v-app-bar>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      navLinks: [
+        { text: "Home", to: "/" },
+        { text: "Gerir Peças", to: "/pecas" },
+        { text: "Gerir Produtos", to: "/produtos" },
+        { text: "Gerir Planejamentos", to: "/planejamentos" }
+      ]
+    };
+  }
+};
 </script>
 
 <style scoped>
-.navbar {
+.nav-bar {
+  height: 60px;
+}
+
+.container{
   width: 100%;
   height: 60px;
-  background-color: #757575;
   display: flex;
   justify-content: space-between; /* Já está assim, o que é correto */
   align-items: center;
@@ -28,25 +46,17 @@ export default {};
 }
 
 
-.nav-links {
-  display: flex;
-}
-
 .nav-item {
-  color: white;
-  margin-right: 20px;
+  color: white ;
+  margin: 20px;
   font-weight: bold;
   text-decoration: none;
+  text-transform: none;
 }
 
 .nav-item:hover {
-  color: #fff;
+  color: #ffffff ;
   opacity: 0.8;
-}
-
-.nav-login {
-  display: flex;
-  align-items: center;
 }
 
 .login-button {

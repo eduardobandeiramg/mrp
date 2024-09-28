@@ -36,30 +36,6 @@ export default {
 <style scoped>
 #app{
   background: #1e1e1e;
-
-}
-.home {
-  display: flex;
 }
 
-.sidebar {
-  width: 250px;
-  background: #333;
-  color: #fff;
-  padding: 20px;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar li {
-  margin-bottom: 10px;
-}
-
-.content {
-  flex: 1;
-  padding: 20px;
-}
 </style>

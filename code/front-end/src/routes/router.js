@@ -17,13 +17,14 @@ const routes = [
     children: [
      
       {
-        path: "/cadastro",
-        component: Cadastro,
+        path: '/login',
+        name: 'Login',
+        component: Login
       },
-     
       {
-        path: "/login",
-        component: Login,
+        path: '/cadastro',
+        name: 'Cadastro',
+        component: Cadastro
       },
       {
         path: "/recuperar-senha",

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URLBASE } from "@/service/config.js";
+import { URLBASE } from "@/services/config.js";
 const URLLOCAL = '/general'
 
 export const getAllMaterials = () =>

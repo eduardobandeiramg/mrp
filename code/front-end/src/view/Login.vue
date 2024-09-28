@@ -1,163 +1,135 @@
 <template>
   <div class="login-container">
-    <h1>Login</h1>
     <form @submit.prevent="loginUser">
-      <div class="form-group">
+      <h2>Login</h2>
+      <div class="input-wrapper">
         <label for="username">Usuário:</label>
-        <input type="text" id="username" v-model="username" placeholder="Username" required />
+        <input v-model="username" type="text" id="username" required />
       </div>
-
-      <div class="form-group">
+      <div class="input-wrapper">
         <label for="password">Senha:</label>
-        <div class="password-input">
-          <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" placeholder="Password" required />
-          <button type="button" @click="togglePasswordVisibility" class="toggle-password-button">
-            <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-          </button>
-        </div>
+        <input v-model="password" type="password" id="password" required />
       </div>
+      <button type="submit">Entrar</button>
 
-      <button @click="logar()" class="login-button">Entrar</button>
+      <!-- Exibe a mensagem de sucesso ou erro -->
+      <p v-if="message" :class="{ 'success-message': success, 'error-message': !success }">
+        {{ message }}
+      </p>
 
-      <!-- Novo layout para os links -->
       <div class="links-container">
-        <router-link to="/cadastro" class="register-link">Não possuo cadastro</router-link>
-        <router-link to="/recuperar-senha" class="forgot-password-link">Esqueci minha senha</router-link>
+        <router-link to="/cadastro" class="link-left">Não possuo<br>cadastro</router-link>
+        <router-link to="/recuperar-senha" class="link-right">Esqueci<br>minha senha</router-link>
       </div>
     </form>
   </div>
 </template>
 
+
+
 <script>
-import Login from "@/model/Login.js";
+import { login } from '@/services/auth'; // Importando a função de login do auth.js
+
 export default {
   data() {
     return {
-      username: "",
-      password: "",
-      showPassword: false,
-      login: new Login(),
+      username: '',
+      password: '',
+      message: '', // Armazena a mensagem a ser exibida
+      success: false // Define se a mensagem é de sucesso ou erro
     };
   },
   methods: {
-    loginUser() {
-      // Lógica de autenticação
-    },
-    togglePasswordVisibility() {
-      this.showPassword = !this.showPassword;
-    },
-    logar() {
-      localStorage.setItem("usuario", JSON.stringify(this.login));
-      this.$router.push({
-        name: "home",
-      });
-    },
-  },
+    async loginUser() {
+      try {
+        const response = await login(this.username, this.password);
+        if (response.status === 201) { // Sucesso se o status for 201
+          this.message = 'Login bem-sucedido!';
+          this.success = true;
+
+          // Redireciona para a home após 2 segundos
+          setTimeout(() => {
+            this.$router.push('/');
+          }, 2000);
+        } else {
+          this.message = 'Erro desconhecido no login.';
+          this.success = false;
+        }
+      } catch (error) {
+        // Tratar erro de login
+        console.error('Erro ao fazer login', error);
+        if (error.response && error.response.data) {
+          this.message = error.response.data.message || 'Erro ao fazer login.';
+        } else {
+          this.message = 'Erro ao fazer login.';
+        }
+        this.success = false;
+      }
+    }
+  }
 };
 </script>
 
-
 <style scoped>
-/* Container da tela de login */
 .login-container {
-  width: 100%;
   max-width: 400px;
-  padding: 40px;
-  background-color: #1e1e1e;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  margin: 0 auto;
-}
-
-h1 {
-  margin-bottom: 30px;
-  color: #fff;
-}
-
-.form-group {
-  margin-bottom: 15px;
+  margin: 100px auto;
+  padding: 20px;
+  background: #333;
   color: white;
+  text-align: center;
+  border-radius: 8px;
 }
 
-label {
-  display: block;
-  font-weight: bold;
-  color: #fff;
+.input-wrapper {
+  margin-bottom: 20px;
 }
 
-input {
+input[type="text"],
+input[type="password"] {
   width: 100%;
-  padding: 12px;
-  padding-right: 40px; /* Espaço reservado para o ícone */
-  border: 1px solid #333;
-  border-radius: 5px;
+  padding: 10px;
   margin-top: 5px;
-  background-color: #222;
-  color: #fff;
-  font-size: 16px;
-}
-
-input::placeholder {
-  color: #aaa;
-}
-
-/* Estilizando o campo de senha */
-.password-input {
-  position: relative;
-}
-
-.toggle-password-button {
-  position: absolute;
-  left: 125px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
   border: none;
-  color: #666;
-  font-size: 16px;
-  cursor: pointer;
+  border-radius: 4px;
 }
-
-
 
 button {
-  background: #00b300;
-  color: white;
-  padding: 15px;
   width: 100%;
+  padding: 10px;
+  background-color: green;
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
 }
 
-.login-button:hover {
-  background-color: #009900;
+.success-message {
+  color: green;
+  margin-top: 20px;
 }
 
-/* Flexbox para os links */
+.error-message {
+  color: red;
+  margin-top: 20px;
+}
+
 .links-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
-/* Link "Não possuo cadastro" alinhado à esquerda */
-.register-link {
-  color: #007bff;
+.link-left,
+.link-right {
+  color: #aaa;
+  font-size: 0.9em;
   text-decoration: none;
-  text-align: left;
+  text-align: center;
 }
 
-/* Link "Esqueci minha senha" alinhado à direita */
-.forgot-password-link {
-  color: #007bff;
-  text-decoration: none;
-  text-align: right;
-}
-
-.register-link:hover, .forgot-password-link:hover {
-  text-decoration: underline;
+.link-left:hover,
+.link-right:hover {
+  color: white;
 }
 </style>

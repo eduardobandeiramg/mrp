@@ -1,130 +1,100 @@
 <template>
-  <div class="cadastro-container">
-    <h1>Registrar</h1>
-    <form @submit.prevent="loginUser">
-      <div class="form-group">
-        <label for="email">E-mail:</label>
-        <input
-          type="email"
-          id="email"
-          v-model="email"
-          placeholder="Email"
-          required
-        />
-      </div>
+  <v-app>
+    <v-main>
+      <v-container class="d-flex justify-center">
+        <v-card class="pa-5" max-width="400" elevation="3">
+          <v-card-title class="text-h5">Login</v-card-title>
+          <v-card-text>
+            <!-- Input para o usuário -->
+            <v-text-field
+              label="Usuário"
+              v-model="username"
+              prepend-icon="mdi-account"
+              outlined
+              required
+            ></v-text-field>
 
-      <div class="form-group">
-        <label for="username">Usuário:</label>
-        <input
-          type="text"
-          id="username"
-          v-model="username"
-          placeholder="Username"
-          required
-        />
-      </div>
+            <!-- Input para a senha -->
+            <v-text-field
+              label="Senha"
+              v-model="password"
+              prepend-icon="mdi-lock"
+              type="password"
+              outlined
+              required
+            ></v-text-field>
 
-      <div class="form-group">
-        <label for="password">Senha:</label>
-        <input
-          type="password"
-          id="password"
-          v-model="password"
-          placeholder="Password"
-          required
-        />
-      </div>
+            <!-- Botão de login -->
+            <v-btn color="green" block @click="loginUser">
+              Entrar
+            </v-btn>
 
-      <div class="form-group">
-        <label for="role">Função:</label>
-        <select id="role" v-model="role" required>
-          <option disabled value="">Selecione a Função</option>
-          <option>Admin</option>
-          <option>User</option>
-          <option>Manager</option>
-        </select>
-      </div>
+            <!-- Mensagem de sucesso ou erro -->
+            <v-alert
+              v-if="message"
+              :type="success ? 'success' : 'error'"
+              class="mt-3"
+              outlined
+            >
+              {{ message }}
+            </v-alert>
 
-      <button @click="logar()" class="register-button">Registrar</button>
-    </form>
-  </div>
+            <!-- Links para cadastro e recuperação de senha -->
+            <div class="d-flex justify-space-between mt-3">
+              <router-link to="/cadastro" class="blue--text">Não possuo cadastro</router-link>
+              <router-link to="/recuperar-senha" class="blue--text">Esqueci minha senha</router-link>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
+import { login } from '@/services/auth';
+
 export default {
   data() {
     return {
-      email: "",      // Novo campo de email
-      username: "",
-      password: "",
-      role: "",
+      username: '',
+      password: '',
+      message: '',
+      success: false,
     };
   },
   methods: {
-    loginUser() {
-      // Lógica de autenticação
-    },
-    logar() {
-      // Ação de login
+    async loginUser() {
+      try {
+        const response = await login(this.username, this.password);
+        if (response.status === 201) {
+          this.message = 'Login bem-sucedido!';
+          this.success = true;
+          setTimeout(() => {
+            this.$router.push('/');
+          }, 2000);
+        } else {
+          this.message = 'Erro desconhecido no login.';
+          this.success = false;
+        }
+      } catch (error) {
+        this.message = 'Erro ao fazer login.';
+        this.success = false;
+      }
     },
   },
 };
 </script>
+
 <style scoped>
-.cadastro-container {
-  width: 100%; /* Ocupa toda a largura do container */
-  max-width: 600px; /* Limita a largura máxima do formulário */
-  padding: 40px;
-  background-color: #1e1e1e;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  text-align: center;
-}
-
-h1 {
-  margin-bottom: 30px;
-  color: #fff;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  color: #fff; /* Ajuste da cor das letras para branco */
-}
-
-input,
-select {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  border: 1px solid #333;
-  border-radius: 5px;
-  background-color: #222;
-  color: #fff; /* Cor do texto branca */
-  font-size: 16px;
-}
-
-input::placeholder {
-  color: #aaa;
-}
-
-button {
-  background: #00b300;
+.v-card {
+  background-color: #333;
   color: white;
-  padding: 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
-  font-weight: bold;
-  margin-top: 20px;
 }
-
-button:hover {
-  background-color: #009900;
+.v-btn {
+  color: white;
+}
+.v-alert {
+  font-weight: bold;
 }
 </style>
