@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Line } from '../Line/entities/line.entity';
+import { Line } from '../line/entities/line.entity';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { Product } from './entities/product.entity';
 
