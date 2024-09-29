@@ -21,6 +21,20 @@ export class LineService {
     });
   }
 
+  async create(createLineDto: CreateLineDto): Promise<Line> {
+    const { name } = createLineDto;
+
+    const newLine = this.linesRepository.create({
+      name,
+    });
+
+    try {
+      return await this.linesRepository.save(newLine);
+    } catch (error) {
+      throw new Error('Erro ao criar linha de produção: ' + error.message);
+    }
+  }
+
   update(id: string, updateLineDto: UpdateLineDto): Line | PromiseLike<Line> {
 	  throw new Error('Method not implemented.');
   }
@@ -28,9 +42,6 @@ export class LineService {
 	  throw new Error('Method not implemented.');
   }
   findAll(): Line[] | PromiseLike<Line[]> {
-	  throw new Error('Method not implemented.');
-  }
-  create(createLineDto: CreateLineDto): Line | PromiseLike<Line> {
 	  throw new Error('Method not implemented.');
   }
 
