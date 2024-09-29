@@ -19,7 +19,7 @@ export class ProductsService {
     const { description, code, lineId } = createProductDto;
 
     // Verificar se já existe um produto com a mesma descrição
-    // await this.validateProduct(description);
+    await this.validateProduct(description);
 
     // Buscar a linha associada ao produto
     const line = await this.linesRepository.findOne({
@@ -43,12 +43,18 @@ export class ProductsService {
     }
   }
 
-//   async validateProduct(description: string): Promise<void> {
-//     const existingProduct = await this.findOneProduct(description);
-//     if (existingProduct) {
-//       throw new ConflictException('Descrição já está em uso.');
-//     }
-//   }
+  async validateProduct(description: string): Promise<void> {
+    const existingProduct = await this.findOneProduct(description);
+    if (existingProduct) {
+      throw new ConflictException('Descrição já está em uso.');
+    }
+  }
+
+  async findOneProduct(description: string): Promise<Product | undefined> {
+    return this.productsRepository.findOne({
+      where: { description },
+    });
+  }
 
 
 }
