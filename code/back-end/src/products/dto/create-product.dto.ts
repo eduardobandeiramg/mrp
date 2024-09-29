@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, IsString } from "class-validator";
-import { Line } from "src/Line/entities/line.entity";
+import { IsNotEmpty, IsString } from "class-validator";
+import { Line } from "src/line/entities/line.entity";
 
 export class CreateProductDTO {
     @ApiProperty()
@@ -11,11 +11,9 @@ export class CreateProductDTO {
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    @IsEmail()
     code: string;
 
     @ApiProperty()
-    @IsNotEmpty()
     lineId: Line
 
 }
