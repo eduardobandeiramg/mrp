@@ -56,5 +56,11 @@ export class ProductsService {
     });
   }
 
+  async findOneByID(id: string): Promise<Product | undefined> {
+    return this.productsRepository.findOne({
+      where: { id },
+    });
+  }
+
 
 }
