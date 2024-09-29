@@ -26,7 +26,7 @@ export class LineController {
   // Get a Line by ID
   @Get(':id')
   async getById(@Param('id') id: string): Promise<Line> {
-    return this.lineService.findOneById(id);
+    return this.lineService.findOneByID(id);
   }
 
   // Update a Line by ID

@@ -7,9 +7,20 @@ import { Line } from './entities/line.entity';
 
 @Injectable()
 export class LineService {
-  findOneById(id: string): Line | PromiseLike<Line> {
-	  throw new Error('Method not implemented.');
+  constructor(
+    // @InjectRepository(Product)
+    // private productsRepository: Repository<Product>,
+
+    @InjectRepository(Line)
+    private readonly linesRepository: Repository<Line>,
+  ) {}
+
+  async findOneByID(lineId: string): Promise<Line | undefined> {
+    return this.linesRepository.findOne({
+      where: { lineId },
+    });
   }
+
   update(id: string, updateLineDto: UpdateLineDto): Line | PromiseLike<Line> {
 	  throw new Error('Method not implemented.');
   }
@@ -22,9 +33,5 @@ export class LineService {
   create(createLineDto: CreateLineDto): Line | PromiseLike<Line> {
 	  throw new Error('Method not implemented.');
   }
-  constructor(
-    @InjectRepository(Line)
-    private linesRepository: Repository<Line>,
-  ) {}
 
 }
