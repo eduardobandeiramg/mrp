@@ -16,6 +16,6 @@ export class CreateProductDTO {
 
     @ApiProperty()
     @IsNotEmpty()
-    role: Line
+    lineId: Line
 
 }

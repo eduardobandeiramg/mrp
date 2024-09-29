@@ -1,15 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Product } from '../../products/entities/product.entity';
 
 @Entity()
 export class Line {
+  @PrimaryGeneratedColumn('uuid')
+  lineId: string;
 
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+  @Column()
+  name: string;
 
-    @Column({ nullable: false, unique: true })
-    name: string;
-
-    constructor(line: Partial<Line>) {
-        Object.assign(this, line);
-    }
+  @OneToMany(() => Product, product => product.line)
+  products: Product[];
 }

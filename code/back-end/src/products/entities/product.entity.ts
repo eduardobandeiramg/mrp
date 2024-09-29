@@ -1,22 +1,17 @@
-import { Line } from "src/Line/entities/line.entity";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Line } from '../../Line/entities/line.entity';
 
 @Entity()
 export class Product {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+  @Column()
+  description: string;
 
-    @Column({ nullable: false, unique: true })
-    description: string;
+  @Column()
+  code: string;
 
-    @Column({ nullable: false, unique: true })
-    code: string;
-
-    @Column({ nullable: false, select: false })
-    line: Line;
-
-    constructor(product: Partial<Product>) {
-        Object.assign(this, product);
-    }
+  @ManyToOne(() => Line, line => line.products, { eager: true })
+  line: Line;
 }
