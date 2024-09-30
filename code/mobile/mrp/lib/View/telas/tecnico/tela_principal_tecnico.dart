@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/telas/tecnico/lista.dart';
+import 'package:mrp/View/telas/tecnico/lista.dart';
 
 class TelaPrincipalTecnico extends StatefulWidget {
   TelaPrincipalTecnico({super.key});
