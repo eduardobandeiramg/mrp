@@ -1,4 +1,4 @@
-## Requirements:
+# Requirements
 
 * [Node.js](https://nodejs.org/en) - Link to download
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) - Link to download
