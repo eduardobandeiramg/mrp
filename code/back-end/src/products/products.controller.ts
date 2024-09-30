@@ -13,13 +13,18 @@ export class ProductsController {
   @Get('by-description')
   @ApiQuery({ name: 'description', type: String, required: true })
   async getProductByDescription(@Query('description') description: string): Promise<Product> {
-    return this.productsService.findOneProduct(description); // Utilizando um método para buscar um produto pela descrição
+    return this.productsService.findOneProduct(description);
   }
 
   @Get('by-uid/:id')
   @ApiParam({ name: 'id', type: String, required: true })
   async getProductByUID(@Param('id') id: string): Promise<Product> {
-    return this.productsService.findOneByID(id); // Utilizando um método para buscar um produto pelo ID
+    return this.productsService.findOneByID(id);
+  }
+
+  @Get('all')
+  async getAllProducts(): Promise<Product[]>{
+    return this.productsService.findAll();
   }
 
   @Post()

@@ -62,5 +62,13 @@ export class ProductsService {
     });
   }
 
+  async findAll(): Promise<Product[]> {
+    try {
+      return await this.productsRepository.find();
+    } catch (error) {
+      throw new Error('Erro ao buscar linhas de produção: ' + error.message);
+    }
+  }
+
 
 }
