@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mrp/View/telas/tecnico/baixa.dart';
+import 'package:mrp/View/telas/tecnico/entrada.dart';
 import 'package:mrp/View/telas/tecnico/lista.dart';
 
 class TelaPrincipalTecnico extends StatefulWidget {
@@ -20,6 +22,10 @@ class _TelaPrincipalTecnicoState extends State<TelaPrincipalTecnico> {
   telaAMoatrar(int indice) {
     if (indice == 0) {
       return ListagemEstoque();
+    } else if (indice == 1) {
+      return Entrada();
+    } else if (indice == 2) {
+      return Baixa();
     }
   }
 
