@@ -41,8 +41,12 @@ export class LineService {
   remove(id: string): void | PromiseLike<void> {
 	  throw new Error('Method not implemented.');
   }
-  findAll(): Line[] | PromiseLike<Line[]> {
-	  throw new Error('Method not implemented.');
+  async findAll(): Promise<Line[]> {
+    try {
+      return await this.linesRepository.find();
+    } catch (error) {
+      throw new Error('Erro ao buscar linhas de produção: ' + error.message);
+    }
   }
 
 }
