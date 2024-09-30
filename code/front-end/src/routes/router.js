@@ -5,7 +5,7 @@ import Login from "@/view/Login.vue";
 import Cadastro from "@/view/Cadastro.vue";
 import RecuperarSenha from "@/view/RecuperarSenha.vue";
 import VerificarCodigo from "@/view/VerificarCodigo.vue";
-import Pecas from "@/view/Pecas.vue";
+import Produtos from "@/view/Produtos.vue";
 
 
 
@@ -38,9 +38,9 @@ const routes = [
         component: VerificarCodigo,
       },
       {
-        path: "/pecas",
-        name: "pecas",
-        component: Pecas,
+        path: "/produtos",
+        name: "produtos",
+        component: Produtos,
       },
     
     ]
@@ -56,3 +56,5 @@ const router = createRouter({
 });
 
 export default router;
+
+

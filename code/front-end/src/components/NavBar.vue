@@ -20,9 +20,9 @@ export default {
     return {
       navLinks: [
         { text: "Home", to: "/" },
-        { text: "Gerir Peças", to: "/pecas" },
+        // { text: "Gerir Peças", to: "/pecas" },
         { text: "Gerir Produtos", to: "/produtos" },
-        { text: "Gerir Planejamentos", to: "/planejamentos" }
+        // { text: "Gerir Planejamentos", to: "/planejamentos" }
       ]
     };
   }
