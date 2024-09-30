@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/artefatos/cartoes/tecnico/listagem_estoque.dart';
+import 'package:mrp/View/artefatos/cartoes/tecnico/listagem_estoque.dart';
 
 class ListagemEstoque extends StatefulWidget {
   const ListagemEstoque({super.key});

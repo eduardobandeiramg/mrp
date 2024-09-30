@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/telas/cadastro.dart';
-import 'package:mrp/telas/esqueci_senha.dart';
-import 'package:mrp/telas/tecnico/tela_principal_tecnico.dart';
+import 'package:mrp/View/telas/cadastro.dart';
+import 'package:mrp/View/telas/esqueci_senha.dart';
+import 'package:mrp/View/telas/tecnico/tela_principal_tecnico.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
