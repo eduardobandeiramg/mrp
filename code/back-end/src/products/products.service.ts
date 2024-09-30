@@ -18,10 +18,8 @@ export class ProductsService {
   async create(createProductDto: CreateProductDTO): Promise<void> {
     const { description, code, lineId } = createProductDto;
 
-    // Verificar se já existe um produto com a mesma descrição
     await this.validateProduct(description);
 
-    // Buscar a linha associada ao produto
     const line = await this.linesRepository.findOne({
       where: { lineId: lineId.lineId },
     });
@@ -29,7 +27,6 @@ export class ProductsService {
       throw new ConflictException('Linha não encontrada.');
     }
 
-    // Criar e salvar o produto no banco de dados
     const product = this.productsRepository.create({
       description,
       code,
