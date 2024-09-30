@@ -47,11 +47,11 @@ export class ProductsService {
     }
   }
 
-  async findOneProduct(description: string): Promise<Product | undefined> {
-    return this.productsRepository.findOne({
-      where: { description },
+  async findOneProduct(description: string): Promise<Product | null> {
+    return await this.productsRepository.findOne({
+        where: { description },
     });
-  }
+}
 
   async findOneByID(id: string): Promise<Product | undefined> {
     return this.productsRepository.findOne({

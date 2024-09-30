@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { ApiBearerAuth, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { Product } from './entities/product.entity';
 import { ProductsService } from './products.service';
@@ -11,10 +11,9 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get('by-description')
-  @ApiQuery({ name: 'description', type: String, required: true })
-  async getProductByDescription(@Query('description') description: string): Promise<Product> {
-    return this.productsService.findOneProduct(description);
-  }
+    async getProductByDescription(@Query('description') description: string): Promise<Product | null> {
+        return this.productsService.findOneProduct(description);
+    }
 
   @Get('by-uid/:id')
   @ApiParam({ name: 'id', type: String, required: true })
