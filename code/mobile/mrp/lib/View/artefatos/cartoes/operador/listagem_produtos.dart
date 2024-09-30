@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mrp/View/telas/operador/detalhamento_produto.dart';
 
 class CartaoProduto extends StatelessWidget {
-  const CartaoProduto({super.key});
+  String nome;
+  String codigo;
+  String status;
+  String quantidade;
 
-  printa() {
-    print("apertou");
-  }
+  CartaoProduto(this.nome, this.codigo, this.status , this.quantidade);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,13 @@ class CartaoProduto extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: printa(),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => DetalhamentoProduto(nome, codigo, status , quantidade),
+            ),
+          );
+        },
         child: Container(
           height: altura * 0.18,
           decoration: BoxDecoration(
@@ -23,20 +31,32 @@ class CartaoProduto extends StatelessWidget {
               Radius.circular(20),
             ),
           ),
-          child: Row(
-            children: [
-              SizedBox(
-                width: largura * 0.03,
-              ),
-              Expanded(
-                flex: 5,
-                child: Text("item:"),
-              ),
-              Expanded(
-                flex: 1,
-                child: Text("qtd: "),
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: largura * 0.03,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Text("item: $nome"),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Text("código: $codigo"),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Text("status: $status"),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Text("quantidade: $quantidade"),
+                ),
+              ],
+            ),
           ),
         ),
       ),

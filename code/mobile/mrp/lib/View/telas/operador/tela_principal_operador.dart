@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mrp/View/telas/operador/lista.dart';
 import 'package:mrp/View/telas/tecnico/lista.dart';
 
 class TelaPrincipalOperador extends StatefulWidget {
@@ -19,7 +20,7 @@ class _TelaPrincipalOperadorState extends State<TelaPrincipalOperador> {
 
   telaAMoatrar(int indice) {
     if (indice == 0) {
-      return ListagemEstoque();
+      return ListagemProdutos();
     }
   }
 
@@ -30,7 +31,7 @@ class _TelaPrincipalOperadorState extends State<TelaPrincipalOperador> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.production_quantity_limits), label: "lista"),
+          BottomNavigationBarItem(icon: Icon(Icons.conveyor_belt), label: "linha"),
 /*          BottomNavigationBarItem(
               icon: Icon(Icons.fire_truck), label: "dar entrada"),
           BottomNavigationBarItem(
