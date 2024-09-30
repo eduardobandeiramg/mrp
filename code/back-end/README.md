@@ -15,6 +15,11 @@
     MYSQL_USERNAME=root
     MYSQL_PASSWORD=
     JWT_SECRET=aebfde0b-ff4a-4f1c-9c43-a1c034d5b4b1
+
+    EMAIL_HOST=
+    EMAIL_PORT=
+    EMAIL_USER=
+    EMAIL_PASSWORD=
     ```
 
 2. Set the values for `MYSQL_ROOT_PASSWORD`, `MYSQL_PASSWORD`, and `MYSQL_DATABASE` as per your choice. Example:
@@ -28,6 +33,15 @@
     MYSQL_PASSWORD=yourpassword
     JWT_SECRET=aebfde0b-ff4a-4f1c-9c43-a1c034d5b4b1
     ```
+3. Generate a email in https://ethereal.email/create and set e variables: 
+
+    ```bash
+    EMAIL_HOST=smtp.ethereal.email
+    EMAIL_PORT=587
+    EMAIL_USER=david.morissette75@ethereal.email
+    EMAIL_PASSWORD=C4rSKuXBWeDVfFMWv4
+    ```
+
 
 3. Open a terminal and navigate to the `/back-end` folder.
 
