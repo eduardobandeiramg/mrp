@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Line } from '../line/entities/line.entity';
 import { CreateProductDTO } from './dto/create-product.dto';
+import { UpdateProductDTO } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 
 @Injectable()
@@ -73,6 +74,35 @@ export class ProductsService {
     }
     product.isActive = false;
     await this.productsRepository.save(product);
+  }
+
+  async updateProduct(id: string, updateProductDto: UpdateProductDTO): Promise<Product> {
+    const product = await this.findOneByID(id);
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+
+    const { description, code, lineId } = updateProductDto;
+
+    if (description !== undefined) {
+      product.description = description;
+    }
+
+    if (code !== undefined) {
+      product.code = code;
+    }
+
+    if (lineId !== undefined) {
+      const line = await this.linesRepository.findOne({ where: { lineId } });
+      if (!line) {
+        throw new NotFoundException('Line not found');
+      }
+      product.line = line;
+    }
+
+    // Salvar o produto atualizado
+    await this.productsRepository.save(product);
+    return product;
   }
 
 
