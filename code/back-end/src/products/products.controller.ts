@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { Product } from './entities/product.entity';
@@ -29,5 +29,10 @@ export class ProductsController {
   @Post()
   async create(@Body() createPrdDTO: CreateProductDTO): Promise<void> {
     return this.productsService.create(createPrdDTO);
+  }
+
+  @Delete(':id')
+  async deactivateProduct(@Param('id') id: string): Promise<void> {
+    return this.productsService.deactivateProduct(id);
   }
 }

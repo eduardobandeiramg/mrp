@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Line } from '../line/entities/line.entity';
@@ -21,8 +21,9 @@ export class ProductsService {
     await this.validateProduct(description);
 
     const line = await this.linesRepository.findOne({
-      where: { lineId: lineId.lineId },
+      where: { lineId }, // Ajuste para usar `lineId` diretamente
     });
+
     if (!line) {
       throw new ConflictException('Linha não encontrada.');
     }
@@ -38,7 +39,7 @@ export class ProductsService {
     } catch (error) {
       throw new InternalServerErrorException('Erro ao criar produto.');
     }
-  }
+}
 
   async validateProduct(description: string): Promise<void> {
     const existingProduct = await this.findOneProduct(description);
@@ -49,22 +50,29 @@ export class ProductsService {
 
   async findOneProduct(description: string): Promise<Product | null> {
     return await this.productsRepository.findOne({
-        where: { description },
+        where: { description, isActive: true },
     });
 }
 
   async findOneByID(id: string): Promise<Product | undefined> {
-    return this.productsRepository.findOne({
-      where: { id },
-    });
+    return this.productsRepository.findOne({ where: { id, isActive: true } });
   }
 
   async findAll(): Promise<Product[]> {
     try {
-      return await this.productsRepository.find();
+      return await this.productsRepository.find({ where: { isActive: true } });
     } catch (error) {
       throw new Error('Erro ao buscar linhas de produção: ' + error.message);
     }
+  }
+
+  async deactivateProduct(id: string): Promise<void> {
+    const product = await this.findOneByID(id);
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+    product.isActive = false;
+    await this.productsRepository.save(product);
   }
 
 
