@@ -12,6 +12,9 @@ export class Product {
   @Column()
   code: string;
 
-  @ManyToOne(() => Line, line => line.products, { eager: true, nullable: true })
+  @ManyToOne(() => Line, line => line.products, { eager: true })
   line: Line;
+
+  @Column({ default: true })
+  isActive: boolean;
 }
