@@ -100,7 +100,6 @@ export class ProductsService {
       product.line = line;
     }
 
-    // Salvar o produto atualizado
     await this.productsRepository.save(product);
     return product;
   }
