@@ -1,12 +1,33 @@
 <template>
-  <div class="gestao-pecas-container">
-    <h1>Gestão de Peças</h1>
-    <v-btn class="mb-4" color="primary" @click="abrirModalIncluirPeca">
-      Incluir Peça
-    </v-btn>  
+  <v-container>
+    <v-card class="gestao-pecas-container">
+      <v-card-title>
+        <h1>Gestão de Peças</h1>
+        <v-spacer></v-spacer>
+        <v-btn class="mb-12" color="primary" @click="abrirModalIncluirPeca">
+          Adicionar Peça
+        </v-btn>
+      </v-card-title>
+      <!-- Tabela de Peças -->
+      <v-card-text>
+        <v-data-table :headers="headers" :items="pecas" class="elevation-1 tabela-escura" item-class="tabela-item">
+          <template v-slot:item.actions="{ item }">
+            <v-btn color="blue" @click="abrirModalEditarPeca(item)">
+              <v-icon>mdi-pencil</v-icon> Editar
+            </v-btn>
+            <v-btn color="red" @click="abrirModalExcluirPeca(item)">
+              <v-icon>mdi-delete</v-icon>Excluir
+            </v-btn>
+          </template>
+        </v-data-table>
+      </v-card-text>
+    </v-card>
+
+
+
 
     <!-- Modal para incluir nova peça ou editar peça existente -->
-    <v-dialog v-model="modalVisivel" max-width="500px">
+    <v-dialog v-model="modalVisivel" max-width="1500px">
       <v-card>
         <v-card-title class="headline">{{ modalTitulo }}</v-card-title>
         <v-card-text>
@@ -37,19 +58,8 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+  </v-container>
 
-    <!-- Tabela de Peças -->
-    <v-data-table :headers="headers" :items="pecas" class="elevation-1 tabela-escura" item-class="tabela-item">
-      <template v-slot:item.actions="{ item }">
-        <v-btn color="blue" @click="abrirModalEditarPeca(item)">
-          Editar
-        </v-btn>
-        <v-btn color="red" @click="abrirModalExcluirPeca(item)">
-          Excluir
-        </v-btn>
-      </template>
-    </v-data-table>
-  </div>
 </template>
 
 <script>
@@ -138,6 +148,9 @@ export default {
 
 <style scoped>
 .gestao-pecas-container {
+  margin-top: 70px;
+  height: 80vh;
+  width: 90vw;
   padding: 20px;
   background-color: #333;
   color: #fff;

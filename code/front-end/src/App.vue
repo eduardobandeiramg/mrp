@@ -49,7 +49,7 @@ export default {
 
 /* Estilos na main view */
 .content-container {
-  flex-grow: 1; /* O conteúdo ocupará o restante do espaço */
+  /* flex-grow: 1;  */
   display: flex;
   justify-content: center;
   align-items: center; /* Centraliza vertical e horizontalmente */
