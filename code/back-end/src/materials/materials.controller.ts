@@ -3,6 +3,7 @@ import { MaterialsService } from './materials.service';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { UpdateMaterialDto } from './dto/update-material.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { UpdateMaterialStockDto } from './dto/update-material-stock.dto';
 
 @ApiTags('materials')
 @ApiBearerAuth()
@@ -35,5 +36,17 @@ export class MaterialsController {
 	@Delete(':id')
 	delete(@Param('id') id: string) {
 		return this.materialsService.delete(id);
+	}
+
+	@HttpCode(204)
+	@Patch('/stock/update')
+	updateStock(@Body() updateMaterialStockDto: UpdateMaterialStockDto) {
+		return this.materialsService.updateStock(updateMaterialStockDto);
+	}
+
+	@HttpCode(204)
+	@Patch('/stock/add')
+	addStock(@Body() updateMaterialStockDto: UpdateMaterialStockDto) {
+		return this.materialsService.addStock(updateMaterialStockDto);
 	}
 }

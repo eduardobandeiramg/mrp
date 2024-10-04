@@ -19,6 +19,8 @@ describe('MaterialsService', () => {
 		save: jest.fn(),
 		update: jest.fn(),
 		delete: jest.fn(),
+		updateStock: jest.fn(),
+		addStock: jest.fn(),
 	};
 
 	beforeEach(async () => {
@@ -47,7 +49,7 @@ describe('MaterialsService', () => {
 				description: 'Material 1',
 			};
 
-			mockMaterialRepository.findOne.mockResolvedValue(null); // Nenhum material com o mesmo código
+			mockMaterialRepository.findOne.mockResolvedValue(null);
 			mockMaterialRepository.create.mockReturnValue(createMaterialDto);
 			mockMaterialRepository.save.mockResolvedValue(undefined);
 
@@ -93,8 +95,8 @@ describe('MaterialsService', () => {
 				description: 'Updated Material',
 			};
 
-			mockMaterialRepository.findOne.mockResolvedValueOnce({ id, ...updateMaterialDto }); // material com id
-			mockMaterialRepository.findOne.mockResolvedValueOnce(null); // Nenhum material com o mesmo código
+			mockMaterialRepository.findOne.mockResolvedValueOnce({ id, ...updateMaterialDto });
+			mockMaterialRepository.findOne.mockResolvedValueOnce(null);
 			mockMaterialRepository.update.mockResolvedValue(undefined);
 
 			await service.update(id, updateMaterialDto);
@@ -125,10 +127,9 @@ describe('MaterialsService', () => {
 			  description: 'Updated Material',
 			};
 		  
-			mockMaterialRepository.findOne.mockResolvedValueOnce({ id, ...updateMaterialDto }); // material com id
-			mockMaterialRepository.findOne.mockResolvedValueOnce(null); // Nenhum material com o mesmo código
+			mockMaterialRepository.findOne.mockResolvedValueOnce({ id, ...updateMaterialDto });
+			mockMaterialRepository.findOne.mockResolvedValueOnce(null);
 			
-			// Simulando uma falha ao atualizar o material
 			mockMaterialRepository.update.mockRejectedValue(new Error('Update failed'));
 		  
 			await expect(service.update(id, updateMaterialDto)).rejects.toThrow(InternalServerErrorException);
@@ -203,6 +204,80 @@ describe('MaterialsService', () => {
 			mockMaterialRepository.delete.mockRejectedValue(new Error('Delete failed'));
 
 			await expect(service.delete(id)).rejects.toThrow(InternalServerErrorException);
+		});
+	});
+
+	describe('updateStock', () => {
+		it('should update the material stock successfully', async () => {
+			const id = uuidv4();
+			const updateMaterialStockDto = { id, qtd: 20 };
+			const mockMaterial = {
+				id,
+				code: 'MAT001',
+				description: 'Material description',
+				qtd: 10
+			};
+
+			jest.spyOn(service, 'validateExistingMaterial').mockResolvedValue(mockMaterial);
+			mockMaterialRepository.save.mockResolvedValue(mockMaterial);
+
+			await service.updateStock(updateMaterialStockDto);
+
+			expect(service.validateExistingMaterial).toHaveBeenCalledWith(id);
+			expect(mockMaterialRepository.save).toHaveBeenCalledWith({ ...mockMaterial, qtd: 20 });
+		});
+
+		it('should throw an InternalServerErrorException when save fails', async () => {
+			const id = uuidv4();
+			const updateMaterialStockDto = { id, qtd: 20 };
+			const mockMaterial = {
+				id,
+				code: 'MAT001',
+				description: 'Material description',
+				qtd: 10
+			};
+
+			jest.spyOn(service, 'validateExistingMaterial').mockResolvedValue(mockMaterial);
+
+			mockMaterialRepository.save.mockRejectedValueOnce(new Error());
+			await expect(service.updateStock(updateMaterialStockDto)).rejects.toThrow(InternalServerErrorException);
+		});
+	});
+
+	describe('addStock', () => {
+		it('should add stock to the material successfully', async () => {
+			const id = uuidv4();
+			const updateMaterialStockDto = { id, qtd: 5 };
+			const mockMaterial = {
+				id,
+				code: 'MAT001',
+				description: 'Material description',
+				qtd: 10
+			};
+
+			jest.spyOn(service, 'validateExistingMaterial').mockResolvedValue({ ...mockMaterial });
+			mockMaterialRepository.save.mockResolvedValue({ ...mockMaterial, qtd: 15 });
+
+			await service.addStock(updateMaterialStockDto);
+
+			expect(service.validateExistingMaterial).toHaveBeenCalledWith(id);
+			expect(mockMaterialRepository.save).toHaveBeenCalledWith({ ...mockMaterial, qtd: mockMaterial.qtd + updateMaterialStockDto.qtd });
+		});
+
+		it('should throw an InternalServerErrorException when save fails during addStock', async () => {
+			const id = uuidv4();
+			const updateMaterialStockDto = { id, qtd: 5 };
+			const mockMaterial = {
+				id,
+				code: 'MAT001',
+				description: 'Material description',
+				qtd: 10
+			};
+
+			jest.spyOn(service, 'validateExistingMaterial').mockResolvedValue(mockMaterial);
+
+			mockMaterialRepository.save.mockRejectedValueOnce(new Error());
+			await expect(service.addStock(updateMaterialStockDto)).rejects.toThrow(InternalServerErrorException);
 		});
 	});
 
