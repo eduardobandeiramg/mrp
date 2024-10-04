@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Material } from './entities/material.entity';
 import { Not, Repository } from 'typeorm';
 import { UpdateMaterialDto } from './dto/update-material.dto';
+import { UpdateMaterialStockDto } from './dto/update-material-stock.dto';
 
 @Injectable()
 export class MaterialsService {
@@ -60,6 +61,28 @@ export class MaterialsService {
 			await this.materialsRepository.delete(material);
 		} catch (error) {
 			throw new InternalServerErrorException('Error deleting material.');
+		}
+	}
+
+	async updateStock(updateMaterialStockDto: UpdateMaterialStockDto) : Promise<void> {
+		const { id, qtd } = updateMaterialStockDto;
+		const material = await this.validateExistingMaterial(id);
+		try {
+			material.qtd = qtd;
+			await this.materialsRepository.save(material);
+		}catch (error) {
+			throw new InternalServerErrorException('Error updating material.');
+		}
+	}
+
+	async addStock(updateMaterialStockDto: UpdateMaterialStockDto) : Promise<void>  {
+		const { id, qtd } = updateMaterialStockDto;
+		const material = await this.validateExistingMaterial(id);
+		try {
+			material.qtd += qtd;
+			await this.materialsRepository.save(material);
+		}catch (error) {
+			throw new InternalServerErrorException('Error updating material.');
 		}
 	}
 

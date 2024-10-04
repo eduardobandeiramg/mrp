@@ -4,6 +4,7 @@ import { MaterialsService } from './materials.service';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { UpdateMaterialDto } from './dto/update-material.dto';
 import { v4 as uuidv4 } from 'uuid';
+import { UpdateMaterialStockDto } from './dto/update-material-stock.dto';
 
 describe('MaterialsController', () => {
 	let controller: MaterialsController;
@@ -15,6 +16,8 @@ describe('MaterialsController', () => {
 		findAll: jest.fn(),
 		findById: jest.fn(),
 		delete: jest.fn(),
+		updateStock: jest.fn(),
+		addStock: jest.fn(),
 	};
 
 	beforeEach(async () => {
@@ -81,6 +84,30 @@ describe('MaterialsController', () => {
 			const id = uuidv4();;
 			await controller.delete(id);
 			expect(service.delete).toHaveBeenCalledWith(id);
+		});
+	});
+
+	describe('update stock', () => {
+		it('should call the updateStock method of the service with the correct DTO', async () => {
+			const updateMaterialStockDto: UpdateMaterialStockDto = {
+				id: uuidv4(),
+				qtd: 5,
+			};
+
+			await controller.updateStock(updateMaterialStockDto);
+			expect(service.updateStock).toHaveBeenCalledWith(updateMaterialStockDto);
+		});
+	});
+
+	describe('add stock', () => {
+		it('should call the addStock method of the service with the correct DTO', async () => {
+			const updateMaterialStockDto: UpdateMaterialStockDto = {
+				id: uuidv4(),
+				qtd: 5,
+			};
+
+			await controller.addStock(updateMaterialStockDto);
+			expect(service.addStock).toHaveBeenCalledWith(updateMaterialStockDto);
 		});
 	});
 });
