@@ -11,13 +11,19 @@
       <!-- Tabela de Peças -->
       <v-card-text>
         <v-data-table :headers="headers" :items="pecas" class="elevation-1 tabela-escura" item-class="tabela-item">
+
           <template v-slot:item.actions="{ item }">
-            <v-btn color="blue" @click="abrirModalEditarPeca(item)">
-              <v-icon>mdi-pencil</v-icon> Editar
-            </v-btn>
-            <v-btn color="red" @click="abrirModalExcluirPeca(item)">
-              <v-icon>mdi-delete</v-icon>Excluir
-            </v-btn>
+            <div class="d-flex justify-content-end">
+              <v-spacer></v-spacer>
+              <v-spacer></v-spacer>
+              <v-spacer></v-spacer>
+              <v-btn class="" color="blue" @click="abrirModalEditarPeca(item)">
+                <v-icon>mdi-pencil</v-icon> Editar
+              </v-btn>
+              <v-btn class="" color="red" @click="abrirModalExcluirPeca(item)">
+                <v-icon>mdi-delete</v-icon>Excluir
+              </v-btn>
+              </div>
           </template>
         </v-data-table>
       </v-card-text>
@@ -37,7 +43,6 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="fecharModal">Cancelar</v-btn>
           <v-btn color="blue darken-1" text @click="salvarPeca">Salvar</v-btn>
         </v-card-actions>
@@ -147,6 +152,10 @@ export default {
 
 
 <style scoped>
+.coluna-botao {
+  width: 100px;
+}
+
 .gestao-pecas-container {
   margin-top: 70px;
   height: 80vh;

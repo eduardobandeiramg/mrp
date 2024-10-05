@@ -12,13 +12,20 @@
       <v-card-text>
         <v-data-table :items="linhas" :headers="headers" item-key="id" class="elevation-1 tabela-escura">
           <template v-slot:[`item.acao`]="{ item }">
-            <v-btn color="blue" @click="editarLinha(item)">
-              <v-icon>mdi-pencil</v-icon>Editar
-            </v-btn>
-            <v-btn color="red" @click="excluirLinha(item.id)">
-              <v-icon>mdi-delete</v-icon>Excluir
-            </v-btn>
+            <div class="d-flex justify-content-end">
+              <v-spacer></v-spacer>
+              <v-spacer></v-spacer>
+              <v-spacer></v-spacer>
+
+              <v-btn color="blue" @click="editarLinha(item)">
+                <v-icon>mdi-pencil</v-icon>Editar
+              </v-btn>
+              <v-btn color="red" @click="excluirLinha(item.id)">
+                <v-icon>mdi-delete</v-icon>Excluir
+              </v-btn>
+            </div>
           </template>
+
         </v-data-table>
       </v-card-text>
     </v-card>
@@ -58,8 +65,7 @@ export default {
     return {
       linhas: [],
       headers: [
-        { text: 'ID', value: 'id' },
-        { text: 'Nome', value: 'nome' },
+        { text: 'Nome', value: 'name' },
         { text: 'Ações', value: 'acao', sortable: false },
       ],
       linha: { nome: '' },
@@ -136,6 +142,7 @@ export default {
   text-align: center;
   border-radius: 8px;
 }
+
 .v-btn {
   margin-right: 10px;
 }
