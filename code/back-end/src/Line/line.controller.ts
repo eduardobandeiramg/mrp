@@ -11,25 +11,21 @@ import { LineService } from './line.service';
 export class LineController {
   constructor(private readonly lineService: LineService) {}
 
-  // Create a new Line
   @Post()
   async create(@Body() createLineDto: CreateLineDto): Promise<Line> {
     return this.lineService.create(createLineDto);
   }
 
-  // Get all Lines
   @Get()
   async getAll(): Promise<Line[]> {
     return this.lineService.findAll();
   }
 
-  // Get a Line by ID
   @Get(':id')
   async getById(@Param('id') id: string): Promise<Line> {
     return this.lineService.findOneByID(id);
   }
 
-  // Update a Line by ID
   @Put(':id')
   async update(
     @Param('id') id: string,
@@ -38,7 +34,6 @@ export class LineController {
     return this.lineService.update(id, updateLineDto);
   }
 
-  // Delete a Line by ID
   @Delete(':id')
   async delete(@Param('id') id: string): Promise<void> {
     return this.lineService.remove(id);

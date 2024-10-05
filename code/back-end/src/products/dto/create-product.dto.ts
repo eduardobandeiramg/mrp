@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString } from "class-validator";
-import { Line } from "src/line/entities/line.entity";
 
 export class CreateProductDTO {
     @ApiProperty()
@@ -13,7 +12,8 @@ export class CreateProductDTO {
     @IsNotEmpty()
     code: string;
 
-    @ApiProperty()
-    lineId: Line
+    @ApiProperty({ description: 'ID da linha de produção', example: 'UUID' }) // Ajuste o tipo e forneça um exemplo
+    @IsString()
+    lineId: string;
 
 }
