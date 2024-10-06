@@ -8,9 +8,6 @@ import { Line } from './entities/line.entity';
 @Injectable()
 export class LineService {
   constructor(
-    // @InjectRepository(Product)
-    // private productsRepository: Repository<Product>,
-
     @InjectRepository(Line)
     private readonly linesRepository: Repository<Line>,
   ) {}
