@@ -8,9 +8,6 @@ import { Line } from './entities/line.entity';
 @Injectable()
 export class LineService {
   constructor(
-    // @InjectRepository(Product)
-    // private productsRepository: Repository<Product>,
-
     @InjectRepository(Line)
     private readonly linesRepository: Repository<Line>,
   ) {}
@@ -51,8 +48,12 @@ export class LineService {
     return findedLine;
   }
 
-  remove(id: string): void | PromiseLike<void> {
-	  throw new Error('Method not implemented.');
+  async remove(id: string): Promise<void> {
+    const lineFinded = await this.findOneByID(id);
+    if (!lineFinded) {
+      throw new NotFoundException('Product not found');
+    }
+    await this.linesRepository.delete(lineFinded.lineId);
   }
 
   async findAll(): Promise<Line[]> {

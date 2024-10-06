@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateLineDto } from '../line/dto/create-line.dto';
 import { UpdateLineDto } from '../line/dto/update-line.dto';
@@ -35,7 +35,8 @@ export class LineController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<void> {
-    return this.lineService.remove(id);
+  async delete(@Param('id') id: string): Promise<HttpStatus> {
+    await this.lineService.remove(id);
+    return HttpStatus.OK;
   }
 }
