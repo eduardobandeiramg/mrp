@@ -1,7 +1,6 @@
 import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Line } from '../line/entities/line.entity';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { UpdateProductDTO } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
@@ -11,28 +10,16 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
-
-    @InjectRepository(Line)
-    private linesRepository: Repository<Line>,
   ) {}
 
   async create(createProductDto: CreateProductDTO): Promise<void> {
-    const { description, code, lineId } = createProductDto;
+    const { description, code } = createProductDto;
 
     await this.validateProduct(description);
-
-    const line = await this.linesRepository.findOne({
-      where: { lineId }, // Ajuste para usar `lineId` diretamente
-    });
-
-    if (!line) {
-      throw new ConflictException('Linha não encontrada.');
-    }
 
     const product = this.productsRepository.create({
       description,
       code,
-      line,
     });
 
     try {
@@ -63,7 +50,7 @@ export class ProductsService {
     try {
       return await this.productsRepository.find({ where: { isActive: true } });
     } catch (error) {
-      throw new Error('Erro ao buscar linhas de produção: ' + error.message);
+      throw new Error('Erro ao buscar todos os produtos: ' + error.message);
     }
   }
 
@@ -82,7 +69,7 @@ export class ProductsService {
       throw new NotFoundException('Product not found');
     }
 
-    const { description, code, lineId } = updateProductDto;
+    const { description, code } = updateProductDto;
 
     if (description !== undefined) {
       product.description = description;
@@ -90,14 +77,6 @@ export class ProductsService {
 
     if (code !== undefined) {
       product.code = code;
-    }
-
-    if (lineId !== undefined) {
-      const line = await this.linesRepository.findOne({ where: { lineId } });
-      if (!line) {
-        throw new NotFoundException('Line not found');
-      }
-      product.line = line;
     }
 
     await this.productsRepository.save(product);
