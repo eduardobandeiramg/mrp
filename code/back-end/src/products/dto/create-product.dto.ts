@@ -12,8 +12,4 @@ export class CreateProductDTO {
     @IsNotEmpty()
     code: string;
 
-    @ApiProperty({ description: 'ID da linha de produção', example: 'UUID' }) // Ajuste o tipo e forneça um exemplo
-    @IsString()
-    lineId: string;
-
 }

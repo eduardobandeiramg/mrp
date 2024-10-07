@@ -1,5 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Product } from '../../products/entities/product.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Line {
@@ -8,7 +7,4 @@ export class Line {
 
   @Column()
   name: string;
-
-  @OneToMany(() => Product, product => product.line)
-  products: Product[];
 }

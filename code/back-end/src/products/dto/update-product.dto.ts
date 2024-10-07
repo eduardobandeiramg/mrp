@@ -11,9 +11,4 @@ export class UpdateProductDTO {
   @IsString()
   @IsOptional()
   code?: string;
-
-  @ApiProperty({ description: 'ID da linha de produção', required: false })
-  @IsString()
-  @IsOptional()
-  lineId?: string;
 }
