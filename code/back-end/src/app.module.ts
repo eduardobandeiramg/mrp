@@ -8,6 +8,7 @@ import { LineModule } from './line/line.module';
 import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
 import { MaterialsModule } from './materials/materials.module';
+import { BuildOfMaterialsModule } from './build_of_materials/build_of_materials.module';
 
 @Module({
 	imports: [
@@ -17,7 +18,8 @@ import { MaterialsModule } from './materials/materials.module';
 		ProductsModule,
 		LineModule,
 		AuthModule,
-		MaterialsModule
+		MaterialsModule,
+		BuildOfMaterialsModule,
 	],
 	controllers: [],
 	providers: [
