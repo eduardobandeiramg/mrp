@@ -1,6 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Line } from '../../line/entities/line.entity';
-import { BuildOfMaterial } from 'src/build_of_materials/entities/build_of_material.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Product {
