@@ -43,6 +43,7 @@ _**Resumo**. Este projeto visa o desenvolvimento de um sistema de Manufacturing 
 | **[31/08/2024]** | [Vítor Lion Guimarães Rodrigues] | [Revisão Seção 1.2: Objetivo Geral] | [1.7] |
 | **[03/09/2024]** | [Eric Rodrigues Diniz] | [Revisão da seção 2.2 e 3.1: Requisitos Não-Funcionais e Histórias de usuário ] | [1.8] |
 | **[04/09/2024]** | [Eric Rodrigues Diniz] | [Revisão da seção 2.2: Requisitos Não-Funcionais] | [1.9] |
+| **[13/10/2024]** | [Eduardo Bandeira] | [Revisão das seções 2.1 e 2.2 (requisitos funcionais e requisitos não-funcionais)] | [1.10] | 
 
 
 ## SUMÁRIO
