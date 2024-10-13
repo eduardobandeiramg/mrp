@@ -1,5 +1,6 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Line } from '../../line/entities/line.entity';
+import { BuildOfMaterial } from 'src/build_of_materials/entities/build_of_material.entity';
 
 @Entity()
 export class Product {
@@ -11,9 +12,6 @@ export class Product {
 
   @Column()
   code: string;
-
-  @ManyToOne(() => Line, line => line.products, { eager: true })
-  line: Line;
 
   @Column({ default: true })
   isActive: boolean;
