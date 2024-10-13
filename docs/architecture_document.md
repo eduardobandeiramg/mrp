@@ -136,23 +136,23 @@ _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural
 |----------|-------------------------------------------------------------------------------|----------------|:-------------------:|
 | **RF001**    | Como gestor de produção, devo ser capz de gerenciar materiais | Essencial | _web_ |
 | **RF002**    | Como gestor de produção, devo ser capaz de gerenciar hierarquia | Essencial | _web_ |
-| **RF003**    | Como técnico de estoque, devo ser capaz de atualizar o estoque mediante reabastecimento de peças | Essencial | _mobile_ |
-| **RF004**    | Como técnico de estoque, devo ser capaz de atualizar o estoque mediante saída de peças que foram encaminhadas para linha de produção | Essencial | _mobile_ |
-| **RF005**    | Como operador de produção, devo ser capaz de sinalizar o fim da produção | Essencial | _mobile_ |
-| **RF006**    | Como operador de produção, devo ser capaz de sinalizar o início de produção | Essencial | _web e mobile_ |
-| **RF007**    | Como técnico de estoque, devo ser capaz de sinalizar peças em nível crítico | Essencial | _mobile_ |
-| **RF008**    | Como gestor de produção, devo ser capaz de cadastrar usuários com nome, e-mail, senha e definição de um papel | Essencial | _web_ |
-| **RF009**    | Como gestor de produção, operador de produção e técnico de estoque, devo ser capaz de me autenticar por e-mail e senha para acessar funções personalizadas com base no meu papel | Essencial | _web e mobile_ |
-| **RF010**    | Como gestor de produção, devo ser capaz de fazer o cadastro de novos produtos e materiais | Essencial | _web_ |
-| **RF011**    | Como gestor de produção, devo ser capaz de fazer o planejamento de operações e alocação de recursos para otimizar a produção | Essencial | _web_ |
-| **RF012**    | Como operador de produção, devo ser capaz de criar alertas de problemas com peças | Essencial | _web e mobile_ |
-| **RF013**    | Como operador de produção, devo ser capaz de realizar o cadastro e gestão de linhas e postos de montagem | Essencial | _web_ |
-| **RF014**    | Como operador de produção, devo ser capaz de realizar o registro de início e fim da produção | Essencial | _mobile_ |
-| **RF015**    | Como operador de produção, devo ser capaz de realizar solicitação de peças extras diretamente do chão de fábrica | Essencial | _mobile_ |
-| **RF016**    | Como operador de produção, devo ser capaz de receber notificações em tempo real sobre mudanças no planejamento de operações | Essencial | _mobile_ |
-| **RF017**    | Como operador de produção, devo ser capaz de comuniar, em tempo real, sobre atividades de operação com outros setores | Essencial | _web e mobile_ |
-| **RF018**    | Como operador de produção ou técnico de estoque, devo ser capaz de descartar peças defeituosas | Essencial | _web e mobile_ |
-| **RF019**    | Como gestor de produção, devo receber alertas automáticos sobre baixos níveis de estoque ou necessidade de reposição | Essencial | _web e mobile_ |
+| **RF003**    | Como gestor de produção, devo receber alertas automáticos sobre baixos níveis de estoque ou necessidade de reposição | Essencial | _web e mobile_ |
+| **RF004**    | Como gestor de produção, devo ser capaz de fazer o cadastro de novos produtos e materiais | Essencial | _web_ |
+| **RF005**    | Como gestor de produção, devo ser capaz de fazer o planejamento de operações e alocação de recursos para otimizar a produção | Essencial | _web_ |
+| **RF006**    | Como gestor de produção, devo ser capaz de cadastrar usuários com nome, e-mail, senha e definição de um papel | Essencial | _web_ |
+| **RF007**    | Como gestor de produção, operador de produção e técnico de estoque, devo ser capaz de me autenticar por e-mail e senha para acessar funções personalizadas com base no meu papel | Essencial | _web e mobile_ |
+| **RF008**    | Como operador de produção, devo ser capaz de criar alertas de problemas com peças | Essencial | _web e mobile_ |
+| **RF009**    | Como operador de produção, devo ser capaz de realizar o cadastro e gestão de linhas e postos de montagem | Essencial | _web_ |
+| **RF010**    | Como operador de produção, devo ser capaz de realizar o registro de início e fim da produção | Essencial | _mobile_ |
+| **RF011**    | Como operador de produção, devo ser capaz de realizar solicitação de peças extras diretamente do chão de fábrica | Essencial | _mobile_ |
+| **RF012**    | Como operador de produção, devo ser capaz de receber notificações em tempo real sobre mudanças no planejamento de operações | Essencial | _mobile_ |
+| **RF013**    | Como operador de produção, devo ser capaz de comuniar, em tempo real, sobre atividades de operação com outros setores | Essencial | _web e mobile_ |
+| **RF014**    | Como operador de produção, devo ser capaz de sinalizar o fim da produção | Essencial | _mobile_ |
+| **RF015**    | Como operador de produção, devo ser capaz de sinalizar o início de produção | Essencial | _web e mobile_ |
+| **RF016**    | Como operador de produção ou técnico de estoque, devo ser capaz de descartar peças defeituosas | Essencial | _web e mobile_ |
+| **RF017**    | Como técnico de estoque, devo ser capaz de atualizar o estoque mediante reabastecimento de peças | Essencial | _mobile_ |
+| **RF018**    | Como técnico de estoque, devo ser capaz de atualizar o estoque mediante saída de peças que foram encaminhadas para linha de produção | Essencial | _mobile_ |
+| **RF019**    | Como técnico de estoque, devo ser capaz de sinalizar peças em nível crítico | Essencial | _mobile_ |
 | **RF020**    | Como técnico de estoque, devo ser capaz de realizar o gerenciamento e monitoramento do estado das peças no inventário | Essencial | _web e mobile_ |
 | **RF021**    | Como gestor de produção, devo ser capaz de realizar o planejamento da produção | Desejável | _web_ |
 | **RF022**    | Como gestor de produção, devo ser capaz de realizar a gestão de pessoas | Desejável | _web_ |
