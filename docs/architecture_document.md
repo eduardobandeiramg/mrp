@@ -130,8 +130,6 @@ Objetivos específicos deste projeto incluem:
 
 _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural, divididos em dois grupos: funcionais e não funcionais._
 
-## 2.1. Requisitos Funcionais
-
 | **ID**   | **Descrição**                                                                 | **Prioridade** | **Plataforma** |
 |----------|-------------------------------------------------------------------------------|----------------|:-------------------:|
 | **RF001**    | Como gestor de produção, devo ser capz de gerenciar produtos | Essencial | _web_ |
@@ -154,11 +152,12 @@ _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural
 | **RF018**    | Como técnico de estoque, devo ser capaz de atualizar o estoque mediante saída de peças que foram encaminhadas para linha de produção | Essencial | _mobile_ |
 | **RF019**    | Como técnico de estoque, devo ser capaz de sinalizar peças em nível crítico | Essencial | _mobile_ |
 | **RF020**    | Como técnico de estoque, devo ser capaz de realizar o gerenciamento e monitoramento do estado das peças no inventário | Essencial | _web e mobile_ |
-| **RF021**    | Como gestor de produção, devo ser capaz de realizar o planejamento da produção | Desejável | _web_ |
-| **RF022**    | Como gestor de produção, devo ser capaz de realizar a gestão de pessoas | Desejável | _web_ |
-| **RF023**    | Como operador de produção, devo ser capaz de realizar a gestão de linha de montagem | Desejável | _web_ |
-| **RF024**    | Como operador de produção, devo ser capaz de solicitar peças sobressalentes individualmente para caso de quebras ou defeitos de produção| Opcional | _mobile_ |
-| **RF025**    | Como operador de produção, devo ser capaz de sinalizar defeitos na produção  | Opcional | _mobile_ |
+| **RF021**    | Como gestor de produção, devo receber alertas em tempo real quando níveis críticos de materiais forem atingidos ou eventos importantes ocorrerem| Essencial | _web e mobile_ |
+| **RF022**    | Como gestor de produção, devo ser capaz de realizar o planejamento da produção | Desejável | _web_ |
+| **RF023**    | Como gestor de produção, devo ser capaz de realizar a gestão de pessoas | Desejável | _web_ |
+| **RF024**    | Como operador de produção, devo ser capaz de realizar a gestão de linha de montagem | Desejável | _web_ |
+| **RF025**    | Como operador de produção, devo ser capaz de solicitar peças sobressalentes individualmente para caso de quebras ou defeitos de produção| Opcional | _mobile_ |
+| **RF026**    | Como operador de produção, devo ser capaz de sinalizar defeitos na produção  | Opcional | _mobile_ |
 
 ## 2.2. Requisitos Não-Funcionais
 
@@ -175,7 +174,6 @@ _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural
 | **RNF009** | A comunicação entre o sistema e os usuários deve ser criptografada para proteger dados sensíveis|
 | **RNF010** | O sistema deve garantir atualizações e comunicação de status em tempo real|
 | **RNF011** | O sistema deve ser capaz de lidar com múltiplos usuários simultâneos sem comprometer o desempenho|
-| **RNF012** | Alertas devem ser enviados em tempo real quando níveis críticos de materiais forem atingidos ou eventos importantes ocorrerem|
 
 ## 2.3. Restrições Arquiteturais
 
