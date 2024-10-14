@@ -165,19 +165,18 @@ _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural
 
 | **ID**   | **Descrição** |
 |------------|-------------------------------------------------------------|
-| **RNF001** | Utilizar serviço de mensageria para notificação dos usuários|
-| **RNF002** | Todas as senhas devem ser gravadas utilizando sistema de criptografia em Hash|
-| **RNF003** | Disponibilização do serviço em HTTPS em nuvem pública|
-| **RNF004** | O sistema deve ser capaz de escalar horizontalmente para suportar um aumento no número de usuários simultâneos.|
-| **RNF005** | Todas as comunicações do sistema devem ser criptografadas utilizando SSL/TLS|
-| **RNF006** | O sistema deve ter uma disponibilidade de 99%, com downtime máximo de 3 horas por mês|
-| **RNF007** | O sistema deve ser fácil de usar, com uma curva de aprendizado que não exceda 2 horas para novos usuários|
-| **RNF008** | O sistema deve ser capaz de operar nos navegadores Google Chrome a partir da versão 90 e Safari da versão 17, sem modificações|
-| **RNF009** | O sistema deve ser capaz de operar no Android a partir da versão 13 e iOS 15|
-| **RNF010** | A comunicação entre o sistema e os usuários deve ser criptografada para proteger dados sensíveis|
-| **RNF011** | O sistema deve garantir atualizações e comunicação de status em tempo real|
-| **RNF012** | O sistema deve ser capaz de lidar com múltiplos usuários simultâneos sem comprometer o desempenho|
-| **RNF013** | Alertas devem ser enviados em tempo real quando níveis críticos de materiais forem atingidos ou eventos importantes ocorrerem|
+| **RNF001** | Todas as senhas devem ser gravadas utilizando sistema de criptografia em Hash|
+| **RNF002** | Disponibilização do serviço em HTTPS em nuvem pública|
+| **RNF003** | O sistema deve ser capaz de escalar horizontalmente para suportar um aumento no número de usuários simultâneos.|
+| **RNF004** | Todas as comunicações do sistema devem ser criptografadas utilizando SSL/TLS|
+| **RNF005** | O sistema deve ter uma disponibilidade de 99%, com downtime máximo de 3 horas por mês|
+| **RNF006** | O sistema deve ser fácil de usar, com uma curva de aprendizado que não exceda 2 horas para novos usuários|
+| **RNF007** | O sistema deve ser capaz de operar nos navegadores Google Chrome a partir da versão 90 e Safari da versão 17, sem modificações|
+| **RNF008** | O sistema deve ser capaz de operar no Android a partir da versão 13 e iOS 15|
+| **RNF009** | A comunicação entre o sistema e os usuários deve ser criptografada para proteger dados sensíveis|
+| **RNF010** | O sistema deve garantir atualizações e comunicação de status em tempo real|
+| **RNF011** | O sistema deve ser capaz de lidar com múltiplos usuários simultâneos sem comprometer o desempenho|
+| **RNF012** | Alertas devem ser enviados em tempo real quando níveis críticos de materiais forem atingidos ou eventos importantes ocorrerem|
 
 ## 2.3. Restrições Arquiteturais
 
