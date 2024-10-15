@@ -6,33 +6,44 @@ const manualRoutes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/pages/Login.vue'), // Certifique-se de que o caminho está correto
+    component: () => import('@/pages/Login.vue'), 
   },
   {
     path: '/recuperar-senha',
     name: 'RecuperarSenha',
-    component: () => import('@/pages/RecuperarSenha.vue'), // Certifique-se de que o caminho está correto
+    component: () => import('@/pages/RecuperarSenha.vue'), 
   },
   {
     path: '/cadastro',
     name: 'Cadastro',
-    component: () => import('@/pages/Cadastro.vue'), // Certifique-se de que o caminho está correto
+    component: () => import('@/pages/Cadastro.vue'), 
   },
   {
     path: '/produtos',
     name: 'Produtos',
-    component: () => import('@/pages/Produtos.vue'), // Certifique-se de que o caminho está correto
+    component: () => import('@/pages/Produtos.vue'), 
   },
   {
     path: '/pecas',
     name: 'Pecas',
-    component: () => import('@/pages/Pecas.vue'), // Certifique-se de que o caminho está correto
+    component: () => import('@/pages/Pecas.vue'), 
   },
   {
     path: '/linha',
     name: 'Linha',
-    component: () => import('@/pages/Linha.vue'), // Certifique-se de que o caminho está correto
+    component: () => import('@/pages/Linha.vue'), 
   },
+  {
+    path: '/bom',
+    name: 'BOM',
+    component: () => import('@/pages/BOM.vue'), 
+  },
+  {
+    path: '/planejamento',
+    name: 'Planejamento',
+    component: () => import('@/pages/Planejamento.vue'), 
+  },
+
   // Você pode adicionar mais rotas manualmente aqui
 ]
 

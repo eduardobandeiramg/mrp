@@ -25,6 +25,10 @@ export default {
         { text: "Gerenciar Peças", to: "/pecas" },
         { text: "Gerenciar Produtos", to: "/produtos" },
         { text: "Gerenciar Linhas de Produção", to: "/linha" },
+        { text: "Explosão BOM", to: "/bom" },
+        { text: "Planejamento de produção", to: "/planejamento" },
+
+
       ],
     };
   },
