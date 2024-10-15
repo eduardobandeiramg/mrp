@@ -165,15 +165,14 @@ Esta seção descreve os requisitos comtemplados nesta descrição arquitetural,
 |------------|-------------------------------------------------------------|
 | *RNF001* | Todas as senhas devem ser gravadas utilizando sistema de criptografia em Hash|
 | *RNF002* | Disponibilização do serviço em HTTPS em nuvem pública|
-| *RNF003* | O sistema deve ser capaz de suportar acessos simultâneos de até 60 usuários|
+| *RNF003* | O sistema deve ser capaz de lidar com até 60 acessos simultâneos sem comprometer o desempenho|
 | *RNF004* | Todas as comunicações do sistema devem ser criptografadas utilizando SSL/TLS|
 | *RNF005* | O sistema deve ter uma disponibilidade de 99%, com downtime máximo de 3 horas por mês|
 | *RNF006* | O sistema deve ser fácil de usar, com uma curva de aprendizado que não exceda 2 horas para novos usuários|
 | *RNF007* | O sistema deve ser capaz de operar nos navegadores Google Chrome a partir da versão 90 e Safari da versão 17, sem modificações|
 | *RNF008* | O sistema deve ser capaz de operar no Android a partir da versão 13 e iOS 15|
 | *RNF009* | A comunicação entre o sistema e os usuários deve ser criptografada para proteger dados sensíveis|
-| *RNF010* | O sistema deve garantir atualizações e comunicação de status em tempo real|
-| *RNF011* | O sistema deve ser capaz de lidar com múltiplos usuários simultâneos sem comprometer o desempenho|
+| *RNF010* | O sistema deve garantir atualizações e comunicação de status em tempo real com intervalos de até 1 minuto|
 
 ## 2.3. Restrições Arquiteturais
 
