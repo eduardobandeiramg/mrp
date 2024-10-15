@@ -1,29 +1,27 @@
 <template>
   <v-container>
-    <v-card class="gestao-pecas-container">
+    <v-card class="gestao-produtos-container">
       <v-card-title>
         <h1>Gestão de Produtos</h1>
         <v-spacer></v-spacer>
-        <v-btn class="mb-12" color="primary" @click="abrirModalIncluirPeca">
-          Adicionar Peça
-        </v-btn>
+        <v-btn color="primary" @click="abrirDialogoAdicionarProduto">Adicionar Produto</v-btn>
       </v-card-title>
       <!-- Tabela de Peças -->
       <v-card-text>
-        <v-data-table :headers="headers" :items="pecas" class="elevation-1 tabela-escura" item-class="tabela-item">
-
+        <v-data-table :headers="headers" :items="produtos" class="elevation-1 tabela-escura" item-class="tabela-item">
           <template v-slot:item.actions="{ item }">
             <div class="d-flex justify-content-end">
               <v-spacer></v-spacer>
               <v-spacer></v-spacer>
               <v-spacer></v-spacer>
-              <v-btn class="" color="blue" @click="abrirModalEditarPeca(item)">
+
+              <v-btn color="blue" @click="editarProduto(item)">
                 <v-icon>mdi-pencil</v-icon> Editar
               </v-btn>
-              <v-btn class="" color="red" @click="abrirModalExcluirPeca(item)">
+              <v-btn color="red" @click="excluirProduto(item)">
                 <v-icon>mdi-delete</v-icon>Excluir
               </v-btn>
-              </div>
+            </div>
           </template>
         </v-data-table>
       </v-card-text>
@@ -33,18 +31,22 @@
 
 
     <!-- Modal para incluir nova peça ou editar peça existente -->
-    <v-dialog v-model="modalVisivel" max-width="1500px">
+    <v-dialog v-model="dialogoAdicionar" max-width="500px">
       <v-card>
-        <v-card-title class="headline">{{ modalTitulo }}</v-card-title>
+        <v-card-title>
+          <span class="headline">Adicionar Produto</span>
+        </v-card-title>
+
         <v-card-text>
           <v-form ref="form">
-            <v-text-field v-model="novaPeca.nome" label="Nome da Peça" required></v-text-field>
-            <v-text-field v-model="novaPeca.codigo" label="Código da Peça" required></v-text-field>
+            <v-text-field v-model="novoProduto.nome" label="Nome do Produto" required></v-text-field>
+            <v-text-field v-model="novoProduto.codigo" label="Código do Produto" required></v-text-field>
           </v-form>
         </v-card-text>
+
         <v-card-actions>
-          <v-btn color="blue darken-1" text @click="fecharModal">Cancelar</v-btn>
-          <v-btn color="blue darken-1" text @click="salvarPeca">Salvar</v-btn>
+          <v-btn color="primary" @click="adicionarProduto">Adicionar</v-btn>
+          <v-btn color="red" @click="dialogoAdicionar = false">Cancelar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -54,7 +56,7 @@
       <v-card>
         <v-card-title class="headline">Confirmar Exclusão</v-card-title>
         <v-card-text>
-          <!-- Deseja realmente excluir a peça <strong>{{ pecaParaExcluir.nome }}</strong>? -->
+          <!-- Deseja realmente excluir a peça <strong>{{ produtoParaExcluir.nome }}</strong>? -->
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -68,84 +70,57 @@
 </template>
 
 <script>
+import produtoService from "@/services/Produtos.js";
+
 export default {
   data() {
     return {
-      modalVisivel: false,
-      modalExcluirVisivel: false,
-      modalTitulo: 'Incluir Nova Peça',
-      editando: false, // Define se estamos no modo de edição
-      headers: [
-        { text: 'Nome da Peça', value: 'nome' },
-        { text: 'Código da Peça', value: 'codigo' },
-        { text: 'Ações', value: 'actions', sortable: false },
-      ],
-      pecas: [
-        { nome: 'Peça A', codigo: '123' },
-        { nome: 'Peça B', codigo: '456' },
-      ],
-      novaPeca: {
-        nome: '',
-        codigo: '',
+      produtos: [],
+      dialogoAdicionar: false,
+      novoProduto: {
+        nome: "",
+        codigo: "",
       },
-      pecaParaExcluir: null, // Armazena a peça a ser excluída
-      indexEditando: null, // Armazena o índice da peça que está sendo editada
+      headers: [
+        { text: "Nome do Produto", value: "nome" },
+        { text: "Código", value: "codigo" },
+        { text: "Ações", value: "actions", sortable: false },
+      ],
     };
   },
   methods: {
-    abrirModalIncluirPeca() {
-      this.modalTitulo = 'Incluir Nova Peça';
-      this.editando = false;
-      this.limparFormulario();
-      this.modalVisivel = true;
+    async carregarProdutos() {
+      try {
+        this.produtos = await produtoService.getProducts();
+      } catch (error) {
+        console.error("Erro ao carregar produtos:", error);
+      }
     },
-    abrirModalEditarPeca(item) {
-      this.modalTitulo = 'Editar Peça';
-      this.editando = true;
-      this.novaPeca = { ...item }; // Carrega os dados da peça para edição
-      this.indexEditando = this.pecas.indexOf(item);
-      this.modalVisivel = true;
+    abrirDialogoAdicionarProduto() {
+      this.dialogoAdicionar = true;
     },
-    abrirModalExcluirPeca(item) {
-      this.pecaParaExcluir = item;
-      this.modalExcluirVisivel = true;
-    },
-    fecharModal() {
-      this.modalVisivel = false;
-      this.limparFormulario();
-    },
-    fecharModalExcluir() {
-      this.modalExcluirVisivel = false;
-      this.pecaParaExcluir = null;
-    },
-    salvarPeca() {
-      if (this.novaPeca.nome && this.novaPeca.codigo) {
-        if (this.editando) {
-          // Atualiza a peça existente
-          this.$set(this.pecas, this.indexEditando, { ...this.novaPeca });
-        } else {
-          // Adiciona uma nova peça
-          this.pecas.push({ ...this.novaPeca });
+    async adicionarProduto() {
+      if (this.$refs.form.validate()) {
+        try {
+          await produtoService.addProduct(this.novoProduto);
+          this.dialogoAdicionar = false;
+          this.carregarProdutos(); // Atualiza a lista após adicionar
+        } catch (error) {
+          console.error("Erro ao adicionar produto:", error);
         }
-        this.fecharModal();
-      } else {
-        alert('Por favor, preencha todos os campos!');
       }
     },
-    confirmarExcluirPeca() {
-      const indice = this.pecas.indexOf(this.pecaParaExcluir);
-      if (indice > -1) {
-        this.pecas.splice(indice, 1);
-      }
-      this.fecharModalExcluir();
+    editarProduto(item) {
+      console.log("Editar produto:", item);
+      // Implementar lógica de edição
     },
-    limparFormulario() {
-      this.novaPeca = {
-        nome: '',
-        codigo: '',
-      };
-      this.indexEditando = null;
+    excluirProduto(item) {
+      console.log("Excluir produto:", item);
+      // Implementar lógica de exclusão
     },
+  },
+  mounted() {
+    this.carregarProdutos();
   },
 };
 </script>
@@ -156,7 +131,7 @@ export default {
   width: 100px;
 }
 
-.gestao-pecas-container {
+.gestao-produtos-container {
   margin-top: 70px;
   height: 80vh;
   width: 90vw;

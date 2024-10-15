@@ -25,18 +25,15 @@
               </v-btn>
             </div>
           </template>
-
         </v-data-table>
       </v-card-text>
     </v-card>
-
     <!-- Modal para adicionar/editar linha -->
     <v-dialog v-model="showDialog" max-width="500px">
       <v-card>
         <v-card-title>
           <span class="headline">{{ editando ? 'Editar Linha' : 'Adicionar Linha' }}</span>
         </v-card-title>
-
         <v-card-text>
           <v-container>
             <v-row>
@@ -46,7 +43,6 @@
             </v-row>
           </v-container>
         </v-card-text>
-
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="fecharModal">Cancelar</v-btn>

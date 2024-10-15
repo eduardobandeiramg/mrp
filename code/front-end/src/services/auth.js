@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { API_BASE_URL } from './config'; // Importando a URL base
+import { API_BASE_URL } from './config'; 
 
 const API_URL_LOGIN = `${API_BASE_URL}/auth/login`;
 const API_URL_REGISTER = `${API_BASE_URL}/auth/register`;
-const API_URL_FORGOT_PASSWORD = `${API_BASE_URL}/auth/forgot-password`; // Adicionando a URL para forgot-password
+const API_URL_FORGOT_PASSWORD = `${API_BASE_URL}/auth/forgot-password`; 
 
 export const login = async (username, password) => {
   try {
