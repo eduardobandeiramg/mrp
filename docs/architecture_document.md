@@ -171,7 +171,7 @@ Esta seção descreve os requisitos comtemplados nesta descrição arquitetural,
 | *RNF006* | O sistema deve ser fácil de usar, com uma curva de aprendizado que não exceda 2 horas para novos usuários|
 | *RNF007* | O sistema deve ser capaz de operar nos navegadores Google Chrome a partir da versão 90 e Safari da versão 17, sem modificações|
 | *RNF008* | O sistema deve ser capaz de operar no Android a partir da versão 13 e iOS 15|
-| *RNF009* | A comunicação entre o sistema e os usuários deve ser criptografada para proteger dados sensíveis|
+| *RNF009* | A comunicação entre o sistema e os usuários deve utilizar criptografia baseada em JWT e hash bcrypt para garantir a proteção de dados sensíveis durante a transmissão, assegurando a integridade e confidencialidade das informações.
 | *RNF010* | O sistema deve garantir atualizações e comunicação de status em tempo real com intervalos de até 1 minuto|
 
 ## 2.3. Restrições Arquiteturais
