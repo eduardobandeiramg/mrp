@@ -9,6 +9,7 @@ import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
 import { MaterialsModule } from './materials/materials.module';
 import { BuildOfMaterialsModule } from './build_of_materials/build_of_materials.module';
+import { ProductionPlansModule } from './production_plans/production_plans.module';
 
 @Module({
 	imports: [
@@ -20,6 +21,7 @@ import { BuildOfMaterialsModule } from './build_of_materials/build_of_materials.
 		AuthModule,
 		MaterialsModule,
 		BuildOfMaterialsModule,
+		ProductionPlansModule,
 	],
 	controllers: [],
 	providers: [

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ProductionPlan } from 'src/production_plans/entities/production_plan.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Product {
@@ -13,4 +14,7 @@ export class Product {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @OneToMany(() => ProductionPlan, (productionPlan) => productionPlan.product)
+  productionPlans: ProductionPlan[];
 }
