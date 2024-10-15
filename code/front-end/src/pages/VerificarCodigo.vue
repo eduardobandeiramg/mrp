@@ -40,7 +40,6 @@ export default {
     verificarCodigo() {
       const codigoCompleto = this.codigo.join("");
       if (codigoCompleto.length === 6) {
-        console.log(`Verificando código: ${codigoCompleto}`);
         // Aqui você pode adicionar a lógica de verificação do código
         // Exemplo: this.$router.push({ name: "novaSenha" });
       } else {
