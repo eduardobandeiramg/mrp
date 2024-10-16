@@ -1,6 +1,13 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Line } from '../../line/entities/line.entity';
 import { Product } from '../../products/entities/product.entity';
+import { Production } from './production.entity';
 
 @Entity()
 export class ProductionPlan {
@@ -20,4 +27,7 @@ export class ProductionPlan {
 
   @ManyToOne(() => Line, (line) => line.productionPlans, { eager: true })
   line: Line;
+
+  @OneToMany(() => Production, (production) => production.productionPlan)
+  productions: Production[];
 }
