@@ -1,11 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ProductionPlansService } from './production_plans.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateProductionPlanDto } from './dto/create-production_plan.dto';
 import { UpdateProductionPlanDto } from './dto/update-production_plan.dto';
+import { ProductionPlansService } from './production_plans.service';
 
+@ApiTags('production-plans')
 @Controller('production-plans')
 export class ProductionPlansController {
-  constructor(private readonly productionPlansService: ProductionPlansService) {}
+  constructor(
+    private readonly productionPlansService: ProductionPlansService,
+  ) {}
 
   @Post()
   create(@Body() createProductionPlanDto: CreateProductionPlanDto) {
@@ -23,7 +35,10 @@ export class ProductionPlansController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductionPlanDto: UpdateProductionPlanDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateProductionPlanDto: UpdateProductionPlanDto,
+  ) {
     return this.productionPlansService.update(+id, updateProductionPlanDto);
   }
 
