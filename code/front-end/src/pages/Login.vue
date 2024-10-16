@@ -45,10 +45,7 @@ export default {
         const response = await login(this.username, this.password);
         if (response.status === 201) {
           const token = response.data.token;
-          console.log(token);
-          
           localStorage.setItem('authToken', token); // Salva o token no localStorage
-
           this.message = 'Login bem-sucedido!';
           this.success = true;
 

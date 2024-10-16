@@ -1,26 +1,26 @@
 <template>
   <v-container>
-    <v-card class="linha-container">
+    <v-card flat class="linha-container">
       <v-card-title>
         <h1>Gestão de Linhas de Produção</h1>
         <v-spacer></v-spacer>
-        <v-btn class="mb-12" color="primary" @click="abrirModalAdicionar">
-          Adicionar Linha
-        </v-btn>
+        <v-btn class="mb-12" color="primary" @click="abrirModalIncluir"> Adicionar Linha </v-btn>
       </v-card-title>
+
       <!-- Tabela de Linhas -->
       <v-card-text>
-        <v-data-table :items="linhas" :headers="headers" item-key="id" class="elevation-1 tabela-escura">
+        <v-text-field v-model="search" label="Search" prepend-inner-icon="mdi-magnify"></v-text-field>
+        <v-data-table :items="linhas" :headers="headers" :search="search" class="elevation-1 tabela-escura">
           <template v-slot:[`item.acao`]="{ item }">
             <div class="d-flex justify-content-end">
               <v-spacer></v-spacer>
               <v-spacer></v-spacer>
               <v-spacer></v-spacer>
 
-              <v-btn color="blue" @click="editarLinha(item)">
+              <v-btn color="blue" @click="abrirModalEditar(item)">
                 <v-icon>mdi-pencil</v-icon>Editar
               </v-btn>
-              <v-btn color="red" @click="excluirLinha(item.id)">
+              <v-btn color="red" @click="abrirModalExcluir(item)">
                 <v-icon>mdi-delete</v-icon>Excluir
               </v-btn>
             </div>
@@ -28,28 +28,39 @@
         </v-data-table>
       </v-card-text>
     </v-card>
-    <!-- Modal para adicionar/editar linha -->
-    <v-dialog v-model="showDialog" max-width="500px">
+
+    <!-- Modal para incluir ou editar linha -->
+    <v-dialog v-model="modalVisivel" max-width="500px">
       <v-card>
-        <v-card-title>
-          <span class="headline">{{ editando ? 'Editar Linha' : 'Adicionar Linha' }}</span>
-        </v-card-title>
+        <v-card-title class="headline">{{ modalTitulo }}</v-card-title>
         <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field v-model="linha.nome" label="Nome da Linha"></v-text-field>
-              </v-col>
-            </v-row>
-          </v-container>
+          <v-form ref="form">
+            <v-text-field v-model="novaLinha.name" label="Nome da linha" required></v-text-field>
+            <!-- <v-text-field v-model="novaLinha.code" label="Código da linha" required></v-text-field> -->
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="fecharModal">Cancelar</v-btn>
-          <v-btn color="blue darken-1" text @click="salvarLinha">{{ editando ? 'Salvar' : 'Adicionar' }}</v-btn>
+          <v-btn color="blue darken-1" text @click="salvar">Salvar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Modal de confirmação de exclusão -->
+    <v-dialog v-model="modalExcluirVisivel" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">Confirmar Exclusão</v-card-title>
+        <v-card-text>Deseja realmente excluir a linha <strong>{{ linhaParaExcluir?.nome }}</strong>?</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="fecharModalExcluir">Cancelar</v-btn>
+          <v-btn color="red darken-1" text @click="confirmarExcluir">Excluir</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
   </v-container>
 </template>
 
@@ -59,38 +70,72 @@ import linhaService from '@/services/Linha.js';
 export default {
   data() {
     return {
+      search: '',
       linhas: [],
-      headers: [
-        { text: 'Nome', value: 'name' },
-        { text: 'Ações', value: 'acao', sortable: false },
-      ],
-      linha: { nome: '' },
-      showDialog: false,
+      novaLinha: { name: '' },
+
+      modalVisivel: false,
+      modalExcluirVisivel: false,
+      modalTitulo: 'Incluir Nova Linha',
       editando: false,
-      linhaId: null,
+      linhaParaExcluir: null,
+      indexEditando: null,
+
+      headers: [
+        { align: 'center', title: 'Nome', key: 'name' },
+        { align: 'center', title: 'Ações', key: 'acao', sortable: false },
+      ],
+
     };
   },
   methods: {
+
+    /////////////////////////////////////////////////
+    abrirModalIncluir() {
+      this.modalTitulo = 'Incluir Nova Linha';
+      this.editando = false;
+      this.limparFormulario();
+      this.modalVisivel = true;
+    },
+    abrirModalEditar(item) {
+      this.modalTitulo = 'Editar Linha';
+      this.editando = true;
+      this.novaLinha = { ...item };
+      this.indexEditando = this.linhas.indexOf(item);
+      this.modalVisivel = true;
+    },
+    fecharModal() {
+      this.modalVisivel = false;
+      this.limparFormulario();
+    },
+    abrirModalExcluir(item) {
+      this.linhaParaExcluir = item;
+      this.modalExcluirVisivel = true;
+    },
+    fecharModalExcluir() {
+      this.modalExcluirVisivel = false;
+      this.linhaParaExcluir = null;
+    },
+    limparFormulario() {
+      this.novaLinha = { description: '' };
+      this.indexEditando = null;
+    },
+    /////////////////////////////////////////////////
+
     async carregarLinhas() {
       try {
-        this.linhas = await linhaService.getLines();
+        this.linhas = await linhaService.getAllLines();
       } catch (error) {
         console.error('Erro ao carregar linhas:', error);
       }
     },
-    abrirModalAdicionar() {
-      console.log(localStorage.getItem('authToken'))
-
-      this.linha = { nome: '' };
-      this.editando = false;
-      this.showDialog = true;
-    },
-    async salvarLinha() {
+ 
+    async salvar() {
       try {
         if (this.editando) {
-          await linhaService.atualizarLinha(this.linhaId, this.linha);
+          await linhaService.updateLine(this.novaLinha.lineId, this.novaLinha);
         } else {
-          await linhaService.adicionarLinha(this.linha);
+          await linhaService.addLine(this.novaLinha);
         }
         this.fecharModal();
         this.carregarLinhas();
@@ -98,24 +143,17 @@ export default {
         console.error('Erro ao salvar linha:', error);
       }
     },
-    editarLinha(item) {
-      this.linha = { ...item };
-      this.linhaId = item.id;
-      this.editando = true;
-      this.showDialog = true;
-    },
-    async excluirLinha(id) {
+
+    async confirmarExcluir() {
       try {
-        await linhaService.excluirLinha(id);
+        await linhaService.deleteLine(this.linhaParaExcluir.lineId);
+        this.fecharModalExcluir();
         this.carregarLinhas();
       } catch (error) {
         console.error('Erro ao excluir linha:', error);
       }
     },
-    fecharModal() {
-      this.showDialog = false;
-      this.linha = { nome: '' };
-    },
+
   },
   mounted() {
     this.carregarLinhas();
@@ -130,8 +168,6 @@ export default {
 
 .linha-container {
   margin-top: 70px;
-  height: 80vh;
-  width: 90vw;
   padding: 20px;
   background-color: #333;
   color: #fff;
@@ -164,10 +200,4 @@ export default {
   /* Cor do texto das células */
 }
 
-.tabela-escura {
-  background-color: #444;
-  /* Cor de fundo das células */
-  color: #fff;
-  /* Cor do texto das células */
-}
 </style>

@@ -4,21 +4,26 @@
       <v-card-title>
         <h1>Gestão de Produtos</h1>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="abrirDialogoAdicionarProduto">Adicionar Produto</v-btn>
+        <v-btn  class="mb-12" color="primary" @click="abrirModalIncluir">Adicionar Produto</v-btn>
       </v-card-title>
-      <!-- Tabela de Peças -->
+
+      <!-- Tabela de Produto -->
       <v-card-text>
-        <v-data-table :headers="headers" :items="produtos" class="elevation-1 tabela-escura" item-class="tabela-item">
+        <v-text-field v-model="search" label="Search" prepend-inner-icon="mdi-magnify"></v-text-field>
+        <v-data-table :headers="headers" :items="produtos" :search="search" class="elevation-1 tabela-escura">
+          <template v-slot:item.isActive="{ item }">
+            <span>{{ item.isActive ? 'Sim' : 'Não' }}</span>
+          </template>
           <template v-slot:item.actions="{ item }">
             <div class="d-flex justify-content-end">
               <v-spacer></v-spacer>
               <v-spacer></v-spacer>
               <v-spacer></v-spacer>
 
-              <v-btn color="blue" @click="editarProduto(item)">
+              <v-btn color="blue" @click="abrirModalEditar(item)">
                 <v-icon>mdi-pencil</v-icon> Editar
               </v-btn>
-              <v-btn color="red" @click="excluirProduto(item)">
+              <v-btn color="red" @click="abrirModalExcluir(item)">
                 <v-icon>mdi-delete</v-icon>Excluir
               </v-btn>
             </div>
@@ -30,38 +35,35 @@
 
 
 
-    <!-- Modal para incluir nova peça ou editar peça existente -->
-    <v-dialog v-model="dialogoAdicionar" max-width="500px">
+    <!-- Modal para incluir nova ou editar existente -->
+    <v-dialog v-model="modalVisivel" max-width="500px">
       <v-card>
-        <v-card-title>
-          <span class="headline">Adicionar Produto</span>
-        </v-card-title>
-
+        <v-card-title class="headline">{{ modalTitulo }}</v-card-title>
         <v-card-text>
           <v-form ref="form">
-            <v-text-field v-model="novoProduto.nome" label="Nome do Produto" required></v-text-field>
-            <v-text-field v-model="novoProduto.codigo" label="Código do Produto" required></v-text-field>
+            <v-text-field v-model="novoProduto.description" label="Nome do Produto" required></v-text-field>
+            <v-text-field v-model="novoProduto.code" label="Código do Produto" required></v-text-field>
           </v-form>
         </v-card-text>
-
         <v-card-actions>
-          <v-btn color="primary" @click="adicionarProduto">Adicionar</v-btn>
-          <v-btn color="red" @click="dialogoAdicionar = false">Cancelar</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="fecharModal">Cancelar</v-btn>
+          <v-btn color="blue darken-1" text @click="salvar">Salvar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+
 
     <!-- Modal de confirmação de exclusão -->
     <v-dialog v-model="modalExcluirVisivel" max-width="500px">
       <v-card>
         <v-card-title class="headline">Confirmar Exclusão</v-card-title>
-        <v-card-text>
-          <!-- Deseja realmente excluir a peça <strong>{{ produtoParaExcluir.nome }}</strong>? -->
-        </v-card-text>
+        <v-card-text>Deseja realmente excluir o produto <strong>{{ produtoParaExcluir?.description }}</strong>?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="fecharModalExcluir">Cancelar</v-btn>
-          <v-btn color="red darken-1" text @click="confirmarExcluirPeca">Excluir</v-btn>
+          <v-btn color="red darken-1" text @click="confirmarExcluir">Excluir</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -75,20 +77,60 @@ import produtoService from "@/services/Produtos.js";
 export default {
   data() {
     return {
+      search: '',
       produtos: [],
-      dialogoAdicionar: false,
-      novoProduto: {
-        nome: "",
-        codigo: "",
-      },
+      novoProduto: { nome: "", codigo: "", },
+
+      modalVisivel: false,
+      modalExcluirVisivel: false,
+      modalTitulo: 'Incluir Novo Produto',
+      editando: false,
+      produtoParaExcluir: null,
+      indexEditando: null,
+
       headers: [
-        { text: "Nome do Produto", value: "nome" },
-        { text: "Código", value: "codigo" },
-        { text: "Ações", value: "actions", sortable: false },
+        { align: 'center', title: "Nome do Produto", key: "description" },
+        { align: 'center', title: "Código", key: "code" },
+        { align: 'center', title: "Está ativo?", key: "isActive" },
+        { align: 'center', title: "Ações", key: "actions", sortable: false },
       ],
     };
   },
   methods: {
+
+    /////////////////////////////////////////////////
+    abrirModalIncluir() {
+      this.modalTitulo = 'Incluir Nova produto';
+      this.editando = false;
+      this.limparFormulario();
+      this.modalVisivel = true;
+    },
+    abrirModalEditar(item) {
+      this.modalTitulo = 'Editar produto';
+      this.editando = true;
+      this.novoProduto = { ...item };
+      this.indexEditando = this.produtos.indexOf(item);
+      this.modalVisivel = true;
+    },
+    fecharModal() {
+      this.modalVisivel = false;
+      this.limparFormulario();
+    },
+    abrirModalExcluir(item) {
+      this.produtoParaExcluir = item;
+      this.modalExcluirVisivel = true;
+    },
+    fecharModalExcluir() {
+      this.modalExcluirVisivel = false;
+      this.produtoParaExcluir = null;
+    },
+    limparFormulario() {
+      this.novoProduto = { description: '', code: '' };
+      this.indexEditando = null;
+    },
+    /////////////////////////////////////////////////
+
+
     async carregarProdutos() {
       try {
         this.produtos = await produtoService.getProducts();
@@ -96,28 +138,34 @@ export default {
         console.error("Erro ao carregar produtos:", error);
       }
     },
-    abrirDialogoAdicionarProduto() {
-      this.dialogoAdicionar = true;
-    },
-    async adicionarProduto() {
-      if (this.$refs.form.validate()) {
-        try {
+    
+
+
+    async salvar() {
+      try {
+        if (this.editando) {
+          await produtoService.updateProduct(this.novoProduto.id, this.novoProduto);
+        } else {
           await produtoService.addProduct(this.novoProduto);
-          this.dialogoAdicionar = false;
-          this.carregarProdutos(); // Atualiza a lista após adicionar
-        } catch (error) {
-          console.error("Erro ao adicionar produto:", error);
         }
+        this.fecharModal();
+        this.carregarProdutos();
+      } catch (error) {
+        console.error('Erro ao salvar produto:', error);
       }
     },
-    editarProduto(item) {
-      console.log("Editar produto:", item);
-      // Implementar lógica de edição
+
+    async confirmarExcluir() {
+      try {
+        await produtoService.deleteProduct(this.produtoParaExcluir.id);
+        this.fecharModalExcluir();
+        this.carregarProdutos();
+      } catch (error) {
+        console.error('Erro ao excluir produto:', error);
+      }
     },
-    excluirProduto(item) {
-      console.log("Excluir produto:", item);
-      // Implementar lógica de exclusão
-    },
+    
+    
   },
   mounted() {
     this.carregarProdutos();
@@ -127,14 +175,9 @@ export default {
 
 
 <style scoped>
-.coluna-botao {
-  width: 100px;
-}
 
 .gestao-produtos-container {
   margin-top: 70px;
-  height: 80vh;
-  width: 90vw;
   padding: 20px;
   background-color: #333;
   color: #fff;
@@ -142,35 +185,24 @@ export default {
   border-radius: 8px;
 }
 
-.v-btn {
-  margin-right: 10px;
-}
-
 .tabela-escura .v-data-table__wrapper {
   background-color: #444;
-  /* Cor de fundo escura para a tabela */
   color: #fff;
-  /* Cor do texto */
 }
 
 .tabela-escura th {
   background-color: #555;
-  /* Cor de fundo dos cabeçalhos da tabela */
   color: #fff;
-  /* Cor do texto dos cabeçalhos */
 }
 
 .tabela-escura td {
   background-color: #444;
-  /* Cor de fundo das células */
   color: #fff;
-  /* Cor do texto das células */
 }
 
-.tabela-escura {
-  background-color: #444;
-  /* Cor de fundo das células */
-  color: #fff;
-  /* Cor do texto das células */
+.v-btn {
+  margin-right: 10px;
 }
+
+
 </style>
