@@ -6,13 +6,12 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
 import { CreateProductionPlanDto } from './dto/create-production_plan.dto';
 import { UpdateProductionPlanDto } from './dto/update-production_plan.dto';
 import { ProductionPlansService } from './production_plans.service';
 
-@ApiTags('production-plans')
 @Controller('production-plans')
 export class ProductionPlansController {
   constructor(
@@ -21,17 +20,22 @@ export class ProductionPlansController {
 
   @Post()
   create(@Body() createProductionPlanDto: CreateProductionPlanDto) {
-    return this.productionPlansService.create(createProductionPlanDto);
+    return this.productionPlansService.createProductionPlan(
+      createProductionPlanDto,
+    );
   }
 
   @Get()
-  findAll() {
-    return this.productionPlansService.findAll();
+  findAll(
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
+  ) {
+    return this.productionPlansService.findAll(startDate, endDate);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productionPlansService.findOne(+id);
+    return this.productionPlansService.findOneProductionPlan(id);
   }
 
   @Patch(':id')
@@ -39,11 +43,25 @@ export class ProductionPlansController {
     @Param('id') id: string,
     @Body() updateProductionPlanDto: UpdateProductionPlanDto,
   ) {
-    return this.productionPlansService.update(+id, updateProductionPlanDto);
+    return this.productionPlansService.updateProductionPlan(
+      id,
+      updateProductionPlanDto,
+    );
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.productionPlansService.remove(+id);
+    return this.productionPlansService.removeProductionPlan(id);
+  }
+
+  // Rotas relacionadas a produção
+  @Patch('production/start/:id')
+  startProduction(@Param('id') id: string) {
+    return this.productionPlansService.startProduction(id);
+  }
+
+  @Patch('production/end/:id')
+  endProduction(@Param('id') id: string) {
+    return this.productionPlansService.endProduction(id);
   }
 }

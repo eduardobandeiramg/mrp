@@ -14,9 +14,7 @@ export class ProductionPlan {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Product, (product) => product.productionPlans, {
-    eager: true,
-  })
+  @ManyToOne(() => Product, (product) => product.productionPlans)
   product: Product;
 
   @Column({ type: 'date' })
@@ -25,7 +23,7 @@ export class ProductionPlan {
   @Column({ type: 'int' })
   qtd: number;
 
-  @ManyToOne(() => Line, (line) => line.productionPlans, { eager: true })
+  @ManyToOne(() => Line, (line) => line.productionPlans)
   line: Line;
 
   @OneToMany(() => Production, (production) => production.productionPlan)
