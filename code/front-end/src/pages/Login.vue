@@ -28,47 +28,50 @@
 
 
 <script>
-import { login } from '@/services/auth'; // Importando a função de login do auth.js
+import { login } from '@/services/auth'; // Importe a função de login do auth.js
 
 export default {
   data() {
     return {
       username: '',
       password: '',
-      message: '', // Armazena a mensagem a ser exibida
-      success: false // Define se a mensagem é de sucesso ou erro
+      message: '',
+      success: false,
     };
   },
   methods: {
     async loginUser() {
       try {
         const response = await login(this.username, this.password);
-        if (response.status === 201) { // Sucesso se o status for 201
+        if (response.status === 201) {
+          const token = response.data.token;
+          localStorage.setItem('authToken', token); // Salva o token no localStorage
           this.message = 'Login bem-sucedido!';
           this.success = true;
 
-          // Redireciona para a home após 2 segundos
+          // Redireciona para a página inicial após 2 segundos
           setTimeout(() => {
             this.$router.push('/');
           }, 2000);
         } else {
-          this.message = 'Erro desconhecido no login.';
+          this.message = 'Erro desconhecido no login';
           this.success = false;
         }
       } catch (error) {
-        // Tratar erro de login
-        console.error('Erro ao fazer login', error);
-        if (error.response && error.response.data) {
-          this.message = error.response.data.message || 'Erro ao fazer login.';
+        console.error('Erro ao fazer login:', error);
+        if (error.response && error.response.data && error.response.data.message) {
+          this.message = error.response.data.message;
         } else {
           this.message = 'Erro ao fazer login.';
         }
         this.success = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
+
+
 
 <style scoped>
 .login-container {
