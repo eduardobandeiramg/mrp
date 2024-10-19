@@ -44,7 +44,6 @@ export class ProductionService {
       productionPlan,
     });
 
-    // Função fictícia para solicitar peças ao estoque (ainda não implementada)
     this.sendRequestToStock();
 
     return this.productionRepository.save(production);
