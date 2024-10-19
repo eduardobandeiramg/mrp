@@ -7,12 +7,13 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateProductionPlanDto } from './dto/create-production_plan.dto';
 import { UpdateProductionPlanDto } from './dto/update-production_plan.dto';
 import { ProductionPlansService } from './production_plans.service';
 
 @ApiTags('production-plans')
+@ApiBearerAuth()
 @Controller('production-plans')
 export class ProductionPlansController {
   constructor(

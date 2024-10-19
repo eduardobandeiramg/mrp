@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Line } from '../line/entities/line.entity';
@@ -20,34 +20,29 @@ export class ProductionPlansService {
     private linesRepository: Repository<Line>,
   ) {}
 
-  async create(
-    createProductionPlanDto: CreateProductionPlanDto,
-  ): Promise<ProductionPlan> {
-    const { productId, datePrev, qtd, lineId } = createProductionPlanDto;
+  async create(createProductionPlanDto: CreateProductionPlanDto) {
+    const { qtd, datePrev, productId } = createProductionPlanDto;
 
-    // Verificando se o produto existe
-    const product = await this.productsRepository.findOneBy({ id: productId });
-    if (!product) {
-      throw new NotFoundException('Product not found');
-    }
-
-    let line = null;
-    if (lineId) {
-      // Verificando se a linha existe
-      line = await this.linesRepository.findOneBy({ lineId: lineId });
-      if (!line) {
-        throw new NotFoundException('Line not found');
-      }
-    }
-
-    const productionPlan = this.productionPlansRepository.create({
-      product,
-      datePrev,
-      qtd,
-      line,
+    const product = await this.productsRepository.findOneOrFail({
+      where: { id: productId },
     });
 
-    return await this.productionPlansRepository.save(productionPlan);
+    const productionPlan = new ProductionPlan();
+    productionPlan.qtd = qtd;
+
+    productionPlan.datePrev = new Date(datePrev);
+
+    if (!isNaN(productionPlan.datePrev.getTime())) {
+      productionPlan.datePrev = new Date(
+        productionPlan.datePrev.toISOString().split('T')[0],
+      );
+    } else {
+      throw new Error('Invalid date value provided for datePrev');
+    }
+
+    productionPlan.product = product;
+
+    return this.productionPlansRepository.save(productionPlan);
   }
 
   findAll() {
