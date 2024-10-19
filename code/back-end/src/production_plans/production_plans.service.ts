@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Line } from '../line/entities/line.entity';
@@ -44,15 +44,56 @@ export class ProductionPlansService {
     return this.productionPlansRepository.save(productionPlan);
   }
 
-  findAll() {
-    return `This action returns all productionPlans`;
+  async findByDates(startDate: string, endDate: string) {
+    try {
+      const query =
+        this.productionPlansRepository.createQueryBuilder('productionPlan');
+
+      if (startDate) {
+        query.andWhere('productionPlan.datePrev >= :startDate', { startDate });
+      }
+
+      if (endDate) {
+        query.andWhere('productionPlan.datePrev <= :endDate', { endDate });
+      }
+
+      const productionPlans = await query.getMany();
+
+      if (productionPlans.length === 0) {
+        throw new NotFoundException(
+          'No production plans found between the given dates.',
+        );
+      }
+
+      return productionPlans;
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} productionPlan`;
+  async findOneById(id: string) {
+    try {
+      const productionPlan = await this.productionPlansRepository.findOne({
+        where: { id },
+      });
+      if (!productionPlan) {
+        throw new NotFoundException(`Production Plan with ID ${id} not found`);
+      }
+      return productionPlan;
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} productionPlan`;
+  async remove(id: string): Promise<void> {
+    const productionPlan = await this.productionPlansRepository.findOne({
+      where: { id },
+    });
+
+    if (!productionPlan) {
+      throw new Error(`ProductionPlan with id ${id} not found`);
+    }
+
+    await this.productionPlansRepository.delete(id);
   }
 }

@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateProductionPlanDto } from './dto/create-production_plan.dto';
 import { ProductionPlansService } from './production_plans.service';
@@ -16,18 +25,42 @@ export class ProductionPlansController {
     return this.productionPlansService.create(createProductionPlanDto);
   }
 
-  @Get()
-  findAll() {
-    return this.productionPlansService.findAll();
+  @Get('by-dates')
+  async findByDates(
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
+  ) {
+    try {
+      const productionPlans = await this.productionPlansService.findByDates(
+        startDate,
+        endDate,
+      );
+      if (!productionPlans || productionPlans.length === 0) {
+        throw new NotFoundException(
+          'No production plans found for the given dates',
+        );
+      }
+      return productionPlans;
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.productionPlansService.findOne(id); // Usar string aqui em vez de número
+  async findOne(@Param('id') id: string) {
+    try {
+      const productionPlan = await this.productionPlansService.findOneById(id);
+      if (!productionPlan) {
+        throw new NotFoundException(`Production Plan with ID ${id} not found`);
+      }
+      return productionPlan;
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.productionPlansService.remove(id); // Usar string aqui em vez de número
+  async remove(@Param('id') id: string): Promise<void> {
+    await this.productionPlansService.remove(id);
   }
 }
