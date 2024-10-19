@@ -7,18 +7,21 @@ export class Production {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Product, (product) => product.productions)
-  product: Product;
+  @ManyToOne(() => Product, (product) => product.productions, {
+    nullable: true,
+  })
+  product?: Product;
 
   @ManyToOne(
     () => ProductionPlan,
     (productionPlan) => productionPlan.productions,
+    { nullable: true },
   )
-  productionPlan: ProductionPlan;
+  productionPlan?: ProductionPlan;
 
   @Column({ type: 'date', nullable: true })
-  dateInit: Date;
+  dateInit?: Date;
 
   @Column({ type: 'date', nullable: true })
-  dateEnd: Date;
+  dateEnd?: Date;
 }

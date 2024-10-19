@@ -9,8 +9,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateProductionPlanDto } from './dto/create-production_plan.dto';
-import { ProductionPlansService } from './production_plans.service';
+import { ProductionPlansService } from '../../production_plans/production_plans/production_plans.service';
+import { CreateProductionPlanDto } from '../dto/create-production_plan.dto';
 
 @ApiTags('production-plans')
 @ApiBearerAuth()

@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Line } from '../line/entities/line.entity';
-import { Product } from '../products/entities/product.entity';
-import { CreateProductionPlanDto } from './dto/create-production_plan.dto';
-import { ProductionPlan } from './entities/production_plan.entity';
+import { Line } from '../../line/entities/line.entity';
+import { Product } from '../../products/entities/product.entity';
+import { CreateProductionPlanDto } from '../dto/create-production_plan.dto';
+import { ProductionPlan } from '../entities/production_plan.entity';
 
 @Injectable()
 export class ProductionPlansService {
