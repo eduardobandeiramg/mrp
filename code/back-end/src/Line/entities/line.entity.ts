@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ProductionPlan } from '../../production_plans/entities/production_plan.entity';
 
 @Entity()
 export class Line {
@@ -7,4 +8,7 @@ export class Line {
 
   @Column()
   name: string;
+
+  @OneToMany(() => ProductionPlan, (productionPlan) => productionPlan.line)
+  productionPlans: ProductionPlan[];
 }
