@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { Line } from '../line/entities/line.entity';
 import { Product } from '../products/entities/product.entity';
 import { CreateProductionPlanDto } from './dto/create-production_plan.dto';
-import { UpdateProductionPlanDto } from './dto/update-production_plan.dto';
 import { ProductionPlan } from './entities/production_plan.entity';
 
 @Injectable()
@@ -51,10 +50,6 @@ export class ProductionPlansService {
 
   findOne(id: number) {
     return `This action returns a #${id} productionPlan`;
-  }
-
-  update(id: number, updateProductionPlanDto: UpdateProductionPlanDto) {
-    return `This action updates a #${id} productionPlan`;
   }
 
   remove(id: number) {

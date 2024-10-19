@@ -1,15 +1,6 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateProductionPlanDto } from './dto/create-production_plan.dto';
-import { UpdateProductionPlanDto } from './dto/update-production_plan.dto';
 import { ProductionPlansService } from './production_plans.service';
 
 @ApiTags('production-plans')
@@ -33,14 +24,6 @@ export class ProductionPlansController {
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.productionPlansService.findOne(id); // Usar string aqui em vez de número
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: number,
-    @Body() updateProductionPlanDto: UpdateProductionPlanDto,
-  ) {
-    return this.productionPlansService.update(id, updateProductionPlanDto); // Usar string aqui em vez de número
   }
 
   @Delete(':id')
