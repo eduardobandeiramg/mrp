@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from '../../products/entities/product.entity';
@@ -51,5 +51,31 @@ export class ProductionService {
 
   async sendRequestToStock() {
     // TODO: Lógica para enviar requisição ao estoque
+  }
+
+  async startProduction(id: string): Promise<Production> {
+    const production = await this.productionRepository.findOne({
+      where: { id },
+    });
+
+    if (!production) {
+      throw new NotFoundException(`Production with ID ${id} not found`);
+    }
+
+    production.dateInit = new Date();
+    return this.productionRepository.save(production);
+  }
+
+  async endProduction(id: string): Promise<Production> {
+    const production = await this.productionRepository.findOne({
+      where: { id },
+    });
+
+    if (!production) {
+      throw new NotFoundException(`Production with ID ${id} not found`);
+    }
+
+    production.dateEnd = new Date();
+    return this.productionRepository.save(production);
   }
 }
