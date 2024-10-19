@@ -14,17 +14,19 @@ export class ProductionPlan {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Product, (product) => product.productionPlans)
+  @ManyToOne(() => Product, (product) => product.productionPlans, {
+    nullable: false,
+  })
   product: Product;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', nullable: false })
   datePrev: Date;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', nullable: false })
   qtd: number;
 
-  @ManyToOne(() => Line, (line) => line.productionPlans)
-  line: Line;
+  @ManyToOne(() => Line, (line) => line.productionPlans, { nullable: true })
+  line: Line | null;
 
   @OneToMany(() => Production, (production) => production.productionPlan)
   productions: Production[];

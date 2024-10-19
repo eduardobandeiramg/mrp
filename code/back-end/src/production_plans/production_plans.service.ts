@@ -1,89 +1,68 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Line } from '../line/entities/line.entity';
+import { Product } from '../products/entities/product.entity';
 import { CreateProductionPlanDto } from './dto/create-production_plan.dto';
 import { UpdateProductionPlanDto } from './dto/update-production_plan.dto';
-import { Production } from './entities/production.entity';
 import { ProductionPlan } from './entities/production_plan.entity';
 
 @Injectable()
 export class ProductionPlansService {
   constructor(
     @InjectRepository(ProductionPlan)
-    private productionPlanRepository: Repository<ProductionPlan>,
+    private productionPlansRepository: Repository<ProductionPlan>,
 
-    @InjectRepository(Production)
-    private productionRepository: Repository<Production>,
+    @InjectRepository(Product)
+    private productsRepository: Repository<Product>,
+
+    @InjectRepository(Line)
+    private linesRepository: Repository<Line>,
   ) {}
 
-  async createProductionPlan(createProductionPlanDto: CreateProductionPlanDto) {
-    const productionPlan = this.productionPlanRepository.create(
-      createProductionPlanDto,
-    );
-    return this.productionPlanRepository.save(productionPlan);
-  }
+  async create(
+    createProductionPlanDto: CreateProductionPlanDto,
+  ): Promise<ProductionPlan> {
+    const { productId, datePrev, qtd, lineId } = createProductionPlanDto;
 
-  async findAll(startDate: string, endDate: string) {
-    return this.productionPlanRepository.find({
-      where: { datePrev: Between(startDate, endDate) },
-    });
-  }
-
-  async findOneProductionPlan(id: string) {
-    const productionPlan = await this.productionPlanRepository.findOne({
-      where: { id },
-    });
-    if (!productionPlan) {
-      throw new NotFoundException(`Production Plan with id ${id} not found`);
-    }
-    return productionPlan;
-  }
-
-  async updateProductionPlan(
-    id: string,
-    updateProductionPlanDto: UpdateProductionPlanDto,
-  ) {
-    const productionPlan = await this.productionPlanRepository.preload({
-      id: id,
-      ...updateProductionPlanDto,
-    });
-
-    if (!productionPlan) {
-      throw new NotFoundException(`Production Plan with id ${id} not found`);
+    // Verificando se o produto existe
+    const product = await this.productsRepository.findOneBy({ id: productId });
+    if (!product) {
+      throw new NotFoundException('Product not found');
     }
 
-    return this.productionPlanRepository.save(productionPlan);
-  }
-
-  async removeProductionPlan(id: string) {
-    const result = await this.productionPlanRepository.delete(id);
-    if (result.affected === 0) {
-      throw new NotFoundException(`Production Plan with id ${id} not found`);
+    let line = null;
+    if (lineId) {
+      // Verificando se a linha existe
+      line = await this.linesRepository.findOneBy({ lineId: lineId });
+      if (!line) {
+        throw new NotFoundException('Line not found');
+      }
     }
-  }
 
-  // Métodos de produção
-  async startProduction(id: string) {
-    const production = await this.productionRepository.findOne({
-      where: { id },
+    const productionPlan = this.productionPlansRepository.create({
+      product,
+      datePrev,
+      qtd,
+      line,
     });
-    if (!production) {
-      throw new NotFoundException(`Production with id ${id} not found`);
-    }
 
-    production.dateInit = new Date();
-    return this.productionRepository.save(production);
+    return await this.productionPlansRepository.save(productionPlan);
   }
 
-  async endProduction(id: string) {
-    const production = await this.productionRepository.findOne({
-      where: { id },
-    });
-    if (!production) {
-      throw new NotFoundException(`Production with id ${id} not found`);
-    }
+  findAll() {
+    return `This action returns all productionPlans`;
+  }
 
-    production.dateEnd = new Date();
-    return this.productionRepository.save(production);
+  findOne(id: number) {
+    return `This action returns a #${id} productionPlan`;
+  }
+
+  update(id: number, updateProductionPlanDto: UpdateProductionPlanDto) {
+    return `This action updates a #${id} productionPlan`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} productionPlan`;
   }
 }

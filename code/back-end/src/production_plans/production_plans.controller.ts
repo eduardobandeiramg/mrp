@@ -6,12 +6,13 @@ import {
   Param,
   Patch,
   Post,
-  Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateProductionPlanDto } from './dto/create-production_plan.dto';
 import { UpdateProductionPlanDto } from './dto/update-production_plan.dto';
 import { ProductionPlansService } from './production_plans.service';
 
+@ApiTags('production-plans')
 @Controller('production-plans')
 export class ProductionPlansController {
   constructor(
@@ -20,48 +21,29 @@ export class ProductionPlansController {
 
   @Post()
   create(@Body() createProductionPlanDto: CreateProductionPlanDto) {
-    return this.productionPlansService.createProductionPlan(
-      createProductionPlanDto,
-    );
+    return this.productionPlansService.create(createProductionPlanDto);
   }
 
   @Get()
-  findAll(
-    @Query('startDate') startDate: string,
-    @Query('endDate') endDate: string,
-  ) {
-    return this.productionPlansService.findAll(startDate, endDate);
+  findAll() {
+    return this.productionPlansService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productionPlansService.findOneProductionPlan(id);
+  findOne(@Param('id') id: number) {
+    return this.productionPlansService.findOne(id); // Usar string aqui em vez de número
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateProductionPlanDto: UpdateProductionPlanDto,
   ) {
-    return this.productionPlansService.updateProductionPlan(
-      id,
-      updateProductionPlanDto,
-    );
+    return this.productionPlansService.update(id, updateProductionPlanDto); // Usar string aqui em vez de número
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productionPlansService.removeProductionPlan(id);
-  }
-
-  // Rotas relacionadas a produção
-  @Patch('production/start/:id')
-  startProduction(@Param('id') id: string) {
-    return this.productionPlansService.startProduction(id);
-  }
-
-  @Patch('production/end/:id')
-  endProduction(@Param('id') id: string) {
-    return this.productionPlansService.endProduction(id);
+  remove(@Param('id') id: number) {
+    return this.productionPlansService.remove(id); // Usar string aqui em vez de número
   }
 }
