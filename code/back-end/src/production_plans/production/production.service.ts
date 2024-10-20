@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { Product } from '../../products/entities/product.entity';
 import { CreateProductionDto } from '../dto/create-production.dto';
 import { Production } from '../entities/production.entity';
@@ -77,5 +77,42 @@ export class ProductionService {
 
     production.dateEnd = new Date();
     return this.productionRepository.save(production);
+  }
+
+  async findProductsWithLessProductions(): Promise<any[]> {
+    const productionPlans = await this.productionPlanRepository.find({
+      relations: ['product', 'productions'],
+    });
+
+    const result = productionPlans.filter((plan) => {
+      return plan.productions.length < plan.qtd;
+    });
+
+    return result
+      .map((plan) => ({
+        productId: plan.product.id,
+        productDescription: plan.product.description,
+        productionCount: plan.productions.length,
+        requiredQuantity: plan.qtd,
+        plannedDate: plan.datePrev,
+      }))
+      .sort(
+        (a, b) =>
+          new Date(a.plannedDate).getTime() - new Date(b.plannedDate).getTime(),
+      );
+  }
+
+  async findProductsWithNullDates(): Promise<Production[]> {
+    return this.productionRepository.find({
+      where: { dateInit: null, dateEnd: null },
+      relations: ['product'],
+    });
+  }
+
+  async findProductsWithInitButNoEnd(): Promise<Production[]> {
+    return this.productionRepository.find({
+      where: { dateInit: Not(null), dateEnd: null },
+      relations: ['product'],
+    });
   }
 }
