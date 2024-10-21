@@ -103,9 +103,12 @@ class _LoginState extends State<Login> {
                 height: altura * 0.2,
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async{
                   if (chave.currentState!.validate()) {
-                    Auth.login(controladorEmail.text, controladorSenha.text);
+                    Map<String,dynamic> retornoLogin = await Auth.login(controladorEmail.text, controladorSenha.text);
+                    if(retornoLogin["codigo"] == "201"){
+                      ///TODO: NAVEGAR PARA A TELA REFERENTE AO PAPEL
+                    }
 /*                    if (controladorSenha.text == "tecnico") {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
