@@ -80,7 +80,7 @@
 import { useDate } from 'vuetify'
 import linhaService from "@/services/Linha.js";
 import produtoService from "@/services/Produtos.js";
-
+import planejamentoService from "@/services/Planejamento.js"
 
 export default {
   data: () => ({
@@ -124,30 +124,54 @@ export default {
     getEventColor(event) {
       return event.color
     },
-    
-    fetchEvents({ start, end }) {
-      const events = []
 
+    async fetchEvents({ start, end }) {
+      const events = []
+      var planejamentos = [];
       const min = start
       const max = end
-      const days = (max.getTime() - min.getTime()) / 86400000
-      const eventCount = this.rnd(days, days + 20)
+      try {
+        planejamentos = await planejamentoService.getProductionPlansByDates(min, max);
+      } catch (error) {
+        console.error('Erro ao buscar planejamentos:', error);
+      }
 
-      for (let i = 0; i < eventCount; i++) {
+      planejamentos.forEach(element => {
         const allDay = this.rnd(0, 3) === 0
-        const firstTimestamp = this.rnd(min.getTime(), max.getTime())
+        const firstTimestamp = new Date(element.datePrev).getTime();
         const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
+        const secondTimestamp = new Date(element.datePrev).getTime();
         const second = new Date(first.getTime() + secondTimestamp)
 
         events.push({
-          title: this.names[this.rnd(0, this.names.length - 1)],
+          title: "Produção",
           start: first,
           end: second,
           color: this.colors[this.rnd(0, this.colors.length - 1)],
           allDay: !allDay,
         })
-      }
+
+      });
+
+
+      // const days = (max.getTime() - min.getTime()) / 86400000
+      // const eventCount = this.rnd(days, days + 20)
+
+      // for (let i = 0; i < eventCount; i++) {
+      //   const allDay = this.rnd(0, 3) === 0
+      //   const firstTimestamp = this.rnd(min.getTime(), max.getTime())
+      //   const first = new Date(firstTimestamp - (firstTimestamp % 900000))
+      //   const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
+      //   const second = new Date(first.getTime() + secondTimestamp)
+
+      //   events.push({
+      //     title: this.names[this.rnd(0, this.names.length - 1)],
+      //     start: first,
+      //     end: second,
+      //     color: this.colors[this.rnd(0, this.colors.length - 1)],
+      //     allDay: !allDay,
+      //   })
+      // }
 
       this.events = events
     },
@@ -175,6 +199,16 @@ export default {
     },
 
     /////////////////////////////////////////////////
+    async salvar() {
+      try {
+        await planejamentoService.addProductionPlan(this.novaProducao);
+        this.fecharModal();
+        this.fetchEvents();
+      } catch (error) {
+        console.error('Erro ao salvar peça:', error);
+      }
+    },
+
     abrirModalIncluir() {
       this.modalTitulo = 'Incluir Novo Planejamento'; // Atualizei o título do modal para refletir o planejamento de produção
       this.editando = false;
