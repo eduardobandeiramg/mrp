@@ -21,23 +21,23 @@
 
 
 
-    <!-- Modal para incluir ou editar Planejamento -->
     <v-dialog v-model="modalVisivel" max-width="70%">
       <v-card>
         <v-card-title class="headline">{{ modalTitulo }}</v-card-title>
         <v-card-text>
           <v-form ref="form">
             <v-row>
-              <!-- Coluna para o calendário -->
               <v-col cols="6">
-                <v-date-picker v-model="novaProducao.datePrev" @input="menuDate = false"></v-date-picker>
+                <v-date-picker v-model="novaProducao.datePrev" :rules="[rules.required]" @input="menuDate = false">
+                </v-date-picker>
               </v-col>
 
               <!-- Coluna para os 3 campos (quantidade, produto, linha) -->
               <v-col cols="6">
                 <!-- Campo de quantidade -->
                 <v-text-field v-model="novaProducao.qtd" label="Quantidade" type="number"
-                  :rules="[rules.required, rules.isNumber]" required variant="solo"></v-text-field>
+                  :rules="[rules.required, rules.isNumber]" required variant="solo">
+                </v-text-field>
 
                 <!-- Campo para selecionar produto -->
                 <v-select v-model="novaProducao.productId" :items="produtos" item-title="description" item-value="id"
@@ -57,6 +57,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
 
 
     <!-- Modal de confirmação de exclusão -->
@@ -104,7 +105,7 @@ export default {
     // Regras de validação para o formulário
     rules: {
       required: value => !!value || 'Este campo é obrigatório.',
-      isNumber: value => !isNaN(value) || 'Este campo deve ser um número.',
+      isNumber: value => !isNaN(value) || 'Este campo deve ser um número.'
     },
 
 
@@ -128,8 +129,8 @@ export default {
     async fetchEvents({ start, end }) {
       const events = []
       var planejamentos = [];
-      const min = start
-      const max = end
+      const min = start;
+      const max = end;
       try {
         planejamentos = await planejamentoService.getProductionPlansByDates(min, max);
       } catch (error) {
@@ -144,7 +145,7 @@ export default {
         const second = new Date(first.getTime() + secondTimestamp)
 
         events.push({
-          title: "Produção",
+          title: "Produção" + element.qtd,
           start: first,
           end: second,
           color: this.colors[this.rnd(0, this.colors.length - 1)],
@@ -201,9 +202,13 @@ export default {
     /////////////////////////////////////////////////
     async salvar() {
       try {
-        await planejamentoService.addProductionPlan(this.novaProducao);
-        this.fecharModal();
-        this.fetchEvents();
+        if (this.$refs.form.validate()) {
+          await planejamentoService.addProductionPlan(this.novaProducao);
+          this.fecharModal();
+          this.fetchEvents();
+        } else {
+          console.error('Campos obrigatórios não preenchidos');
+        }
       } catch (error) {
         console.error('Erro ao salvar peça:', error);
       }
