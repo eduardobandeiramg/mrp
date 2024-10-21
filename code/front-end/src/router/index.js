@@ -3,6 +3,12 @@ import { routes as autoRoutes } from 'vue-router/auto-routes'
 
 // Definindo rotas manualmente
 const manualRoutes = [
+
+  {
+    path: '/menu',
+    name: 'menu',
+    component: () => import('@/pages/Menu.vue'),
+  },
   {
     path: '/login',
     name: 'Login',

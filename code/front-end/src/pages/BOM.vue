@@ -3,10 +3,12 @@
     <v-card flat class="hierarquia-container">
 
       <v-card-title>
-        <h1>Bild Of Materials</h1>
+        <h1>Biuld Of Materials</h1>
         <v-spacer></v-spacer>
         <v-btn class="mb-12" color="primary" @click="abrirModalIncluir">Adicionar hierarquia</v-btn>
       </v-card-title>
+
+      
       <v-card-text>
 
         <v-treeview :items="items" item-title="description" item-value="id" open-all>
@@ -234,6 +236,7 @@ export default {
     fecharModalExcluir() {
       this.modalExcluirVisivel = false;
       this.hierarquiaParaExcluir = null;
+      this.combinarListas()
     },
     limparFormulario() {
       this.novaHierarquia = {
