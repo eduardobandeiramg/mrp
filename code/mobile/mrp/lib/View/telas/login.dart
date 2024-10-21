@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mrp/Controller/auth.dart';
 import 'package:mrp/View/telas/cadastro.dart';
 import 'package:mrp/View/telas/esqueci_senha.dart';
 import 'package:mrp/View/telas/operador/tela_principal_operador.dart';
@@ -104,7 +105,8 @@ class _LoginState extends State<Login> {
               ElevatedButton(
                 onPressed: () {
                   if (chave.currentState!.validate()) {
-                    if (controladorSenha.text == "tecnico") {
+                    Auth.login(controladorEmail.text, controladorSenha.text);
+/*                    if (controladorSenha.text == "tecnico") {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) => TelaPrincipalTecnico(),
@@ -116,7 +118,7 @@ class _LoginState extends State<Login> {
                           builder: (context) => TelaPrincipalOperador(),
                         ),
                       );
-                    }
+                    }*/
                   }
                 },
                 child: Text(
