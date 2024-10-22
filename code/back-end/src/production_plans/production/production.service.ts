@@ -42,7 +42,6 @@ export class ProductionService {
     production.dateInit = dateInit ? new Date(dateInit) : null;
     production.dateEnd = dateEnd ? new Date(dateEnd) : null;
 
-    // Definir o status como "a produzir" ao criar
     production.status = ProductionStatus.A_PRODUZIR;
 
     return this.productionRepository.save(production);
@@ -78,40 +77,30 @@ export class ProductionService {
     return this.productionRepository.save(production);
   }
 
-  async findProductsWithLessProductions(): Promise<any[]> {
+  async findProductsWithLessProductions(): Promise<ProductionPlan[]> {
     const productionPlans = await this.productionPlanRepository.find({
       relations: ['product', 'productions'],
     });
 
-    const result = productionPlans.filter((plan) => {
-      return plan.productions.length < plan.qtd;
-    });
-
-    return result
-      .map((plan) => ({
-        productId: plan.product.id,
-        productDescription: plan.product.description,
-        productionCount: plan.productions.length,
-        requiredQuantity: plan.qtd,
-        plannedDate: plan.datePrev,
-      }))
+    return productionPlans
+      .filter((plan) => plan.productions.length < plan.qtd)
       .sort(
         (a, b) =>
-          new Date(a.plannedDate).getTime() - new Date(b.plannedDate).getTime(),
+          new Date(a.datePrev).getTime() - new Date(b.datePrev).getTime(),
       );
   }
 
   async findProductsWithNullDates(): Promise<Production[]> {
     return this.productionRepository.find({
       where: { dateInit: null, dateEnd: null },
-      relations: ['product'],
+      relations: ['product', 'productionPlan'],
     });
   }
 
   async findProductsWithInitButNoEnd(): Promise<Production[]> {
     return this.productionRepository.find({
       where: { dateInit: Not(null), dateEnd: null },
-      relations: ['product'],
+      relations: ['product', 'productionPlan'],
     });
   }
 }
