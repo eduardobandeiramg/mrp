@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
 import { Product } from '../../products/entities/product.entity';
@@ -41,7 +45,6 @@ export class ProductionService {
     production.productionPlan = productionPlan;
     production.dateInit = dateInit ? new Date(dateInit) : null;
     production.dateEnd = dateEnd ? new Date(dateEnd) : null;
-
     production.status = ProductionStatus.A_PRODUZIR;
 
     return this.productionRepository.save(production);
@@ -51,29 +54,63 @@ export class ProductionService {
     // TODO: Lógica para enviar requisição ao estoque
   }
 
-  async startProduction(id: string): Promise<Production> {
+  async stopProduction(id: string): Promise<Production> {
     const production = await this.productionRepository.findOne({
       where: { id },
+      relations: ['product', 'productionPlan'],
     });
 
     if (!production) {
       throw new NotFoundException(`Production with ID ${id} not found`);
     }
 
+    this.sendRequestToStock;
+    production.status = ProductionStatus.AGUARDANDO_PECAS;
+
+    return this.productionRepository.save(production);
+  }
+
+  async startProduction(id: string): Promise<Production> {
+    const production = await this.productionRepository.findOne({
+      where: { id },
+      relations: ['product', 'productionPlan'],
+    });
+
+    if (!production) {
+      throw new NotFoundException(`Production with ID ${id} not found`);
+    }
+
+    if (production.status !== ProductionStatus.A_PRODUZIR) {
+      throw new BadRequestException(
+        `Cannot start production. Current status is ${production.status}, expected status is A_PRODUZIR`,
+      );
+    }
+
     production.dateInit = new Date();
+    production.status = ProductionStatus.EM_PRODUCAO;
+
     return this.productionRepository.save(production);
   }
 
   async endProduction(id: string): Promise<Production> {
     const production = await this.productionRepository.findOne({
       where: { id },
+      relations: ['product', 'productionPlan'],
     });
 
     if (!production) {
       throw new NotFoundException(`Production with ID ${id} not found`);
     }
 
+    if (production.status !== ProductionStatus.EM_PRODUCAO) {
+      throw new BadRequestException(
+        `Cannot finalize production. Current status is ${production.status}, expected status is EM_PRODUCAO`,
+      );
+    }
+
     production.dateEnd = new Date();
+    production.status = ProductionStatus.FINALIZADO;
+
     return this.productionRepository.save(production);
   }
 
