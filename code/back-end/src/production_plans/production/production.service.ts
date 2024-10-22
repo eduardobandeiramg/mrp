@@ -5,6 +5,7 @@ import { Product } from '../../products/entities/product.entity';
 import { CreateProductionDto } from '../dto/create-production.dto';
 import { Production } from '../entities/production.entity';
 import { ProductionPlan } from '../entities/production_plan.entity';
+import { ProductionStatus } from '../enums/status.enum';
 
 @Injectable()
 export class ProductionService {
@@ -20,31 +21,29 @@ export class ProductionService {
   ) {}
 
   async create(createProductionDto: CreateProductionDto) {
-    const { productId, productionPlanId, ...rest } = createProductionDto;
+    const { productId, productionPlanId, dateInit, dateEnd } =
+      createProductionDto;
 
     const product = await this.productRepository.findOne({
       where: { id: productId },
     });
 
-    if (!product) {
-      throw new Error('Produto não encontrado');
-    }
-
     const productionPlan = await this.productionPlanRepository.findOne({
       where: { id: productionPlanId },
     });
 
-    if (!productionPlan) {
-      throw new Error('Plano de Produção não encontrado');
+    if (!product || !productionPlan) {
+      throw new Error('Produto ou Plano de Produção não encontrado.');
     }
 
-    const production = this.productionRepository.create({
-      ...rest,
-      product,
-      productionPlan,
-    });
+    const production = new Production();
+    production.product = product;
+    production.productionPlan = productionPlan;
+    production.dateInit = dateInit ? new Date(dateInit) : null;
+    production.dateEnd = dateEnd ? new Date(dateEnd) : null;
 
-    this.sendRequestToStock();
+    // Definir o status como "a produzir" ao criar
+    production.status = ProductionStatus.A_PRODUZIR;
 
     return this.productionRepository.save(production);
   }
