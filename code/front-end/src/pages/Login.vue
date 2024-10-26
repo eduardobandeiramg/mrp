@@ -51,7 +51,7 @@ export default {
 
           // Redireciona para a página inicial após 2 segundos
           setTimeout(() => {
-            this.$router.push('/');
+            this.$router.push('/menu');
           }, 2000);
         } else {
           this.message = 'Erro desconhecido no login';
