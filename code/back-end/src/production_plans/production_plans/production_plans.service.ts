@@ -46,8 +46,9 @@ export class ProductionPlansService {
 
   async findByDates(startDate: string, endDate: string) {
     try {
-      const query =
-        this.productionPlansRepository.createQueryBuilder('productionPlan');
+      const query = this.productionPlansRepository
+        .createQueryBuilder('productionPlan')
+        .leftJoinAndSelect('productionPlan.product', 'product');
 
       if (startDate) {
         query.andWhere('productionPlan.datePrev >= :startDate', { startDate });
@@ -70,11 +71,11 @@ export class ProductionPlansService {
       throw new NotFoundException(error.message);
     }
   }
-
   async findOneById(id: string) {
     try {
       const productionPlan = await this.productionPlansRepository.findOne({
         where: { id },
+        relations: ['product'],
       });
       if (!productionPlan) {
         throw new NotFoundException(`Production Plan with ID ${id} not found`);
@@ -93,7 +94,7 @@ export class ProductionPlansService {
     if (!productionPlan) {
       throw new Error(`ProductionPlan with id ${id} not found`);
     }
-
+    // FAZER UM IF PARA VERIFICAR SE A PRODUCTION JÁ COMEÇOU
     await this.productionPlansRepository.delete(id);
   }
 }

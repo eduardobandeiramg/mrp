@@ -1,5 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Product } from '../../products/entities/product.entity';
+import { ProductionStatus } from '../enums/status.enum';
 import { ProductionPlan } from './production_plan.entity';
 
 @Entity()
@@ -24,4 +25,11 @@ export class Production {
 
   @Column({ type: 'date', nullable: true })
   dateEnd?: Date;
+
+  @Column({
+    type: 'enum',
+    enum: ProductionStatus,
+    default: ProductionStatus.A_PRODUZIR,
+  })
+  status: ProductionStatus;
 }

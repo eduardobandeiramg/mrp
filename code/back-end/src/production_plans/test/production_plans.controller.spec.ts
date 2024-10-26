@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProductionPlansController } from './production_plans.controller';
-import { ProductionPlansService } from './production_plans.service';
+import { ProductionPlansController } from '../production_plans.controller';
+import { ProductionPlansService } from '../production_plans.service';
 
 describe('ProductionPlansController', () => {
   let controller: ProductionPlansController;
@@ -11,7 +11,9 @@ describe('ProductionPlansController', () => {
       providers: [ProductionPlansService],
     }).compile();
 
-    controller = module.get<ProductionPlansController>(ProductionPlansController);
+    controller = module.get<ProductionPlansController>(
+      ProductionPlansController,
+    );
   });
 
   it('should be defined', () => {
