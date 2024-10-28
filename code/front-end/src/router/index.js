@@ -9,6 +9,7 @@ const manualRoutes = [
     name: 'menu',
     component: () => import('@/pages/Menu.vue'),
   },
+
   {
     path: '/login',
     name: 'Login',
@@ -48,6 +49,11 @@ const manualRoutes = [
     path: '/planejamento',
     name: 'Planejamento',
     component: () => import('@/pages/Planejamento.vue'), 
+  },
+  {
+    path: '/entrada',
+    name: 'CaixaDeEntrada',
+    component: () => import('@/pages/CaixaDeEntrada.vue'), 
   },
 
   // Você pode adicionar mais rotas manualmente aqui

@@ -1,14 +1,18 @@
 <template>
   <v-app-bar color="grey darken-1" dark flat app>
-
     <div class="nav-links">
       <v-btn v-for="(link, index) in navLinks" :key="index" :to="link.to" text class="mr-4 white--text">
         {{ link.text }}
       </v-btn>
     </div>
 
-    <!-- Botão de login à direita -->
+    <!-- Ícone de Caixa de Entrada e Botão de login/logout à direita -->
     <v-spacer></v-spacer>
+
+    <v-btn icon to="/entrada" title="Caixa de Entrada" class="mr-4">
+      <v-icon>mdi-bell</v-icon>
+    </v-btn>
+
     <v-btn text @click="handleAuthAction">
       {{ isLoggedIn ? 'Logout' : 'Login' }}
     </v-btn>
@@ -27,6 +31,8 @@ export default {
         { text: "Gerenciar Linhas de Produção", to: "/linha" },
         { text: "Biuld Of Materials", to: "/bom" },
         { text: "Planejamento de produção", to: "/planejamento" },
+        { text: "Caixa de Entrada", to: "/entrada" },
+
 
 
       ],
