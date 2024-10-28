@@ -3,12 +3,12 @@
     <v-card flat class="hierarquia-container">
 
       <v-card-title>
-        <h1>Biuld Of Materials</h1>
+        <h1>Bild Of Materials</h1>
         <v-spacer></v-spacer>
         <v-btn class="mb-12" color="primary" @click="abrirModalIncluir">Adicionar hierarquia</v-btn>
       </v-card-title>
 
-
+      
       <v-card-text>
 
         <v-treeview :items="items" item-title="description" item-value="id" open-all>
@@ -21,11 +21,6 @@
               <v-col>
                 <v-btn v-if="!item.children" icon @click="abrirModalExcluir(item)">
                   <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col>
-                <v-btn v-if="!item.children" icon @click="abrirModalIncluir(item)">
-                  <v-icon>mdi-plus</v-icon>
                 </v-btn>
               </v-col>
 
@@ -47,13 +42,13 @@
               :rules="[rules.required, rules.isNumber]" required variant="solo"></v-text-field>
 
             <v-select v-model="novaHierarquia.productId" :items="produtos" item-title="description" item-value="id"
-              label="Selecionar Produto" variant="solo" />
+              label="Selecionar Produto" :rules="[rules.required]" required variant="solo" />
 
             <v-select v-model="novaHierarquia.materialId" :items="materiais" item-title="description" item-value="id"
-              label="Selecionar Material" variant="solo" />
+              label="Selecionar Material" :rules="[rules.required]" required variant="solo" />
 
             <v-select v-model="novaHierarquia.parentBuildOfMaterialId" :items="combinacaoProdutosMateriais"
-              item-title="description" item-value="id" label="Selecionar Produto ou Material Pai" variant="solo" />
+              item-title="description" item-value="id" label="Selecionar Produto ou Material" variant="solo" />
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -105,6 +100,7 @@ export default {
     modalVisivel: false,
     modalExcluirVisivel: false,
     modalTitulo: 'Incluir Nova Peça',
+    editando: false,
     hierarquiaParaExcluir: null,
     indexEditando: null,
     active: [],
@@ -201,6 +197,7 @@ export default {
         })
       );
 
+      console.log(this.items);
       return this.items;
     },
     async fetchChildren(item) {
@@ -214,26 +211,16 @@ export default {
     },
 
     /////////////////////////////////////////////////
-    abrirModalIncluir(item) {
+    abrirModalIncluir() {
       this.modalTitulo = 'Incluir Nova Peça';
+      this.editando = false;
+      this.limparFormulario();
       this.modalVisivel = true;
-
-      if (item) {
-        console.log(item)
-        this.novaHierarquia = {
-          qtd: null,
-          productId: null,
-          materialId: null,
-          parentBuildOfMaterialId: item,
-        }
-      } else {
-        this.limparFormulario();
-
-      }
 
     },
     abrirModalEditar(item) {
       this.modalTitulo = 'Editar Peça';
+      this.editando = true;
       this.novaHierarquia = { ...item };
       this.indexEditando = this.users.indexOf(item);
       this.modalVisivel = true;
