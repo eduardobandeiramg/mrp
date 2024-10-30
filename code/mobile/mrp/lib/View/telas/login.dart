@@ -103,25 +103,39 @@ class _LoginState extends State<Login> {
                 height: altura * 0.2,
               ),
               ElevatedButton(
-                onPressed: () async{
+                onPressed: () async {
                   if (chave.currentState!.validate()) {
-                    Map<String,dynamic> retornoLogin = await Auth.login(controladorEmail.text, controladorSenha.text);
-                    if(retornoLogin["codigo"] == "201"){
-                      ///TODO: NAVEGAR PARA A TELA REFERENTE AO PAPEL
+                    try {
+                      var retornoLogin = await Auth.login(
+                          controladorEmail.text, controladorSenha.text);
+                      if (retornoLogin == "inventory-manager") {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => TelaPrincipalTecnico()));
+                      } else if (retornoLogin == "production-operator") {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => TelaPrincipalOperador()));
+                      }
+                      else if(retornoLogin == "admin"){
+                        ///TODO: Implementar navegação referente ao papel de adm
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Não sei o que fazer..."),
+                          ),
+                        );
+                      }
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Erro no servidor!"),
+                        ),
+                      );
                     }
-/*                    if (controladorSenha.text == "tecnico") {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => TelaPrincipalTecnico(),
-                        ),
-                      );
-                    } else if (controladorSenha.text == "operador") {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => TelaPrincipalOperador(),
-                        ),
-                      );
-                    }*/
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Revise as informações!"),
+                      ),
+                    );
                   }
                 },
                 child: Text(
