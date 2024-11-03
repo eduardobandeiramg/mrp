@@ -1,283 +1,328 @@
 <template>
   <v-container>
-    <v-card flat class="hierarquia-container">
-
-      <v-card-title>
-        <h1>Biuld Of Materials</h1>
-        <v-spacer></v-spacer>
-        <v-btn class="mb-12" color="primary" @click="abrirModalIncluir">Adicionar hierarquia</v-btn>
-      </v-card-title>
-
-
-      <v-card-text>
-
-        <v-treeview :items="items" item-title="description" item-value="id" open-all>
-
-          <template v-slot:prepend="{ item }">
-            <v-row class="align-center">
-              <v-col>
-                <v-icon v-if="!item.children"> mdi-cube </v-icon>
-              </v-col>
-              <v-col>
-                <v-btn v-if="!item.children" icon @click="abrirModalExcluir(item)">
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col>
-                <v-btn v-if="!item.children" icon @click="abrirModalIncluir(item)">
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-              </v-col>
-
-            </v-row>
-          </template>
-
+    <v-snackbar v-model="snackbar.show" :timeout="3000" color="red" top>
+      {{ snackbar.message }}
+    </v-snackbar>
+    <v-row>
+      <v-col class="title" cols="12">
+        <h1>Build Of Material</h1>
+      </v-col>
+      <v-col cols="10" md="5">
+        <v-autocomplete
+          v-model="buildOfMaterialFilter.selectedProductId"
+          :items="buildOfMaterialFilter.products"
+          item-title="displayText"
+          item-value="id"
+          label="Filtrar Produto"
+          placeholder="Digite para buscar..."
+          solo
+          hide-details
+          dense
+          clearable
+        ></v-autocomplete>
+      </v-col>
+      <v-col cols="2">
+        <v-btn icon color="blue" @click="onProductSelected">
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-divider class="my-5"></v-divider>
+    <div v-if="!hasFilter" class="instruction-message">
+      <p>Por favor, selecione um produto para visualizar sua estrutura.</p>
+    </div>
+    <v-row v-else>
+      <v-col cols="12">
+        <v-treeview
+          :items="tree.items"
+          activatable
+          open-on-click
+          :load-children="fetchLazyChildren"
+          item-title="name"
+          item-value="id"
+          :open.sync="tree.openNodes"
+          dense
+        >
+        <template v-slot:prepend="{ item }">
+          <v-btn
+            size="x-small"
+            color="green"
+            style="margin-right: 5px;"
+            @click.stop="openProductModal(item)"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+          <v-btn
+            v-if="item.id !== filteredProduct.id"
+            size="x-small"
+            color="red"
+            style="margin-right: 5px;"
+            @click.stop="confirmDelete(item)"
+          >
+            <v-icon>mdi-delete</v-icon>  
+          </v-btn>
+        </template>
         </v-treeview>
+      </v-col>
+    </v-row>
 
-      </v-card-text>
-    </v-card>
 
-    <!-- Modal para incluir ou editar hierarquia -->
-    <v-dialog v-model="modalVisivel" max-width="500px">
+    <v-dialog v-model="dialog.save.show" max-width="600px">
       <v-card>
-        <v-card-title class="headline">{{ modalTitulo }}</v-card-title>
+        <v-card-title>Adicionar Material para {{ buildOfMaterialFilter.selectedProduct.name }}</v-card-title>
         <v-card-text>
-          <v-form ref="form">
-            <v-text-field v-model="novaHierarquia.qtd" label="Número" type="number"
-              :rules="[rules.required, rules.isNumber]" required variant="solo"></v-text-field>
+          <v-form ref="productForm">
+            <v-text-field
+              :model-value="buildOfMaterialFilter.selectedProduct.name"
+              label="Produto"
+              readonly
+            ></v-text-field>
 
-            <v-select v-model="novaHierarquia.productId" :items="produtos" item-title="description" item-value="id"
-              label="Selecionar Produto" variant="solo" />
+            <v-text-field
+              v-if="dialog.save.parentMaterial"
+              :model-value="dialog.save.parentMaterial"
+              label="Material Pai"
+              readonly
+            ></v-text-field>
 
-            <v-select v-model="novaHierarquia.materialId" :items="materiais" item-title="description" item-value="id"
-              label="Selecionar Material" variant="solo" />
+            <v-text-field
+              label="Quantidade"
+              v-model.number="dialog.save.quantity"
+              type="number"
+              :rules="[value => value > 0 || 'A quantidade deve ser maior que 0']"
+              min="1"
+            ></v-text-field>
 
-            <v-select v-model="novaHierarquia.parentBuildOfMaterialId" :items="combinacaoProdutosMateriais"
-              item-title="description" item-value="id" label="Selecionar Produto ou Material Pai" variant="solo" />
+            <v-autocomplete
+              v-model="dialog.save.materialInput.selectedMaterialId"
+              :items="dialog.save.materialInput.materials"
+              item-title="displayText"
+              item-value="id"
+              label="Selecione o material"
+              placeholder="Digite para buscar..."
+              :rules="[v => !!v || 'Material é obrigatório']"
+              required
+              solo
+              hide-details
+              dense
+              clearable
+            ></v-autocomplete>
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="fecharModal">Cancelar</v-btn>
-          <v-btn color="blue darken-1" text @click="salvar">Salvar</v-btn>
+          <v-btn color="blue" text @click="closeModal">Cancelar</v-btn>
+          <v-btn color="green" @click="handleSave">Salvar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-
-    <!-- Modal de confirmação de exclusão -->
-    <v-dialog v-model="modalExcluirVisivel" max-width="500px">
+    
+    <v-dialog v-model="dialog.confirmDelete.show" max-width="500px">
       <v-card>
-        <v-card-title class="headline">Confirmar Exclusão</v-card-title>
-        <v-card-text>Deseja realmente excluir a hierarquia <strong>{{
-          hierarquiaParaExcluir?.nome }}</strong>?</v-card-text>
+        <v-card-title class="headline">Exclusão</v-card-title>
+        <v-card-text>
+          Deseja excluir o material {{ dialog.confirmDelete.materialName }} da hierarquia?
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="fecharModalExcluir">Cancelar</v-btn>
-          <v-btn color="red darken-1" text @click="confirmarExcluir">Excluir</v-btn>
+          <v-btn color="blue" text @click="closeDeleteModal">Cancelar</v-btn>
+          <v-btn color="red" @click="deleteItem">Excluir</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-
   </v-container>
-
 </template>
 
 <script>
-
-const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
-import produtoService from "@/services/Produtos.js";
-import pecasService from "@/services/Pecas.js";
-import bomService from "@/services/BOM.js"
-
+import produtoService from '@/services/Produtos';
+import buildOfMaterialService from '@/services/BOM';
+import materialService from '@/services/Pecas';
 
 export default {
   data: () => ({
-
-    hierarquia: [],
-    items: [],
-
-    active: [],
-    open: [],
-    users: [],
-
-    modalVisivel: false,
-    modalExcluirVisivel: false,
-    modalTitulo: 'Incluir Nova Peça',
-    hierarquiaParaExcluir: null,
-    indexEditando: null,
-    active: [],
-    open: [],
-
-    novaHierarquia: {
-      qtd: null,
-      productId: null,
-      materialId: null,
-      parentBuildOfMaterialId: null,
+    snackbar: {
+      show: false,
+      message: ''
     },
-
-    valid: false, // Controla a validade do formulário
-    rules: {
-      required: value => !!value || 'Este campo é obrigatório.',
-      isNumber: value => !isNaN(value) || 'Este campo deve ser um número.',
+    buildOfMaterialFilter: {
+      selectedProductId: null,
+      selectedProduct: {},
+      products: []
     },
-    novoMaterial: null,
-    novoProduto: null,
-    produtos: [], // Lista de produtos
-    materiais: [], // Lista de materiais
-    combinacaoProdutosMateriais: [], // Combinação de produtos e materiais
-
-  }),
-
-  methods: {
-    async fetchUsers(item) {
-      // Remove in 6 months and say
-      // you've made optimizations! :)
-      await pause(1500)
-
-      const response = fetch('https://jsonplaceholder.typicode.com/users')
-        .then(res => res.json())
-        .then(json => (item.children.push(...json)))
-        .catch(err => console.warn(err))
-
-      console.log(response)
-      return response
+    filteredProduct: {
+      id: null,
+      name: ""
     },
-
-    async carregarProdutos() {
-      try {
-        this.produtos = await produtoService.getProducts();
-      } catch (error) {
-        console.error("Erro ao carregar produtos:", error);
-      }
-    },
-    async carregarMateriais() {
-      try {
-        this.materiais = await pecasService.getMaterials();
-      } catch (error) {
-        console.error("Erro ao carregar materiais:", error);
-      }
-    },
-    async combinarListas() {
-      await this.carregarProdutos();
-      await this.carregarMateriais();
-      await this.fetchHierarquia();
-
-      this.combinacaoProdutosMateriais = [...this.produtos, ...this.materiais];
-    },
-
-    async salvar() {
-      // Verifica se o formulário é válido
-      if (this.$refs.form.validate()) {
-        try {
-          this.novaHierarquia.qtd = Number(this.novaHierarquia.qtd);
-          await bomService.addBOM(this.novaHierarquia);
-
-          this.fecharModal();
-          this.carregarProdutos();
-        } catch (error) {
-          console.error('Erro ao salvar Build of Materials:', error);
-        }
-      }
-    },
-
-
-    async fetchHierarquia() {
-      // Usar Promise.all para garantir que todas as promessas de fetchChildren sejam resolvidas
-      this.items = await Promise.all(
-        this.produtos.map(async (produto) => {
-          const children = await this.fetchChildren(produto);  // Aguardar a resposta de fetchChildren
-
-          return {
-            id: produto.id,
-            description: produto.description,
-            children: children.map(child => ({
-              id: child.id,
-              description: child.material.description,  // Cada filho também deve ter description
-            })),
-
-          };
-        })
-      );
-
-      return this.items;
-    },
-    async fetchChildren(item) {
-      try {
-        const response = await bomService.getBOMByProductId(item.id);
-        return response
-
-      } catch (error) {
-        console.error("Erro ao carregar materiais:", error);
-      }
-    },
-
-    /////////////////////////////////////////////////
-    abrirModalIncluir(item) {
-      this.modalTitulo = 'Incluir Nova Peça';
-      this.modalVisivel = true;
-
-      if (item) {
-        console.log(item)
-        this.novaHierarquia = {
-          qtd: null,
-          productId: null,
-          materialId: null,
-          parentBuildOfMaterialId: item,
-        }
-      } else {
-        this.limparFormulario();
-
-      }
-
-    },
-    abrirModalEditar(item) {
-      this.modalTitulo = 'Editar Peça';
-      this.novaHierarquia = { ...item };
-      this.indexEditando = this.users.indexOf(item);
-      this.modalVisivel = true;
-    },
-    fecharModal() {
-      this.modalVisivel = false;
-      this.limparFormulario();
-    },
-    abrirModalExcluir(item) {
-      this.hierarquiaParaExcluir = item;
-      this.modalExcluirVisivel = true;
-    },
-    fecharModalExcluir() {
-      this.modalExcluirVisivel = false;
-      this.hierarquiaParaExcluir = null;
-      this.combinarListas()
-    },
-    limparFormulario() {
-      this.novaHierarquia = {
-        qtd: null,
-        productId: null,
-        materialId: null,
-        parentBuildOfMaterialId: null,
+    dialog: {
+      save: {
+        materialInput: {
+          selectedMaterialId: null,
+          materials: []
+        },
+        quantity: 1,
+        show: false,
       },
-        this.indexEditando = null;
+      confirmDelete: {
+        show: false,
+        buildOfMaterialId: null,
+        materialName: ""
+      }
     },
-    /////////////////////////////////////////////////
+    tree: {
+      items: [],
+      openNodes: [],
+    },
+    hasFilter: false
+  }),
+  computed: {
+    isFormValid() {
+      return !!this.dialog.save.quantity && !!this.dialog.save.materialInput.selectedMaterialId;
+    },
   },
   mounted() {
-    this.combinarListas()
+    this.fetchProducts();
   },
+  methods: {
+    async onProductSelected() {
+      if (!this.buildOfMaterialFilter.selectedProductId) {
+        this.snackbar.message = "Por favor, selecione um produto antes de buscar.";
+        this.snackbar.show = true;
+        return;
+      }
 
+      this.hasFilter = true;
+      const selectedProduct = this.buildOfMaterialFilter.products.find(
+        (product) => product.id === this.buildOfMaterialFilter.selectedProductId
+      );
+      if (selectedProduct) {
+        this.filteredProduct = {
+          id: selectedProduct.id,
+          name: selectedProduct.displayText
+        };
+        this.tree.items = [
+          {
+            id: selectedProduct.id,
+            name: selectedProduct.displayText,
+            children: [],
+            lazy: true,
+          },
+        ];
+
+        this.tree.openNodes = [selectedProduct.id];
+      }
+    },
+    async fetchLazyChildren(node) {
+      let bomData;
+      if (node.id === this.filteredProduct.id) {
+        bomData = await buildOfMaterialService.getBOMByProductId(node.id);
+      }else{
+        bomData = await buildOfMaterialService.getBOMChildrenById(node.id);
+      }
+      if (bomData.length > 0) {
+        node.children = bomData.map((item) => ({
+          id: item.id,
+          name: ` [${item.lvl}] ${item.material.code} - ${item.material.description} (${item.qtd})`,
+          lazy: true,
+          children: [],
+        }));
+      } else {
+        node.children = [];
+      }
+    },
+    async fetchProducts() {
+      const response = await produtoService.getProducts()
+      this.buildOfMaterialFilter.products = response.map((product) => ({
+        ...product,
+        displayText: `${product.code} - ${product.description}`
+      }));
+    },
+    openProductModal(item) {
+      this.buildOfMaterialFilter.selectedProduct = { ...this.tree.items[0] };
+      this.dialog.save.quantity = 1;
+      this.dialog.save.materialInput.selectedMaterialId = null;
+      this.loadMaterials();
+      if (item.id === this.buildOfMaterialFilter.selectedProductId) {
+        this.dialog.save.parentBuildOfMaterialId = null;
+        this.dialog.save.parentMaterial = null;
+      } else{
+        this.dialog.save.parentBuildOfMaterialId = item.id;
+        this.dialog.save.parentMaterial = item.name;
+      }
+      this.dialog.save.show = true;
+    },
+    async loadMaterials() {
+      const response = await materialService.getMaterials();
+      this.dialog.save.materialInput.materials = response.map((material) => ({
+        ...material,
+        displayText: `${material.code} - ${material.description}`
+      }));
+    },
+    async handleSave() {
+      if (!this.isFormValid) {
+        return;
+      }
+      const bomData = {
+        qtd: this.dialog.save.quantity,
+        productId: this.buildOfMaterialFilter.selectedProduct.id,
+        materialId: this.dialog.save.materialInput.selectedMaterialId,
+        parentBuildOfMaterialId: this.dialog.save.parentBuildOfMaterialId || null
+      };
+      await buildOfMaterialService.addBOM(bomData);
+
+      const selectedProductId = this.buildOfMaterialFilter.selectedProduct.id;
+      const nodeIndex = this.tree.items.findIndex(item => item.id === selectedProductId);
+
+      if (nodeIndex !== -1) {
+        const node = this.tree.items[nodeIndex];
+        node.lazy = true;
+        node.children = [];
+        this.tree.items = [...this.tree.items];
+      }
+      this.closeModal();
+    },
+    closeModal() {
+      this.quantity = 1;
+      this.selectedMaterialId = null;
+      this.dialog.save.show = false
+    },
+    confirmDelete(item) {
+      this.dialog.confirmDelete.buildOfMaterialId = item.id;
+      this.dialog.confirmDelete.materialName = item.name;
+      this.dialog.confirmDelete.show = true;
+    },
+    closeDeleteModal() {
+      this.dialog.confirmDelete.show = false;
+      this.dialog.confirmDelete.buildOfMaterialId = null;
+      this.dialog.confirmDelete.materialName = "";
+    },
+    async deleteItem() {
+      await buildOfMaterialService.deleteBOM(this.dialog.confirmDelete.buildOfMaterialId);
+      const selectedProductId = this.buildOfMaterialFilter.selectedProductId;
+      const nodeIndex = this.tree.items.findIndex(item => item.id === selectedProductId);
+      if (nodeIndex !== -1) {
+        const node = this.tree.items[nodeIndex];
+        node.lazy = true;
+        node.children = [];
+        this.tree.items = [...this.tree.items];
+      }
+      
+      this.closeDeleteModal();
+    }
+  }
 }
 </script>
 
 <style scoped>
-.botoes {}
-
-.hierarquia-container {
-  margin-top: 70px;
-  padding: 20px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 8px;
-}
+  .title {
+    padding-top: 5rem;
+  }
+  h1 {
+    color: white;
+  }
+  .instruction-message {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: gray;
+  }
 </style>
