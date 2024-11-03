@@ -25,16 +25,11 @@ export default {
     return {
       isLoggedIn: false,
       navLinks: [
-        { text: "Menu", to: "/menu" },
-        { text: "Gerenciar Peças", to: "/pecas" },
-        { text: "Gerenciar Produtos", to: "/produtos" },
-        { text: "Gerenciar Linhas de Produção", to: "/linha" },
-        { text: "Biuld Of Materials", to: "/bom" },
-        { text: "Planejamento de produção", to: "/planejamento" },
-        { text: "Caixa de Entrada", to: "/entrada" },
-
-
-
+        { text: "Material", to: "/pecas" },
+        { text: "Produtos", to: "/produtos" },
+        { text: "Linha", to: "/linha" },
+        { text: "B.O.M.", to: "/bom" },
+        { text: "M.O.P.", to: "/planejamento" },
       ],
     };
   },
