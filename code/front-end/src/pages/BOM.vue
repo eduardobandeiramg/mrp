@@ -168,7 +168,9 @@ export default {
   data: () => ({
     snackbar: {
       show: false,
-      message: ''
+      message: '',
+      icon: '',
+      color: '',
     },
     buildOfMaterialFilter: {
       selectedProductId: null,
@@ -212,6 +214,8 @@ export default {
     async onProductSelected() {
       if (!this.buildOfMaterialFilter.selectedProductId) {
         this.snackbar.message = "Por favor, selecione um produto antes de buscar.";
+        this.snackbar.color = "orange darken-2";
+        this.snackbar.icon = "mdi-alert";
         this.snackbar.show = true;
         return;
       }
@@ -285,6 +289,10 @@ export default {
     },
     async handleSave() {
       if (!this.isFormValid) {
+        this.snackbar.message = "Preencha todos os campos obrigatórios.";
+        this.snackbar.color = "orange darken-2";
+        this.snackbar.icon = "mdi-alert";
+        this.snackbar.show = true;
         return;
       }
       const bomData = {
@@ -298,6 +306,10 @@ export default {
       const parentNodeId = this.dialog.save.parentBuildOfMaterialId || this.buildOfMaterialFilter.selectedProductId;
       this.reloadNode(parentNodeId);
 
+      this.snackbar.message = "Material adicionado com sucesso!";
+      this.snackbar.color = "green darken-1";
+      this.snackbar.icon = "mdi-check-circle";
+      this.snackbar.show = true;
       this.closeModal();
     },
     closeModal() {
@@ -319,6 +331,10 @@ export default {
       await buildOfMaterialService.deleteBOM(this.dialog.confirmDelete.buildOfMaterialId);
       this.removeNode(this.tree.items, this.dialog.confirmDelete.buildOfMaterialId);
       this.tree.items = [...this.tree.items];
+      this.snackbar.message = "Material excluído com sucesso!";
+      this.snackbar.color = "red darken-2";
+      this.snackbar.icon = "mdi-alert-circle";
+      this.snackbar.show = true;
       this.closeDeleteModal();
     },
     async reloadNode(nodeId) {
