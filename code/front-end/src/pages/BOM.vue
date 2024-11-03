@@ -1,12 +1,16 @@
 <template>
   <v-container>
-    <v-snackbar v-model="snackbar.show" :timeout="3000" color="red" top>
+    <v-snackbar v-model="snackbar.show" :timeout="3000" :color="snackbar.color" top>
+      <v-icon left>{{ snackbar.icon }}</v-icon>
       {{ snackbar.message }}
     </v-snackbar>
+
     <v-row>
+
       <v-col class="title" cols="12">
-        <h1>Build Of Material</h1>
+        <h1 class="headline text-center">Build Of Material</h1>
       </v-col>
+
       <v-col cols="10" md="5">
         <v-autocomplete
           v-model="buildOfMaterialFilter.selectedProductId"
@@ -15,23 +19,30 @@
           item-value="id"
           label="Filtrar Produto"
           placeholder="Digite para buscar..."
+          variant="underlined"
           solo
           hide-details
           dense
           clearable
         ></v-autocomplete>
       </v-col>
+
       <v-col cols="2">
         <v-btn icon color="blue" @click="onProductSelected">
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
       </v-col>
+
     </v-row>
+
     <v-divider class="my-5"></v-divider>
+
     <div v-if="!hasFilter" class="instruction-message">
       <p>Por favor, selecione um produto para visualizar sua estrutura.</p>
     </div>
+
     <v-row v-else>
+
       <v-col cols="12">
         <v-treeview
           :items="tree.items"
@@ -42,26 +53,40 @@
           item-value="id"
           :open.sync="tree.openNodes"
           dense
+          transition
         >
-        <template v-slot:prepend="{ item }">
-          <v-btn
-            size="x-small"
-            color="green"
-            style="margin-right: 5px;"
-            @click.stop="openProductModal(item)"
-          >
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-          <v-btn
-            v-if="item.id !== filteredProduct.id"
-            size="x-small"
-            color="red"
-            style="margin-right: 5px;"
-            @click.stop="confirmDelete(item)"
-          >
-            <v-icon>mdi-delete</v-icon>  
-          </v-btn>
-        </template>
+          <template v-slot:prepend="{ item }">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  size="x-small"
+                  color="green"
+                  class="mr-2"
+                  v-on="on"
+                  @click.stop="openProductModal(item)"
+                >
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </template>
+              <span>Adicionar Sub-item</span>
+            </v-tooltip>
+
+            <v-tooltip bottom v-if="item.id !== filteredProduct.id">
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  size="x-small"
+                  color="red"
+                  class="mr-2"
+                  v-on="on"
+                  @click.stop="confirmDelete(item)"
+                >
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </template>
+              <span>Excluir Item</span>
+            </v-tooltip>
+
+          </template>
         </v-treeview>
       </v-col>
     </v-row>
@@ -111,7 +136,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue" text @click="closeModal">Cancelar</v-btn>
+          <v-btn color="grey" text @click="closeModal">Cancelar</v-btn>
           <v-btn color="green" @click="handleSave">Salvar</v-btn>
         </v-card-actions>
       </v-card>
@@ -121,11 +146,12 @@
       <v-card>
         <v-card-title class="headline">Exclusão</v-card-title>
         <v-card-text>
+          <v-icon color="red" left>mdi-alert-circle</v-icon>
           Deseja excluir o material {{ dialog.confirmDelete.materialName }} da hierarquia?
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue" text @click="closeDeleteModal">Cancelar</v-btn>
+          <v-btn color="grey" text @click="closeDeleteModal">Cancelar</v-btn>
           <v-btn color="red" @click="deleteItem">Excluir</v-btn>
         </v-card-actions>
       </v-card>
