@@ -269,15 +269,9 @@ export default {
       };
       await buildOfMaterialService.addBOM(bomData);
 
-      const selectedProductId = this.buildOfMaterialFilter.selectedProduct.id;
-      const nodeIndex = this.tree.items.findIndex(item => item.id === selectedProductId);
+      const parentNodeId = this.dialog.save.parentBuildOfMaterialId || this.buildOfMaterialFilter.selectedProductId;
+      this.reloadNode(parentNodeId);
 
-      if (nodeIndex !== -1) {
-        const node = this.tree.items[nodeIndex];
-        node.lazy = true;
-        node.children = [];
-        this.tree.items = [...this.tree.items];
-      }
       this.closeModal();
     },
     closeModal() {
@@ -297,17 +291,47 @@ export default {
     },
     async deleteItem() {
       await buildOfMaterialService.deleteBOM(this.dialog.confirmDelete.buildOfMaterialId);
-      const selectedProductId = this.buildOfMaterialFilter.selectedProductId;
-      const nodeIndex = this.tree.items.findIndex(item => item.id === selectedProductId);
-      if (nodeIndex !== -1) {
-        const node = this.tree.items[nodeIndex];
-        node.lazy = true;
+      this.removeNode(this.tree.items, this.dialog.confirmDelete.buildOfMaterialId);
+      this.tree.items = [...this.tree.items];
+      this.closeDeleteModal();
+    },
+    async reloadNode(nodeId) {
+      const node = this.findNode(this.tree.items, nodeId);
+      if (node) {
         node.children = [];
+        const children = await buildOfMaterialService.getBOMChildrenById(nodeId);
+        node.children = children.map((item) => ({
+          id: item.id,
+          name: ` [${item.lvl}] ${item.material.code} - ${item.material.description} (${item.qtd})`,
+          lazy: true,
+          children: []
+        }));
         this.tree.items = [...this.tree.items];
       }
-      
-      this.closeDeleteModal();
-    }
+    },
+    findNode(nodes, nodeId) {
+      for (let node of nodes) {
+        if (node.id === nodeId) return node;
+        if (node.children && node.children.length) {
+          const foundNode = this.findNode(node.children, nodeId);
+          if (foundNode) return foundNode;
+        }
+      }
+      return null;
+    },
+    removeNode(nodes, nodeId) {
+      for (let i = 0; i < nodes.length; i++) {
+        if (nodes[i].id === nodeId) {
+          nodes.splice(i, 1);
+          return true;
+        }
+        if (nodes[i].children && nodes[i].children.length) {
+          const found = this.removeNode(nodes[i].children, nodeId);
+          if (found) return true;
+        }
+      }
+      return false;
+    },
   }
 }
 </script>
