@@ -35,7 +35,7 @@
 
     </v-row>
 
-    <v-divider class="my-5"></v-divider>
+    <v-divider color="info" :thickness="3" class="my-5 border-opacity-50"></v-divider>
 
     <div v-if="!hasFilter" class="instruction-message">
       <p>Por favor, selecione um produto para visualizar sua estrutura.</p>

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar color="grey darken-1" dark flat app>
+  <v-app-bar>
     <div class="nav-links">
       <v-btn v-for="(link, index) in navLinks" :key="index" :to="link.to" text class="mr-4 white--text">
         {{ link.text }}
