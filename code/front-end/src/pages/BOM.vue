@@ -8,7 +8,7 @@
     <v-row>
 
       <v-col class="title" cols="12">
-        <h1 class="headline text-center">Build Of Material</h1>
+        <h1 class="headline text-center">Hierarquia de Materiais</h1>
       </v-col>
 
       <v-col cols="10" md="5">
