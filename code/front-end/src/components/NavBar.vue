@@ -25,9 +25,9 @@ export default {
     return {
       isLoggedIn: false,
       navLinks: [
-        { text: "Material", to: "/pecas" },
+        { text: "Materiais", to: "/pecas" },
         { text: "Produtos", to: "/produtos" },
-        { text: "Linha", to: "/linha" },
+        { text: "Linhas", to: "/linha" },
         { text: "B.O.M.", to: "/bom" },
         { text: "M.O.P.", to: "/planejamento" },
       ],
