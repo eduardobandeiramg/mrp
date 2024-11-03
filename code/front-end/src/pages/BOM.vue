@@ -6,11 +6,12 @@
     </v-snackbar>
 
     <v-row>
-
       <v-col class="title" cols="12">
         <h1 class="headline text-center">Hierarquia de Materiais</h1>
       </v-col>
+    </v-row>
 
+    <v-row justify="center">
       <v-col cols="10" md="5">
         <v-autocomplete
           v-model="buildOfMaterialFilter.selectedProductId"
@@ -27,12 +28,11 @@
         ></v-autocomplete>
       </v-col>
 
-      <v-col cols="2">
-        <v-btn icon color="blue" @click="onProductSelected">
-          <v-icon>mdi-magnify</v-icon>
+      <v-col cols="2" style="align-content: end;">
+        <v-btn size="small" color="blue" @click="onProductSelected">
+          <v-icon>mdi-magnify</v-icon> Filtrar
         </v-btn>
       </v-col>
-
     </v-row>
 
     <v-divider color="info" :thickness="3" class="my-5 border-opacity-50"></v-divider>
