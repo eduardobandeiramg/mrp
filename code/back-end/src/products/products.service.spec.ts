@@ -235,4 +235,37 @@ describe('ProductsService', () => {
       expect(result).toBeNull();
     });
   });
+
+  describe('validateExistingProduct', () => {
+    it('should return the existing product if found', async () => {
+      const productId = 'existing-id';
+      const mockProduct = {
+        id: productId,
+        description: 'Existing Product',
+        code: 'P999',
+        isActive: true,
+      };
+
+      jest
+        .spyOn(productRepository, 'findOne')
+        .mockResolvedValue(mockProduct as Product);
+
+      const result = await service.validateExistingProduct(productId);
+
+      expect(result).toEqual(mockProduct);
+      expect(productRepository.findOne).toHaveBeenCalledWith({
+        where: { id: productId },
+      });
+    });
+
+    it('should throw ConflictException if product is not found', async () => {
+      const productId = 'non-existent-id';
+
+      jest.spyOn(productRepository, 'findOne').mockResolvedValue(null);
+
+      await expect(service.validateExistingProduct(productId)).rejects.toThrow(
+        ConflictException,
+      );
+    });
+  });
 });
