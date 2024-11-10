@@ -26,8 +26,8 @@ export default {
   // GET production plans by date range
   async getProductionPlansByDates(startDate, endDate) {
     try {
-      const response = await axios.get(`${API_URL_PRODUCTION_PLANS}/by-dates`, {
-        params: { startDate, endDate },
+      const url = `${API_URL_PRODUCTION_PLANS}/by-dates?startDate=${startDate}&endDate=${endDate}`;
+      const response = await axios.get(url, {
         headers: getAuthHeader(),
       });
       return response.data;
@@ -35,7 +35,7 @@ export default {
       console.error('Error fetching production plans by dates:', error);
       throw error;
     }
-  },
+  },  
 
   // GET a specific production plan by ID
   async getProductionPlanById(id) {

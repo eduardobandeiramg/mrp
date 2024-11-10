@@ -20,26 +20,28 @@ export class ProductionPlansService {
   ) {}
 
   async create(createProductionPlanDto: CreateProductionPlanDto) {
-    const { qtd, datePrev, productId } = createProductionPlanDto;
+    const { qtd, datePrev, productId, lineId } = createProductionPlanDto;
 
     const product = await this.productsRepository.findOneOrFail({
       where: { id: productId },
     });
 
+    const line = await this.linesRepository.findOne({
+      where: { lineId: lineId },
+    });
+
     const productionPlan = new ProductionPlan();
     productionPlan.qtd = qtd;
 
-    productionPlan.datePrev = new Date(datePrev);
-
-    if (!isNaN(productionPlan.datePrev.getTime())) {
-      productionPlan.datePrev = new Date(
-        productionPlan.datePrev.toISOString().split('T')[0],
-      );
-    } else {
+    
+    const [year, month, day] = datePrev.split('-').map(Number);
+    productionPlan.datePrev = new Date(year, month - 1, day);
+    if (isNaN(productionPlan.datePrev.getTime())) {
       throw new Error('Invalid date value provided for datePrev');
     }
 
     productionPlan.product = product;
+    productionPlan.line = line;
 
     return this.productionPlansRepository.save(productionPlan);
   }
@@ -48,7 +50,8 @@ export class ProductionPlansService {
     try {
       const query = this.productionPlansRepository
         .createQueryBuilder('productionPlan')
-        .leftJoinAndSelect('productionPlan.product', 'product');
+        .leftJoinAndSelect('productionPlan.product', 'product')
+        .leftJoinAndSelect('productionPlan.line', 'line');
 
       if (startDate) {
         query.andWhere('productionPlan.datePrev >= :startDate', { startDate });

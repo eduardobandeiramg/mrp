@@ -8,7 +8,7 @@ export class CreateProductionPlanDto {
 
   @ApiProperty({ description: 'Data prevista para a produção' })
   @IsNotEmpty()
-  datePrev: Date;
+  datePrev: string;
 
   @ApiProperty({
     description: 'ID do produto relacionado ao plano de produção',
