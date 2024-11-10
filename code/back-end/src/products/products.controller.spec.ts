@@ -11,6 +11,9 @@ describe('ProductsController', () => {
   const mockService = {
     create: jest.fn(),
     updateProduct: jest.fn(),
+    findOneByID: jest.fn(),
+    findAll: jest.fn(),
+    deactivateProduct: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -63,6 +66,66 @@ describe('ProductsController', () => {
       const result = await controller.updateProduct(productId, updateDto);
       expect(result).toEqual(mockUpdatedProduct);
       expect(service.updateProduct).toHaveBeenCalledWith(productId, updateDto);
+    });
+  });
+
+  describe('findOneByID', () => {
+    it('deve chamar o service.findOneByID com o ID correto', async () => {
+      const productId = '12345';
+      const mockProduct = {
+        id: productId,
+        code: 'Updated Product B',
+        description: 'Updated Description',
+        isActive: true,
+        productionPlans: [],
+        productions: [],
+      };
+      jest.spyOn(service, 'findOneByID').mockResolvedValue(mockProduct);
+
+      const result = await controller.getProductByUID(productId);
+      expect(result).toEqual(mockProduct);
+      expect(service.findOneByID).toHaveBeenCalledWith(productId);
+    });
+  });
+
+  describe('findAll', () => {
+    it('deve chamar o service.findAll para buscar todos os produtos', async () => {
+      const productId = '12345';
+      const productId2 = '1235';
+
+      const mockProducts = [
+        {
+          id: productId,
+          code: 'Updated Product B',
+          description: 'Updated Description',
+          isActive: true,
+          productionPlans: [],
+          productions: [],
+        },
+        {
+          id: productId2,
+          code: 'Updated Product B',
+          description: 'Updated Description',
+          isActive: true,
+          productionPlans: [],
+          productions: [],
+        },
+      ];
+      jest.spyOn(service, 'findAll').mockResolvedValue(mockProducts);
+
+      const result = await controller.getAllProducts();
+      expect(result).toEqual(mockProducts);
+      expect(service.findAll).toHaveBeenCalled();
+    });
+  });
+
+  describe('deactivateProduct', () => {
+    it('deve chamar o service.deactivateProduct com o ID correto', async () => {
+      const productId = '12345';
+      jest.spyOn(service, 'deactivateProduct').mockResolvedValue();
+
+      await controller.deactivateProduct(productId);
+      expect(service.deactivateProduct).toHaveBeenCalledWith(productId);
     });
   });
 });
