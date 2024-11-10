@@ -14,7 +14,7 @@
     <v-divider color="info" :thickness="3" class="my-5 border-opacity-50"></v-divider>
 
     <v-row>
-      <v-col cols="12" style="min-height: 90vh;">
+      <v-col cols="12" style="min-height: 73vh;">
         <vue-cal
           ref="calendar"
           :time="false"
@@ -372,11 +372,34 @@
   }
 </script>
 
-<style scoped>
+<style>
   .title {
     padding-top: 5rem;
   }
   h1 {
     color: white;
+  }
+  .vuecal__event {
+    cursor: pointer;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f5f5f5;
+  }
+  .vuecal__event:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #e0e0e0;
+  }
+  .vuecal__cell-events-count {
+    background-color: green;
+    color: #ffffff;
+    border-radius: 50%;
+    font-weight: bold;
+  }
+  .vuecal__event-title{
+    font-weight: bolder;
+    font-size: large;
+    background: lightgray;
+    color: black;
   }
 </style>
