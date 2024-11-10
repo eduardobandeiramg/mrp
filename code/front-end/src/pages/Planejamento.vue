@@ -12,12 +12,10 @@
 
       <v-card-text>
         <v-sheet>
-          <v-calendar ref="calendar" v-model="today" :events="events" color="primary" type="month"></v-calendar>
+          <v-calendar ref="calendar" v-model="today" :events="events" color="primary" type="month" @click:day="handleDayClick"></v-calendar>
         </v-sheet>
       </v-card-text>
     </v-card>
-
-
 
 
 
@@ -85,6 +83,7 @@ import planejamentoService from "@/services/Planejamento.js"
 
 export default {
   data: () => ({
+    today: new Date().toISOString().substr(0, 10),
     today: null,
     modalVisivel: false, // Inicia o modal fechado
     modalExcluirVisivel: false,
@@ -122,6 +121,11 @@ export default {
     this.fetchEvents({ start: adapter.startOfDay(adapter.startOfMonth(new Date())), end: adapter.endOfDay(adapter.endOfMonth(new Date())) })
   },
   methods: {
+    handleDayClick() {
+      const selectedDate = dateInfo.date;
+      alert(`Você clicou na data: ${selectedDate}`);
+    },
+
     getEventColor(event) {
       return event.color
     },
