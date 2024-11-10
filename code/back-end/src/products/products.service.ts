@@ -47,10 +47,15 @@ export class ProductsService {
     });
   }
 
-  async findOneByID(id: string): Promise<Product | undefined> {
-    return this.productsRepository.findOne({ where: { id, isActive: true } });
+  async findOneByID(id: string): Promise<Product> {
+    const product = await this.productsRepository.findOne({
+      where: { id, isActive: true },
+    });
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+    return product;
   }
-
   async findAll(): Promise<Product[]> {
     try {
       return await this.productsRepository.find({ where: { isActive: true } });
