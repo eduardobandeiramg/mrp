@@ -9,9 +9,8 @@
 
       <v-card-text>
         <v-sheet>
-          <Qalendar class="calendar-container" :events="events" :config="config" @edit-event="abrirModalEditar"
-            @delete-event="abrirModalExcluir" @day-was-clicked="abrirModalAdicionar">
-            
+          <Qalendar class="calendar-container" :events="events" :config="config" @updated-period="onMonthChange"
+            @edit-event="abrirModalEditar" @delete-event="abrirModalExcluir" @day-was-clicked="abrirModalAdicionar">
 
           </Qalendar>
         </v-sheet>
@@ -34,8 +33,7 @@
                   :rules="[rules.required, rules.isNumber]" required variant="solo" />
                 <v-select v-model="novaProducao.productId" :items="produtos" item-title="description" item-value="id"
                   label="Selecionar Produto" :rules="[rules.required]" required variant="solo" />
-                <v-select v-model="novaProducao.lineId" :items="linhas" item-title="name" item-value="id"
-                  label="Selecionar Linha de Produção" :rules="[rules.required]" required variant="solo" />
+
               </v-col>
             </v-row>
           </v-form>
@@ -88,13 +86,12 @@ export default {
       modalExcluirVisivel: false,
       modalTitulo: 'Incluir Novo Planejamento',
       editando: false,
-      produtoParaExcluir: null,
+      producaoParaExcluir: null,
       indexEditando: null,
       novaProducao: {
         qtd: null,
         datePrev: null,
         productId: null,
-        lineId: null,
       },
       rules: {
         required: value => !!value || 'Este campo é obrigatório.',
@@ -102,33 +99,40 @@ export default {
       },
       produtos: [], // Lista de produtos
       linhas: [],   // Lista de linhas de produção
+      production: null,
 
 
     }
   },
   methods: {
-    async fetchEvents() {
-      
+    onMonthChange(newPeriod) {
+      const { start, end } = newPeriod; // Extrai os valores de start e end de newPeriod
+      const startFormatted = start.toISOString().split('T')[0];
+      const endFormatted = end.toISOString().split('T')[0];
+      this.fetchEvents(startFormatted, endFormatted);
+    },
+
+    async fetchEvents(start, end) {
+
+      console.log("Data de início:", start);
+      console.log("Data de fim:", end);
+
       var planejamentos = [];
-      const start = "2024-01-01"
-      const end = "2024-12-31"
 
       try {
         planejamentos = await planejamentoService.getProductionPlansByDates(start, end);
       } catch (error) {
         console.error('Erro ao buscar planejamentos:', error);
       }
-      console.log(planejamentos)
-
       planejamentos.forEach(element => {
-        
-          this.events.push({
-            title: element.product.description,
-            time: { start: element.datePrev, end: element.datePrev },
-            isEditable: true,
-            id: element.id,
-            description: "Quantidade: " + element.qtd,
-          })
+
+        this.events.push({
+          title: element.product.description,
+          time: { start: element.datePrev, end: element.datePrev },
+          isEditable: true,
+          id: element.id,
+          description: "Quantidade: " + element.qtd,
+        })
 
       });
 
@@ -149,10 +153,11 @@ export default {
       }
     },
     async confirmarExcluir() {
+      console.log(this.producaoParaExcluir)
       try {
-        await linhaService.deleteLine(this.linhaParaExcluir.lineId);
+        await linhaService.deleteProductionPlan(this.producaoParaExcluir);
         this.fecharModalExcluir();
-        this.carregarLinhas();
+        this.fetchEvents();
       } catch (error) {
         console.error('Erro ao excluir linha:', error);
       }
@@ -166,7 +171,6 @@ export default {
         qtd: null,
         datePrev: data,
         productId: null,
-        lineId: null,
       };
       this.modalVisivel = true;
     },
@@ -177,26 +181,36 @@ export default {
       this.fetchEvents()
 
     },
-    abrirModalEditar(item) {
-      console.log(item)
+    async abrirModalEditar(item) {
+
+      try {
+        this.production = await planejamentoService.getProductionPlanById(item);
+      } catch (error) {
+        console.error('Erro ao buscar planejamentos:', error);
+      }
+      console.log(this.production)
       this.modalTitulo = 'Editar Peça';
       this.editando = true;
-      this.novaHierarquia = { ...item };
-      // this.indexEditando = this.users.indexOf(item);
+      this.novaProducao = this.production;
       this.modalVisivel = true;
+      this.novaProducao = {
+        qtd: this.production.qtd,
+        datePrev: this.production.datePrev,
+        productId: this.production.product.id,
+      };
     },
 
     abrirModalExcluir(item) {
-      this.hierarquiaParaExcluir = item;
+      this.producaoParaExcluir = item;
       this.modalExcluirVisivel = true;
     },
     fecharModalExcluir() {
       this.modalExcluirVisivel = false;
-      this.hierarquiaParaExcluir = null;
+      this.producaoParaExcluir = null;
       this.fetchEvents()
     },
     limparFormulario() {
-      this.novaHierarquia = {
+      this.novaProducao = {
         qtd: null,
         productId: null,
         materialId: null,
@@ -223,36 +237,43 @@ export default {
 
     /////////////////////////////////////////////////
     formatarDataCompleta(data) {
-    const diasSemana = [
-      "Domingo",
-      "Segunda-feira",
-      "Terça-feira",
-      "Quarta-feira",
-      "Quinta-feira",
-      "Sexta-feira",
-      "Sábado"
-    ];
-    
-    const dataObj = new Date(data);
-    const diaSemana = diasSemana[dataObj.getDay()];
-    const dia = String(dataObj.getDate()).padStart(2, '0');
-    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
-    const ano = dataObj.getFullYear();
+      const diasSemana = [
+        "Domingo",
+        "Segunda-feira",
+        "Terça-feira",
+        "Quarta-feira",
+        "Quinta-feira",
+        "Sexta-feira",
+        "Sábado"
+      ];
 
-    return `${diaSemana}, ${dia}/${mes}/${ano}`;
-  },
-  abrirModalAdicionar(date) {
-    this.modalTitulo = "Incluir Novo Planejamento";
-    this.novaProducao.datePrev = date; // Define a data selecionada
-    this.modalVisivel = true;
-  },
+      const dataObj = new Date(data);
+      const diaSemana = diasSemana[dataObj.getDay()];
+      const dia = String(dataObj.getDate()).padStart(2, '0');
+      const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+      const ano = dataObj.getFullYear();
+
+      return `${diaSemana}, ${dia}/${mes}/${ano}`;
+    },
+    abrirModalAdicionar(date) {
+      this.modalTitulo = "Incluir Novo Planejamento";
+      this.novaProducao.datePrev = date; // Define a data selecionada
+      this.modalVisivel = true;
+    },
 
   },
   mounted() {
     this.carregarlinhas();
     this.carregarProdutos();
 
-    this.fetchEvents()
+
+    const today = new Date();
+    const primeiroDia = new Date(today.getFullYear(), today.getMonth(), 1);
+    const ultimoDia = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+    const primeiroDiaFormatado = primeiroDia.toISOString().split('T')[0];
+    const ultimoDiaFormatado = ultimoDia.toISOString().split('T')[0];
+    this.onMonthChange({primeiroDiaFormatado, ultimoDiaFormatado})
   },
 
 
