@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar>
+  <v-app-bar class="nav-bar">
     <div class="nav-links">
       <v-btn v-for="(link, index) in navLinks" :key="index" :to="link.to" text class="mr-4 white--text">
         {{ link.text }}
@@ -30,6 +30,7 @@ export default {
         { text: "Linhas", to: "/linha" },
         { text: "B.O.M.", to: "/bom" },
         { text: "M.O.P.", to: "/planejamento" },
+
       ],
     };
   },
@@ -62,8 +63,9 @@ export default {
 </script>
 
 <style scoped>
-.v-app-bar {
+.nav-bar {
   width: 100%;
+  background-color: rgb(49, 175, 133);
 }
 
 .nav-links {
