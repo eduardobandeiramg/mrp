@@ -17,6 +17,7 @@
       <v-col cols="12" style="min-height: 73vh;">
         <vue-cal
           ref="calendar"
+          locale="pt-br"
           :time="false"
           show-week-numbers
           events-count-on-year-view
@@ -117,6 +118,23 @@
   export default {
     components: { VueCal },
     data: () => ({
+      i18nPT: {
+        weekDays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+        months: [
+          'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+          'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+        ],
+        year: 'Ano',
+        month: 'Mês',
+        week: 'Semana',
+        day: 'Dia',
+        today: 'Hoje',
+        noEvent: 'Nenhum evento',
+        allDay: 'Dia inteiro',
+        deleteEvent: 'Excluir',
+        createEvent: 'Criar evento',
+        dateFormat: 'DD/MM/YYYY'
+      },
       snackbar: {
         show: false,
         message: '',
