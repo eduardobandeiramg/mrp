@@ -12,7 +12,8 @@
 
       <v-card-text>
         <v-sheet>
-          <v-calendar ref="calendar" v-model="today" :events="events" color="primary" type="month" @click:day="handleDayClick"></v-calendar>
+          <v-calendar ref="calendar" v-model="today" :events="events" color="primary" type="month"
+            @input="onMonthChange" @click:day="handleDayClick"></v-calendar>
         </v-sheet>
       </v-card-text>
     </v-card>
@@ -83,8 +84,9 @@ import planejamentoService from "@/services/Planejamento.js"
 
 export default {
   data: () => ({
-    today: new Date().toISOString().substr(0, 10),
     today: null,
+    value: [new Date()],
+    events: [],
     modalVisivel: false, // Inicia o modal fechado
     modalExcluirVisivel: false,
     modalTitulo: 'Incluir Novo Planejamento',
@@ -117,10 +119,27 @@ export default {
   mounted() {
     this.carregarlinhas();
     this.carregarProdutos();
-    const adapter = useDate()
-    this.fetchEvents({ start: adapter.startOfDay(adapter.startOfMonth(new Date())), end: adapter.endOfDay(adapter.endOfMonth(new Date())) })
+
+
+    // const formatDate = (date) => {
+    //   const year = date.getFullYear();
+    //   const month = String(date.getMonth() + 1).padStart(2, '0'); // Adiciona zero à esquerda se necessário
+    //   const day = String(date.getDate()).padStart(2, '0');
+    //   return `${year}-${month}-${day}`;
+    // };
+
+    // const startDate = formatDate(startOfMonth);
+    // const endDate = formatDate(endOfMonth);
+
+    // this.fetchEvents({ start: startDate, end: endDate })
+
   },
   methods: {
+    onMonthChange(newDate) {
+      console.log(newDate)
+      this.fetchEvents(newDate);
+    },
+
     handleDayClick({ date }) {
       // Exibe um alerta com a data clicada
       alert(`Você clicou na data: ${date}`);
@@ -131,12 +150,12 @@ export default {
     },
 
     async fetchEvents({ start, end }) {
+
       const events = []
       var planejamentos = [];
-      const min = start;
-      const max = end;
+
       try {
-        planejamentos = await planejamentoService.getProductionPlansByDates(min, max);
+        planejamentos = await planejamentoService.getProductionPlansByDates(start, end);
       } catch (error) {
         console.error('Erro ao buscar planejamentos:', error);
       }
@@ -268,5 +287,3 @@ export default {
   border-radius: 8px;
 }
 </style>
-
-não funcionou 

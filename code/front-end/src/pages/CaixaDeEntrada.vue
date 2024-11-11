@@ -6,22 +6,11 @@
         <v-spacer></v-spacer>
       </v-card-title>
       <v-card-text>
-        <v-data-table
-          :items="mensagens"
-          :headers="headers"
-          :search="search"
-          class="elevation-1 tabela-escura"
-        >
+        <v-data-table :items="mensagens" :headers="headers" :search="search" class="elevation-1 tabela-escura">
           <template v-slot:[`item.acao`]="{ item }">
             <div class="d-flex justify-content-end">
               <v-btn color="blue" @click="abrirModalVisualizar(item)">
-                <v-icon>mdi-eye</v-icon>Visualizar
-              </v-btn>
-              <v-btn color="green" @click="abrirModalResponder(item)">
-                <v-icon>mdi-reply</v-icon>Responder
-              </v-btn>
-              <v-btn color="red" @click="abrirModalExcluir(item)">
-                <v-icon>mdi-delete</v-icon>Excluir
+                <v-icon>mdi-eye</v-icon>Ver Detalhes
               </v-btn>
             </div>
           </template>
@@ -34,15 +23,13 @@
       <v-card>
         <v-card-title class="headline">Visualizar Mensagem</v-card-title>
         <v-card-text>
-          <p><strong>De:</strong> {{ mensagemSelecionada?.remetente }}</p>
-          <p><strong>Assunto:</strong> {{ mensagemSelecionada?.assunto }}</p>
+          <p><strong>De:</strong> {{ mensagemSelecionada?.responsavel }}</p>
+          <p><strong>Status:</strong> {{ mensagemSelecionada?.status }}</p>
           <p>{{ mensagemSelecionada?.conteudo }}</p>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="fecharModalVisualizar"
-            >Fechar</v-btn
-          >
+          <v-btn color="blue darken-1" text @click="fecharModalVisualizar">Fechar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -53,27 +40,14 @@
         <v-card-title class="headline">Responder Mensagem</v-card-title>
         <v-card-text>
           <v-form ref="form">
-            <v-text-field
-              v-model="resposta.assunto"
-              label="Assunto"
-              required
-            ></v-text-field>
-            <v-textarea
-              v-model="resposta.conteudo"
-              label="Conteúdo da resposta"
-              rows="5"
-              required
-            ></v-textarea>
+            <v-text-field v-model="resposta.status" label="Status" required></v-text-field>
+            <v-textarea v-model="resposta.conteudo" label="Conteúdo da resposta" rows="5" required></v-textarea>
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="fecharModalResponder"
-            >Cancelar</v-btn
-          >
-          <v-btn color="green darken-1" text @click="enviarResposta"
-            >Enviar</v-btn
-          >
+          <v-btn color="blue darken-1" text @click="fecharModalResponder">Cancelar</v-btn>
+          <v-btn color="green darken-1" text @click="enviarResposta">Enviar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -82,19 +56,12 @@
     <v-dialog v-model="modalExcluirVisivel" max-width="500px">
       <v-card>
         <v-card-title class="headline">Confirmar Exclusão</v-card-title>
-        <v-card-text
-          >Deseja realmente excluir a mensagem de
-          <strong>{{ mensagemSelecionada?.remetente }}</strong
-          >?</v-card-text
-        >
+        <v-card-text>Deseja realmente excluir a mensagem de
+          <strong>{{ mensagemSelecionada?.responsavel }}</strong>?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="fecharModalExcluir"
-            >Cancelar</v-btn
-          >
-          <v-btn color="red darken-1" text @click="confirmarExcluir"
-            >Excluir</v-btn
-          >
+          <v-btn color="blue darken-1" text @click="fecharModalExcluir">Cancelar</v-btn>
+          <v-btn color="red darken-1" text @click="confirmarExcluir">Excluir</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -113,12 +80,13 @@ export default {
       modalExcluirVisivel: false,
 
       mensagemSelecionada: null,
-      resposta: { assunto: "", conteudo: "" },
+      resposta: { status: "", conteudo: "" },
 
       headers: [
-        { align: "center", title: "Remetente", key: "remetente" },
-        { align: "center", title: "Assunto", key: "assunto" },
-        { align: "center", title: "Data", key: "data" },
+        { align: "center", title: "Produção", key: "producao" },
+        { align: "center", title: "Status", key: "Status" },
+        { align: "center", title: "Data de início", key: "dataIni" },
+        { align: "center", title: "Data da útima atualização", key: "data" },
         { align: "center", title: "Ações", key: "acao", sortable: false },
       ],
     };
@@ -133,7 +101,7 @@ export default {
     },
     abrirModalResponder(item) {
       this.mensagemSelecionada = item;
-      this.resposta.assunto = `Re: ${item.assunto}`;
+      this.resposta.status = `Re: ${item.status}`;
       this.modalResponderVisivel = true;
     },
     fecharModalResponder() {
@@ -159,14 +127,14 @@ export default {
     // Carregar mensagens ao montar o componente
     this.mensagens = [
       {
-        remetente: "João",
-        assunto: "Orçamento",
+        responsavel: "João",
+        Status: "Orçamento",
         data: "2024-10-20",
         conteudo: "Olá, segue o orçamento.",
       },
       {
-        remetente: "Maria",
-        assunto: "Reunião",
+        responsavel: "Maria",
+        Status: "Reunião",
         data: "2024-10-21",
         conteudo: "A reunião será às 14h.",
       },

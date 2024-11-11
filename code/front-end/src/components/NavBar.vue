@@ -30,6 +30,8 @@ export default {
         { text: "Linhas", to: "/linha" },
         { text: "B.O.M.", to: "/bom" },
         { text: "M.O.P.", to: "/planejamento" },
+        { text: "plan", to: "/plan" },
+
       ],
     };
   },
