@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     onMonthChange(newPeriod) {
-      const { start, end } = newPeriod; // Extrai os valores de start e end de newPeriod
+      const { start, end } = newPeriod;
       const startFormatted = start.toISOString().split('T')[0];
       const endFormatted = end.toISOString().split('T')[0];
       this.fetchEvents(startFormatted, endFormatted);
@@ -114,11 +114,8 @@ export default {
 
     async fetchEvents(start, end) {
 
-      console.log("Data de início:", start);
-      console.log("Data de fim:", end);
-
       var planejamentos = [];
-
+      var eventos = [];
       try {
         planejamentos = await planejamentoService.getProductionPlansByDates(start, end);
       } catch (error) {
@@ -126,7 +123,7 @@ export default {
       }
       planejamentos.forEach(element => {
 
-        this.events.push({
+        eventos.push({
           title: element.product.description,
           time: { start: element.datePrev, end: element.datePrev },
           isEditable: true,
@@ -135,7 +132,7 @@ export default {
         })
 
       });
-
+      this.events = eventos;
     },
 
     /////////////////////////////////////////////////
@@ -144,7 +141,6 @@ export default {
         if (this.$refs.form.validate()) {
           await planejamentoService.addProductionPlan(this.novaProducao);
           this.fecharModal();
-          this.fetchEvents();
         } else {
           console.error('Campos obrigatórios não preenchidos');
         }
@@ -157,7 +153,7 @@ export default {
       try {
         await linhaService.deleteProductionPlan(this.producaoParaExcluir);
         this.fecharModalExcluir();
-        this.fetchEvents();
+        this.fetchEventsCurrentMonth();
       } catch (error) {
         console.error('Erro ao excluir linha:', error);
       }
@@ -178,7 +174,7 @@ export default {
     fecharModal() {
       this.modalVisivel = false; // Fecha o modal ao alterar a propriedade modalVisivel para false
       this.limparFormulario(); // Opcionalmente, limpa o formulário ao fechar
-      this.fetchEvents()
+      this.fetchEventsCurrentMonth()
 
     },
     async abrirModalEditar(item) {
@@ -207,7 +203,7 @@ export default {
     fecharModalExcluir() {
       this.modalExcluirVisivel = false;
       this.producaoParaExcluir = null;
-      this.fetchEvents()
+      this.fetchEventsCurrentMonth()
     },
     limparFormulario() {
       this.novaProducao = {
@@ -260,20 +256,23 @@ export default {
       this.novaProducao.datePrev = date; // Define a data selecionada
       this.modalVisivel = true;
     },
+    fetchEventsCurrentMonth() {
+      const today = new Date();
+      const start = new Date(today.getFullYear(), today.getMonth(), 1);
+      const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+      const startFormatted = start.toISOString().split('T')[0];
+      const endFormatted = end.toISOString().split('T')[0];
+      this.fetchEvents(startFormatted, endFormatted);
+    }
 
   },
   mounted() {
     this.carregarlinhas();
     this.carregarProdutos();
+    this.fetchEventsCurrentMonth()
 
 
-    const today = new Date();
-    const primeiroDia = new Date(today.getFullYear(), today.getMonth(), 1);
-    const ultimoDia = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-
-    const primeiroDiaFormatado = primeiroDia.toISOString().split('T')[0];
-    const ultimoDiaFormatado = ultimoDia.toISOString().split('T')[0];
-    this.onMonthChange({primeiroDiaFormatado, ultimoDiaFormatado})
   },
 
 
