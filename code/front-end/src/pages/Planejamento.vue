@@ -5,46 +5,35 @@
       <v-card-title>
         <h1>Planejamento de Produção</h1>
         <v-spacer></v-spacer>
-
-        <v-btn class="mb-12" color="primary" @click="abrirModalIncluir">Adicionar Planejamento</v-btn>
-
       </v-card-title>
 
       <v-card-text>
         <v-sheet>
-          <v-calendar ref="calendar" v-model="today" :events="events" color="primary" type="month"
-            @input="onMonthChange" @click:day="handleDayClick"></v-calendar>
+          <Qalendar class="calendar-container" :events="events" :config="config" @updated-period="onMonthChange"
+            @edit-event="abrirModalEditar" @delete-event="abrirModalExcluir" @day-was-clicked="abrirModalAdicionar">
+
+          </Qalendar>
         </v-sheet>
       </v-card-text>
     </v-card>
 
 
 
+    <!-- Modal de adicionar/editar produção -->
     <v-dialog v-model="modalVisivel" max-width="70%">
       <v-card>
         <v-card-title class="headline">{{ modalTitulo }}</v-card-title>
         <v-card-text>
           <v-form ref="form">
             <v-row>
-              <v-col cols="6">
-                <v-date-picker v-model="novaProducao.datePrev" :rules="[rules.required]" @input="menuDate = false">
-                </v-date-picker>
-              </v-col>
-
-              <!-- Coluna para os 3 campos (quantidade, produto, linha) -->
-              <v-col cols="6">
-                <!-- Campo de quantidade -->
+              <v-col cols="12">
+                <v-text-field label="Data Selecionada" v-model="novaProducao.datePrev" readonly
+                  variant="solo"></v-text-field>
                 <v-text-field v-model="novaProducao.qtd" label="Quantidade" type="number"
-                  :rules="[rules.required, rules.isNumber]" required variant="solo">
-                </v-text-field>
-
-                <!-- Campo para selecionar produto -->
+                  :rules="[rules.required, rules.isNumber]" required variant="solo" />
                 <v-select v-model="novaProducao.productId" :items="produtos" item-title="description" item-value="id"
                   label="Selecionar Produto" :rules="[rules.required]" required variant="solo" />
 
-                <!-- Campo para selecionar linha de produção -->
-                <v-select v-model="novaProducao.lineId" :items="linhas" item-title="name" item-value="id"
-                  label="Selecionar Linha de Produção" :rules="[rules.required]" required variant="solo" />
               </v-col>
             </v-row>
           </v-form>
@@ -56,6 +45,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
 
 
 
@@ -73,139 +63,157 @@
     </v-dialog>
 
 
-
   </v-container>
 </template>
 <script>
-import { useDate } from 'vuetify'
+import { Qalendar } from "qalendar";
+import planejamentoService from "@/services/Planejamento.js"
 import linhaService from "@/services/Linha.js";
 import produtoService from "@/services/Produtos.js";
-import planejamentoService from "@/services/Planejamento.js"
 
 export default {
-  data: () => ({
-    today: null,
-    value: [new Date()],
-    events: [],
-    modalVisivel: false, // Inicia o modal fechado
-    modalExcluirVisivel: false,
-    modalTitulo: 'Incluir Novo Planejamento',
-    editando: false,
-    produtoParaExcluir: null,
-    indexEditando: null,
-    novaProducao: {
-      qtd: null,
-      datePrev: null,
-      productId: null,
-      lineId: null,
-    },
-    produtos: [], // Lista de produtos
-    linhas: [],   // Lista de linhas de produção
-    menuDate: false, // Controla o estado do seletor de data
-    events: [],
-    // Regras de validação para o formulário
-    rules: {
-      required: value => !!value || 'Este campo é obrigatório.',
-      isNumber: value => !isNaN(value) || 'Este campo deve ser um número.'
-    },
+  components: {
+    Qalendar,
+  },
+
+  data() {
+    return {
+      events: [],
+      config: {
+        defaultMode: "month", // Define a visualização padrão para o modo "mês"
+      },
+      modalVisivel: false, // Inicia o modal fechado
+      modalExcluirVisivel: false,
+      modalTitulo: 'Incluir Novo Planejamento',
+      editando: false,
+      producaoParaExcluir: null,
+      indexEditando: null,
+      novaProducao: {
+        qtd: null,
+        datePrev: null,
+        productId: null,
+      },
+      rules: {
+        required: value => !!value || 'Este campo é obrigatório.',
+        isNumber: value => !isNaN(value) || 'Este campo deve ser um número.'
+      },
+      produtos: [], // Lista de produtos
+      linhas: [],   // Lista de linhas de produção
+      production: null,
 
 
-
-    focus: '',
-    events: [],
-    colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-    names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-  }),
-  mounted() {
-    this.carregarlinhas();
-    this.carregarProdutos();
-
-
-    // const formatDate = (date) => {
-    //   const year = date.getFullYear();
-    //   const month = String(date.getMonth() + 1).padStart(2, '0'); // Adiciona zero à esquerda se necessário
-    //   const day = String(date.getDate()).padStart(2, '0');
-    //   return `${year}-${month}-${day}`;
-    // };
-
-    // const startDate = formatDate(startOfMonth);
-    // const endDate = formatDate(endOfMonth);
-
-    // this.fetchEvents({ start: startDate, end: endDate })
-
+    }
   },
   methods: {
-    onMonthChange(newDate) {
-      console.log(newDate)
-      this.fetchEvents(newDate);
+    onMonthChange(newPeriod) {
+      const { start, end } = newPeriod;
+      const startFormatted = start.toISOString().split('T')[0];
+      const endFormatted = end.toISOString().split('T')[0];
+      this.fetchEvents(startFormatted, endFormatted);
     },
 
-    handleDayClick({ date }) {
-      // Exibe um alerta com a data clicada
-      alert(`Você clicou na data: ${date}`);
-    },
+    async fetchEvents(start, end) {
 
-    getEventColor(event) {
-      return event.color
-    },
-
-    async fetchEvents({ start, end }) {
-
-      const events = []
       var planejamentos = [];
-
+      var eventos = [];
       try {
         planejamentos = await planejamentoService.getProductionPlansByDates(start, end);
       } catch (error) {
         console.error('Erro ao buscar planejamentos:', error);
       }
-
       planejamentos.forEach(element => {
-        const allDay = this.rnd(0, 3) === 0
-        const firstTimestamp = new Date(element.datePrev).getTime();
-        const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-        const secondTimestamp = new Date(element.datePrev).getTime();
-        const second = new Date(first.getTime() + secondTimestamp)
 
-        events.push({
-          title: "Produção" + element.qtd,
-          start: first,
-          end: second,
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
-          allDay: !allDay,
+        eventos.push({
+          title: element.product.description,
+          time: { start: element.datePrev, end: element.datePrev },
+          isEditable: true,
+          id: element.id,
+          description: "Quantidade: " + element.qtd,
         })
 
       });
-
-
-      // const days = (max.getTime() - min.getTime()) / 86400000
-      // const eventCount = this.rnd(days, days + 20)
-
-      // for (let i = 0; i < eventCount; i++) {
-      //   const allDay = this.rnd(0, 3) === 0
-      //   const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-      //   const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-      //   const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-      //   const second = new Date(first.getTime() + secondTimestamp)
-
-      //   events.push({
-      //     title: this.names[this.rnd(0, this.names.length - 1)],
-      //     start: first,
-      //     end: second,
-      //     color: this.colors[this.rnd(0, this.colors.length - 1)],
-      //     allDay: !allDay,
-      //   })
-      // }
-
-      this.events = events
-    },
-    rnd(a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a
+      this.events = eventos;
     },
 
+    /////////////////////////////////////////////////
+    async salvar() {
+      try {
+        if (this.$refs.form.validate()) {
+          await planejamentoService.addProductionPlan(this.novaProducao);
+          this.fecharModal();
+        } else {
+          console.error('Campos obrigatórios não preenchidos');
+        }
+      } catch (error) {
+        console.error('Erro ao salvar peça:', error);
+      }
+    },
+    async confirmarExcluir() {
+      console.log(this.producaoParaExcluir)
+      try {
+        await planejamentoService.deleteProductionPlan(this.producaoParaExcluir);
+        this.fecharModalExcluir();
+      } catch (error) {
+        console.error('Erro ao excluir linha:', error);
+      }
+    },
+    /////////////////////////////////////////////////
+    abrirModalAdicionar(data) {
+      console.log(data)
+      this.modalTitulo = "Incluir Novo Planejamento";
+      this.editando = false;
+      this.novaProducao = {
+        qtd: null,
+        datePrev: data,
+        productId: null,
+      };
+      this.modalVisivel = true;
+    },
 
+    fecharModal() {
+      this.modalVisivel = false; // Fecha o modal ao alterar a propriedade modalVisivel para false
+      this.limparFormulario(); // Opcionalmente, limpa o formulário ao fechar
+      this.fetchEventsCurrentMonth()
 
+    },
+    async abrirModalEditar(item) {
 
+      try {
+        this.production = await planejamentoService.getProductionPlanById(item);
+      } catch (error) {
+        console.error('Erro ao buscar planejamentos:', error);
+      }
+      console.log(this.production)
+      this.modalTitulo = 'Editar Peça';
+      this.editando = true;
+      this.novaProducao = this.production;
+      this.modalVisivel = true;
+      this.novaProducao = {
+        qtd: this.production.qtd,
+        datePrev: this.production.datePrev,
+        productId: this.production.product.id,
+      };
+    },
+
+    abrirModalExcluir(item) {
+      this.producaoParaExcluir = item;
+      this.modalExcluirVisivel = true;
+    },
+    fecharModalExcluir() {
+      this.modalExcluirVisivel = false;
+      this.producaoParaExcluir = null;
+      this.fetchEventsCurrentMonth()
+    },
+    limparFormulario() {
+      this.novaProducao = {
+        qtd: null,
+        productId: null,
+        materialId: null,
+        parentBuildOfMaterialId: null,
+      },
+        this.indexEditando = null;
+    },
+    /////////////////////////////////////////////////
     async carregarlinhas() {
       try {
         this.linhas = await linhaService.getAllLines();
@@ -223,67 +231,66 @@ export default {
     },
 
     /////////////////////////////////////////////////
-    async salvar() {
-      try {
-        if (this.$refs.form.validate()) {
-          await planejamentoService.addProductionPlan(this.novaProducao);
-          this.fecharModal();
-          this.fetchEvents();
-        } else {
-          console.error('Campos obrigatórios não preenchidos');
-        }
-      } catch (error) {
-        console.error('Erro ao salvar peça:', error);
-      }
-    },
+    formatarDataCompleta(data) {
+      const diasSemana = [
+        "Domingo",
+        "Segunda-feira",
+        "Terça-feira",
+        "Quarta-feira",
+        "Quinta-feira",
+        "Sexta-feira",
+        "Sábado"
+      ];
 
-    abrirModalIncluir() {
-      this.modalTitulo = 'Incluir Novo Planejamento'; // Atualizei o título do modal para refletir o planejamento de produção
-      this.editando = false;
-      this.limparFormulario(); // Limpa o formulário antes de abrir o modal
-      this.modalVisivel = true; // Abre o modal ao alterar a propriedade modalVisivel para true
+      const dataObj = new Date(data);
+      const diaSemana = diasSemana[dataObj.getDay()];
+      const dia = String(dataObj.getDate()).padStart(2, '0');
+      const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+      const ano = dataObj.getFullYear();
+
+      return `${diaSemana}, ${dia}/${mes}/${ano}`;
     },
-    fecharModal() {
-      this.modalVisivel = false; // Fecha o modal ao alterar a propriedade modalVisivel para false
-      this.limparFormulario(); // Opcionalmente, limpa o formulário ao fechar
-    },
-    abrirModalEditar(item) {
-      this.modalTitulo = 'Editar Peça';
-      this.editando = true;
-      this.novaHierarquia = { ...item };
-      this.indexEditando = this.users.indexOf(item);
+    abrirModalAdicionar(date) {
+      this.modalTitulo = "Incluir Novo Planejamento";
+      this.novaProducao.datePrev = date; // Define a data selecionada
       this.modalVisivel = true;
     },
+    fetchEventsCurrentMonth() {
+      const today = new Date();
+      const start = new Date(today.getFullYear(), today.getMonth(), 1);
+      const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-    abrirModalExcluir(item) {
-      this.hierarquiaParaExcluir = item;
-      this.modalExcluirVisivel = true;
-    },
-    fecharModalExcluir() {
-      this.modalExcluirVisivel = false;
-      this.hierarquiaParaExcluir = null;
-      this.combinarListas()
-    },
-    limparFormulario() {
-      this.novaHierarquia = {
-        qtd: null,
-        productId: null,
-        materialId: null,
-        parentBuildOfMaterialId: null,
-      },
-        this.indexEditando = null;
-    },
-    /////////////////////////////////////////////////
+      const startFormatted = start.toISOString().split('T')[0];
+      const endFormatted = end.toISOString().split('T')[0];
+      this.fetchEvents(startFormatted, endFormatted);
+    }
+
   },
+  mounted() {
+    this.carregarlinhas();
+    this.carregarProdutos();
+    this.fetchEventsCurrentMonth()
+
+
+  },
+
+
 }
 </script>
 
-<style scoped>
+<style>
+@import "qalendar/dist/style.css";
+
 .planejamento-producao-container {
   margin-top: 70px;
   padding: 20px;
   color: #fff;
   text-align: center;
   border-radius: 8px;
+}
+
+.calendar-container {
+  height: 70vh;
+  overflow: auto;
 }
 </style>

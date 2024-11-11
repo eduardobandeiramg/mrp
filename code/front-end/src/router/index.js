@@ -50,11 +50,7 @@ const manualRoutes = [
     name: 'Planejamento',
     component: () => import('@/pages/Planejamento.vue'), 
   },
-  {
-    path: '/plan',
-    name: 'Plan',
-    component: () => import('@/pages/Planejamento copy.vue'), 
-  },
+
   {
     path: '/entrada',
     name: 'CaixaDeEntrada',
