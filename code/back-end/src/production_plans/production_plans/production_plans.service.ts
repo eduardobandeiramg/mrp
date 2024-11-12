@@ -22,7 +22,7 @@ export class ProductionPlansService {
   async create(createProductionPlanDto: CreateProductionPlanDto) {
     const { qtd, datePrev, productId, lineId } = createProductionPlanDto;
 
-    const product = await this.productsRepository.findOneOrFail({
+    const product = await this.productsRepository.findOne({
       where: { id: productId },
     });
 
@@ -33,7 +33,6 @@ export class ProductionPlansService {
     const productionPlan = new ProductionPlan();
     productionPlan.qtd = qtd;
 
-    
     const [year, month, day] = datePrev.split('-').map(Number);
     productionPlan.datePrev = new Date(year, month - 1, day);
     if (isNaN(productionPlan.datePrev.getTime())) {
