@@ -11,7 +11,11 @@ describe('ProductionController', () => {
   const mockProductionService = {
     create: jest.fn(),
     startProduction: jest.fn(),
-    endProduction: jest.fn(), // Adicionado endProduction no mock
+    endProduction: jest.fn(),
+    stopProduction: jest.fn(),
+    findProductsWithLessProductions: jest.fn(),
+    findProductsWithNullDates: jest.fn(),
+    findProductsWithInitButNoEnd: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -91,6 +95,164 @@ describe('ProductionController', () => {
 
       expect(service.endProduction).toHaveBeenCalledWith(productionId);
       expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('sendRequestToStock', () => {
+    it('deve chamar o método stopProduction do service com o ID correto', async () => {
+      const productionId = '1';
+
+      jest.spyOn(service, 'stopProduction').mockResolvedValue(undefined);
+
+      const result = await controller.sendRequestToStock(productionId);
+
+      expect(service.stopProduction).toHaveBeenCalledWith(productionId);
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('findProductsWithLessProductions', () => {
+    it('deve chamar o método findProductsWithLessProductions do service e retornar o resultado', async () => {
+      const mockResult = [
+        {
+          id: 'plan1',
+          product: {
+            id: 'product1',
+            name: 'Produto A',
+            description: 'Descrição do Produto A',
+            code: 'P001',
+            isActive: true,
+            productionPlans: [],
+            productions: [],
+          },
+          productions: [
+            {
+              id: 'prod1',
+              status: ProductionStatus.A_PRODUZIR, // Usando o enum correto
+              dateInit: null,
+              dateEnd: null,
+            },
+          ],
+          qtd: 5,
+          datePrev: new Date(),
+          line: {
+            lineId: 'line1',
+            name: 'Linha A',
+            productionPlans: [],
+          },
+        },
+      ];
+
+      jest
+        .spyOn(service, 'findProductsWithLessProductions')
+        .mockResolvedValue(mockResult);
+
+      const result = await controller.findProductsWithLessProductions();
+
+      expect(service.findProductsWithLessProductions).toHaveBeenCalled();
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('findProductsWithNullDates', () => {
+    it('deve chamar o método findProductsWithNullDates do service e retornar o resultado', async () => {
+      const mockResult = [
+        {
+          id: 'prod1',
+          product: {
+            id: 'product1',
+            name: 'Produto A',
+            description: 'Descrição do Produto A',
+            code: 'P001',
+            isActive: true,
+            productionPlans: [],
+            productions: [],
+          },
+          productionPlan: {
+            id: 'plan1',
+            product: {
+              id: 'product1',
+              name: 'Produto A',
+              description: 'Descrição do Produto A',
+              code: 'P001',
+              isActive: true,
+              productionPlans: [],
+              productions: [],
+            },
+            line: {
+              lineId: 'line1',
+              name: 'Linha A',
+              productionPlans: [],
+            },
+            productions: [],
+            qtd: 5,
+            datePrev: new Date(),
+          },
+          dateInit: null,
+          dateEnd: null,
+          status: ProductionStatus.A_PRODUZIR,
+        },
+      ];
+
+      jest
+        .spyOn(service, 'findProductsWithNullDates')
+        .mockResolvedValue(mockResult);
+
+      const result = await controller.findProductsWithNullDates();
+
+      expect(service.findProductsWithNullDates).toHaveBeenCalled();
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('findProductsWithInitButNoEnd', () => {
+    it('deve chamar o método findProductsWithInitButNoEnd do service e retornar o resultado', async () => {
+      const mockProductions = [
+        {
+          id: 'prod1',
+          product: {
+            id: 'product1',
+            name: 'Produto A',
+            description: 'Descrição do Produto A',
+            code: 'P001',
+            isActive: true,
+            productionPlans: [],
+            productions: [],
+          },
+          productionPlan: {
+            id: 'plan1',
+            product: {
+              id: 'product1',
+              name: 'Produto A',
+              description: 'Descrição do Produto A',
+              code: 'P001',
+              isActive: true,
+              productionPlans: [],
+              productions: [],
+            },
+            line: {
+              lineId: 'line1',
+              name: 'Linha A',
+              productionPlans: [],
+            },
+            productions: [],
+            qtd: 5,
+            datePrev: new Date(),
+          },
+          dateInit: new Date(),
+          dateEnd: null,
+          status: ProductionStatus.EM_PRODUCAO,
+        },
+      ];
+
+      jest
+        .spyOn(service, 'findProductsWithInitButNoEnd')
+        .mockResolvedValue(mockProductions);
+
+      const result = await controller.findProductsWithInitButNoEnd();
+
+      expect(service.findProductsWithInitButNoEnd).toHaveBeenCalled();
+      expect(result).toEqual(mockProductions);
     });
   });
 });

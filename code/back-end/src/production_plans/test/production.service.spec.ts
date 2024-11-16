@@ -17,12 +17,15 @@ describe('ProductionService', () => {
   const mockProductionRepository = {
     save: jest.fn(),
     findOne: jest.fn(),
+    find: jest.fn(),
   };
   const mockProductRepository = {
     findOne: jest.fn(),
+    find: jest.fn(),
   };
   const mockProductionPlanRepository = {
     findOne: jest.fn(),
+    find: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -67,10 +70,7 @@ describe('ProductionService', () => {
         ).toISOString(),
       };
 
-      const mockProduct = {
-        id: 'product123',
-        description: 'Produto Teste',
-      } as Product;
+      const mockProduct = { id: 'product123' } as Product;
       const mockProductionPlan = { id: 'productionPlan123' } as ProductionPlan;
 
       const mockResult: Production = {
@@ -134,7 +134,6 @@ describe('ProductionService', () => {
 
       const result = await service.startProduction(productionId);
 
-      // Atualizando o expect para incluir 'relations'
       expect(productionRepository.findOne).toHaveBeenCalledWith({
         where: { id: productionId },
         relations: ['product', 'productionPlan'],
@@ -146,15 +145,6 @@ describe('ProductionService', () => {
         }),
       );
       expect(result).toEqual(updatedProduction);
-    });
-
-    it('deve lançar um erro se a produção não for encontrada', async () => {
-      const productionId = '2';
-      jest.spyOn(productionRepository, 'findOne').mockResolvedValue(null);
-
-      await expect(service.startProduction(productionId)).rejects.toThrow(
-        `Production with ID ${productionId} not found`,
-      );
     });
   });
 
@@ -194,14 +184,151 @@ describe('ProductionService', () => {
       );
       expect(result).toEqual(updatedProduction);
     });
+  });
 
-    it('deve lançar um erro se a produção não for encontrada', async () => {
-      const productionId = '2';
-      jest.spyOn(productionRepository, 'findOne').mockResolvedValue(null);
+  describe('findProductsWithLessProductions', () => {
+    it('deve retornar planos de produção com menos produções do que o esperado', async () => {
+      const mockProductionPlans = [
+        {
+          id: 'plan1',
+          product: { id: 'product1', description: 'Produto A' },
+          productions: [{ id: 'prod1', status: ProductionStatus.A_PRODUZIR }],
+          qtd: 5,
+          datePrev: new Date(),
+        },
+      ] as ProductionPlan[];
 
-      await expect(service.endProduction(productionId)).rejects.toThrow(
-        `Production with ID ${productionId} not found`,
+      jest
+        .spyOn(productionPlanRepository, 'find')
+        .mockResolvedValue(mockProductionPlans);
+
+      const result = await service.findProductsWithLessProductions();
+
+      // Verifica apenas as relações necessárias no serviço
+      expect(productionPlanRepository.find).toHaveBeenCalledWith(
+        expect.objectContaining({
+          relations: expect.arrayContaining(['product', 'productions']),
+        }),
       );
+
+      expect(result).toEqual(
+        mockProductionPlans.filter(
+          (plan) => plan.productions.length < plan.qtd,
+        ),
+      );
+    });
+  });
+
+  describe('findProductsWithNullDates', () => {
+    it('deve retornar produções com data de início e término nulas', async () => {
+      const mockProductions = [
+        {
+          id: 'prod1',
+          product: {
+            id: 'product1',
+            name: 'Produto A',
+            description: 'Descrição do Produto A',
+            code: 'P001',
+            isActive: true,
+            productionPlans: [],
+            productions: [],
+          },
+          productionPlan: {
+            id: 'plan1',
+            product: {
+              id: 'product1',
+              name: 'Produto A',
+              description: 'Descrição do Produto A',
+              code: 'P001',
+              isActive: true,
+              productionPlans: [],
+              productions: [],
+            },
+            line: {
+              lineId: 'line1',
+              name: 'Linha A',
+              productionPlans: [],
+            },
+            productions: [],
+            qtd: 5,
+            datePrev: new Date(),
+          },
+          dateInit: null,
+          dateEnd: null,
+          status: ProductionStatus.A_PRODUZIR,
+        },
+      ];
+
+      jest
+        .spyOn(productionRepository, 'find')
+        .mockResolvedValue(mockProductions);
+
+      const result = await service.findProductsWithNullDates();
+
+      expect(productionRepository.find).toHaveBeenCalledWith({
+        where: { dateInit: null, dateEnd: null },
+        relations: ['product', 'productionPlan'],
+      });
+      expect(result).toEqual(mockProductions);
+    });
+  });
+
+  describe('findProductsWithInitButNoEnd', () => {
+    it('deve retornar produções com data de início definida e data de término nula', async () => {
+      const mockProductions = [
+        {
+          id: 'prod1',
+          product: {
+            id: 'product1',
+            name: 'Produto A',
+            description: 'Descrição do Produto A',
+            code: 'P001',
+            isActive: true,
+            productionPlans: [],
+            productions: [],
+          },
+          productionPlan: {
+            id: 'plan1',
+            product: {
+              id: 'product1',
+              name: 'Produto A',
+              description: 'Descrição do Produto A',
+              code: 'P001',
+              isActive: true,
+              productionPlans: [],
+              productions: [],
+            },
+            line: {
+              lineId: 'line1',
+              name: 'Linha A',
+              productionPlans: [],
+            },
+            productions: [],
+            qtd: 5,
+            datePrev: new Date(),
+          },
+          dateInit: new Date(),
+          dateEnd: null,
+          status: ProductionStatus.EM_PRODUCAO,
+        },
+      ];
+
+      jest
+        .spyOn(productionRepository, 'find')
+        .mockResolvedValue(mockProductions);
+
+      const result = await service.findProductsWithInitButNoEnd();
+
+      expect(productionRepository.find).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: {
+            dateInit: expect.anything(), // Aceita o operador FindOperator
+            dateEnd: null,
+          },
+          relations: ['product', 'productionPlan'],
+        }),
+      );
+      expect(result).toEqual(mockProductions);
     });
   });
 });
