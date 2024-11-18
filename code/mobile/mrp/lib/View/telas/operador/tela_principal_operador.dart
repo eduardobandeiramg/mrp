@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/View/telas/operador/lista.dart';
+import 'package:mrp/View/telas/operador/a_produzir.dart';
+import 'package:mrp/View/telas/operador/finalizado.dart';
+import 'package:mrp/View/telas/operador/linha.dart';
+import 'package:mrp/View/telas/operador/perfil.dart';
 import 'package:mrp/View/telas/tecnico/lista.dart';
 
 class TelaPrincipalOperador extends StatefulWidget {
@@ -19,8 +22,17 @@ class _TelaPrincipalOperadorState extends State<TelaPrincipalOperador> {
   }
 
   telaAMoatrar(int indice) {
-    if (indice == 0) {
-      return ListagemProdutos();
+    if(indice == 0){
+      return AProduzir();
+    }
+    else if (indice == 1) {
+      return LinhaProducao();
+    }
+    else if(indice == 2){
+      return Finalizado();
+    }
+    else if(indice == 3){
+      return PerfilOperador();
     }
   }
 
@@ -31,7 +43,12 @@ class _TelaPrincipalOperadorState extends State<TelaPrincipalOperador> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.conveyor_belt), label: "linha"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.lock_clock), label: "a produzir"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.conveyor_belt), label: "linha"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.check_box), label: "finalizado"),
 /*          BottomNavigationBarItem(
               icon: Icon(Icons.fire_truck), label: "dar entrada"),
           BottomNavigationBarItem(

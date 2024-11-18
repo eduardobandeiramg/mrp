@@ -1,6 +1,10 @@
 import 'package:http/http.dart' as http;
+import 'package:mrp/Controller/token_app.dart';
 
 class Auth {
+
+  String? tokenApp;
+
   static Future<String> login(String username, String senha) async {
     String urlLogin = "http://10.0.2.2:3000/auth/login";
     String urlPerfil = "http://10.0.2.2:3000/users/profile";
@@ -15,7 +19,7 @@ class Auth {
       if (retornoPerfil.statusCode == 200) {
         List<String> valorRetorno = retornoPerfil.body.split(",");
         String papel = valorRetorno[3].substring(8, valorRetorno[3].length - 2);
-        print("papel: $papel");
+        TokenApp.setToken(token);
         return papel;
       } else {
         throw new Exception("erro");

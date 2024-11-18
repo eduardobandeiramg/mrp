@@ -1,0 +1,36 @@
+import 'package:http/http.dart' as http;
+import 'package:mrp/Controller/token_app.dart';
+import 'dart:convert';
+
+class Materiais {
+  static Future<List<Map<String, dynamic>>> buscaMateriais() async {
+    String urlMateriais = "http://10.0.2.2:3000/materials";
+    var resposta = await http.get(Uri.parse(urlMateriais),
+        headers: {"Authorization": TokenApp.tokenApp!});
+    List<Map<String, dynamic>> lista =
+        List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
+    return lista;
+  }
+
+  static adicionarAoEstoque(String codigo, String qtd) async {
+    int quantidade = int.parse(qtd);
+    print("tipo: ${quantidade.runtimeType}");
+    String urlAddEstoque = "http://10.0.2.2:3000/materials/stock/add";
+    List<Map<String, dynamic>> listaMateriais = await buscaMateriais();
+    if (listaMateriais.any((element) => element["code"] == codigo)) {
+      Map<String, dynamic> mapaProduto =
+          listaMateriais.firstWhere((mapa) => mapa["code"] == codigo);
+      var resposta = await http.patch(Uri.parse(urlAddEstoque),
+          headers: {"Authorization": TokenApp.tokenApp!},
+          body: {"id": mapaProduto["id"], "qtd": quantidade});
+      print("resposta ao add estoque: ${resposta.statusCode}");
+      if (resposta.statusCode == 204) {
+        return "ok";
+      } else {
+        throw new Exception("erro-no-servidor");
+      }
+    } else {
+      throw new Exception("codigo-inexistente");
+    }
+  }
+}
