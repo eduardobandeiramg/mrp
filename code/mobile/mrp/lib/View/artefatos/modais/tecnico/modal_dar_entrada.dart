@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mrp/Controller/tecnico/materiais.dart';
 import 'package:mrp/View/telas/tecnico/baixa.dart';
 import 'package:mrp/View/telas/tecnico/entrada.dart';
+import 'package:mrp/View/telas/tecnico/tela_principal_tecnico.dart';
 
 class ModalDarEntrada extends StatefulWidget {
   ModalDarEntrada({super.key});
@@ -145,10 +146,32 @@ class _ModalDarEntradaState extends State<ModalDarEntrada> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     try {
-                      Materiais.adicionarAoEstoque(
-                          controladorCodigo.text, controladorQtd.text);
+                      int quantidade =
+                          int.parse(controladorQtd.text.toString());
+                      var resposta = await Materiais.adicionarAoEstoque(
+                          controladorCodigo.text, quantidade);
+                      if (resposta == "ok") {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => TelaPrincipalTecnico(),
+                          ),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              "Estoque atualizado com sucesso! =)",
+                              textAlign: TextAlign.center,
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.black87,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            duration: Duration(seconds: 4),
+                          ),
+                        );
+                      }
                     } catch (e) {
                       print("excecao: $e");
                       ScaffoldMessenger.of(context).showSnackBar(
