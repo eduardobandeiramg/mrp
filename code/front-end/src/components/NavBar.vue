@@ -25,11 +25,13 @@ export default {
     return {
       isLoggedIn: false,
       navLinks: [
+        { text: "Funcionários", to: "/funcionarios" },
         { text: "Materiais", to: "/pecas" },
         { text: "Produtos", to: "/produtos" },
         { text: "Linhas", to: "/linha" },
         { text: "B.O.M.", to: "/bom" },
         { text: "M.O.P.", to: "/planejamento" },
+
 
       ],
     };
@@ -42,7 +44,7 @@ export default {
         localStorage.removeItem('authToken');
         this.isLoggedIn = false;
       } else {
-        
+
         // Login logic: Redirect to login page
         this.$router.push('/login');
       }

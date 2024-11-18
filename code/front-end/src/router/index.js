@@ -56,6 +56,11 @@ const manualRoutes = [
     name: 'CaixaDeEntrada',
     component: () => import('@/pages/CaixaDeEntrada.vue'), 
   },
+  {
+    path: '/entrada',
+    name: 'CaixaDeEntrada',
+    component: () => import('@/pages/CaixaDeEntrada.vue'), 
+  },
 
   // Você pode adicionar mais rotas manualmente aqui
 ]
