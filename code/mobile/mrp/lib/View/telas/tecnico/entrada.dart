@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/View/artefatos/modais/modal_produto.dart';
+import 'package:mrp/View/artefatos/modais/tecnico/modal_dar_entrada.dart';
 
 class Entrada extends StatefulWidget {
   const Entrada({super.key});
@@ -14,7 +14,7 @@ class EntradaState extends State<Entrada> {
 
   Widget telaAMostrar() {
     if (mostraModal) {
-      return ModalProduto();
+      return ModalDarEntrada();
     } else if (carregando) {
       return Center(
         child: CircularProgressIndicator(

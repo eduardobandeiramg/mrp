@@ -44,7 +44,7 @@ class _LoginState extends State<Login> {
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: "e-mail",
+                    hintText: "username",
                   ),
                   controller: controladorEmail,
                   validator: (valor) {

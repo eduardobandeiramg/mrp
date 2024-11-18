@@ -6,8 +6,10 @@ class CartaoProduto extends StatelessWidget {
   String codigo;
   String status;
   String quantidade;
+  String? dataProducao;
 
-  CartaoProduto(this.nome, this.codigo, this.status , this.quantidade);
+  CartaoProduto(
+      this.nome, this.codigo, this.status, this.quantidade, {this.dataProducao});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,8 @@ class CartaoProduto extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => DetalhamentoProduto(nome, codigo, status , quantidade),
+              builder: (context) =>
+                  DetalhamentoProduto(nome, codigo, status, quantidade),
             ),
           );
         },
@@ -47,9 +50,14 @@ class CartaoProduto extends StatelessWidget {
                   flex: 1,
                   child: Text("código: $codigo"),
                 ),
-                Expanded(
+/*                Expanded(
                   flex: 1,
                   child: Text("status: $status"),
+                ),*/
+              if(dataProducao != null)
+                Expanded(
+                  flex: 1,
+                  child: Text("Data da produção: $dataProducao"),
                 ),
                 Expanded(
                   flex: 1,
