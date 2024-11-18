@@ -12,6 +12,20 @@ class Materiais {
     return lista;
   }
 
+  static retornaEstoque() async {
+    String urlEstoque = "http://10.0.2.2:3000/materials";
+    var resposta = await http.get(Uri.parse(urlEstoque),
+        headers: {"Authorization": TokenApp.tokenApp!});
+    if (resposta.statusCode == 200) {
+      print("codigo ta dando 200!");
+      List<Map<String,dynamic>> estoque = List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
+      return estoque;
+    } else {
+      print("resposta nao é 200!");
+      throw new Exception("erro-no-servidor");
+    }
+  }
+
   static adicionarAoEstoque(String codigo, int qtd) async {
     String urlAddEstoque = "http://10.0.2.2:3000/materials/stock/add";
     List<Map<String, dynamic>> listaMateriais = await buscaMateriais();
