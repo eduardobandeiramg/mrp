@@ -18,7 +18,8 @@ class Materiais {
         headers: {"Authorization": TokenApp.tokenApp!});
     if (resposta.statusCode == 200) {
       print("codigo ta dando 200!");
-      List<Map<String,dynamic>> estoque = List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
+      List<Map<String, dynamic>> estoque =
+          List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
       return estoque;
     } else {
       print("resposta nao é 200!");
@@ -47,5 +48,9 @@ class Materiais {
     } else {
       throw new Exception("codigo-inexistente");
     }
+  }
+
+  void tirarDoEstoque() async {
+    String urlTirarEstoque = "http://10.0.2.2:3000/";
   }
 }
