@@ -3,7 +3,7 @@ import 'package:mrp/View/telas/operador/a_produzir.dart';
 import 'package:mrp/View/telas/operador/finalizado.dart';
 import 'package:mrp/View/telas/operador/linha.dart';
 import 'package:mrp/View/telas/operador/perfil.dart';
-import 'package:mrp/View/telas/tecnico/lista.dart';
+import 'package:mrp/View/telas/tecnico/lista_estoque.dart';
 
 class TelaPrincipalOperador extends StatefulWidget {
   TelaPrincipalOperador({super.key});

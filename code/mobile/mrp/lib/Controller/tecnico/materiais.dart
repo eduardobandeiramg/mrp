@@ -12,17 +12,33 @@ class Materiais {
     return lista;
   }
 
-  static adicionarAoEstoque(String codigo, String qtd) async {
-    int quantidade = int.parse(qtd);
-    print("tipo: ${quantidade.runtimeType}");
+  static retornaEstoque() async {
+    String urlEstoque = "http://10.0.2.2:3000/materials";
+    var resposta = await http.get(Uri.parse(urlEstoque),
+        headers: {"Authorization": TokenApp.tokenApp!});
+    if (resposta.statusCode == 200) {
+      print("codigo ta dando 200!");
+      List<Map<String, dynamic>> estoque =
+          List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
+      return estoque;
+    } else {
+      print("resposta nao é 200!");
+      throw new Exception("erro-no-servidor");
+    }
+  }
+
+  static adicionarAoEstoque(String codigo, int qtd) async {
     String urlAddEstoque = "http://10.0.2.2:3000/materials/stock/add";
     List<Map<String, dynamic>> listaMateriais = await buscaMateriais();
     if (listaMateriais.any((element) => element["code"] == codigo)) {
       Map<String, dynamic> mapaProduto =
           listaMateriais.firstWhere((mapa) => mapa["code"] == codigo);
       var resposta = await http.patch(Uri.parse(urlAddEstoque),
-          headers: {"Authorization": TokenApp.tokenApp!},
-          body: {"id": mapaProduto["id"], "qtd": quantidade});
+          headers: {
+            "Authorization": TokenApp.tokenApp!,
+            "Content-Type": "application/json"
+          },
+          body: jsonEncode({"id": mapaProduto["id"], "qtd": qtd}));
       print("resposta ao add estoque: ${resposta.statusCode}");
       if (resposta.statusCode == 204) {
         return "ok";
@@ -32,5 +48,9 @@ class Materiais {
     } else {
       throw new Exception("codigo-inexistente");
     }
+  }
+
+  void tirarDoEstoque() async {
+    String urlTirarEstoque = "http://10.0.2.2:3000/";
   }
 }

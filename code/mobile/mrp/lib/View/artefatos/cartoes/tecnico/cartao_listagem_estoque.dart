@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mrp/Controller/tecnico/materiais.dart';
 
 class CartaoItemEstoque extends StatelessWidget {
-  const CartaoItemEstoque({super.key});
+  String description;
+  String code;
+  int qtd;
+
+  CartaoItemEstoque(this.description, this.code, this.qtd);
 
   printa() {
     print("apertou");
@@ -29,12 +34,16 @@ class CartaoItemEstoque extends StatelessWidget {
                 width: largura * 0.03,
               ),
               Expanded(
-                flex: 5,
-                child: Text("item:"),
+                flex: 1,
+                child: Text("item: $description"),
               ),
               Expanded(
                 flex: 1,
-                child: Text("qtd: "),
+                child: Text("código: $code"),
+              ),
+              Expanded(
+                flex: 1,
+                child: Text("qtd: $qtd"),
               ),
             ],
           ),
