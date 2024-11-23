@@ -40,7 +40,7 @@ class _DetalhamentoProdutoState extends State<DetalhamentoProduto> {
             Center(
               child: CircularProgressIndicator(
                 color: Colors.orange,
-                semanticsLabel: "Iniciando produção",
+                semanticsLabel: "Carregando",
               ),
             ),
           if (!carregando)
@@ -205,7 +205,31 @@ class _DetalhamentoProdutoState extends State<DetalhamentoProduto> {
                     if (widget.status == "em produção")
                       Center(
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            setState(() {
+                              carregando = true;
+                            });
+                            try {
+                              await ProductionPlan.finalizarProducao(
+                                  widget.idProducao);
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                  Text("Produção finalizada com sucesso!"),
+                                ),
+                              );
+                            } catch (e) {
+                              setState(() {
+                                carregando = false;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Erro ao finalizar produção"),
+                                ),
+                              );
+                            }
+                          },
                           child: Text(
                             "Finalizar produção",
                             style: TextStyle(color: Colors.white),

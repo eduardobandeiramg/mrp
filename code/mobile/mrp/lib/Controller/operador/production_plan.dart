@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mrp/Controller/token_app.dart';
 
@@ -17,7 +18,7 @@ class ProductionPlan {
     }
   }
 
-  static dynamic iniciarProducao(String id) async {
+  static Future<String> iniciarProducao(String id) async {
     String urlIniciarProducao = "http://10.0.2.2:3000/production/$id/start";
     var resposta = await http.patch(Uri.parse(urlIniciarProducao), headers: {
       "Authorization": TokenApp.tokenApp!,
@@ -25,6 +26,20 @@ class ProductionPlan {
     });
     if (resposta.statusCode == 200) {
       print("producao iniciada!");
+      return "ok";
+    } else {
+      throw new Exception("erro");
+    }
+  }
+
+  static Future<String> finalizarProducao(String id) async {
+    String urlIniciarProducao = "http://10.0.2.2:3000/production/$id/end";
+    var resposta = await http.patch(Uri.parse(urlIniciarProducao), headers: {
+      "Authorization": TokenApp.tokenApp!,
+      "Content-Type": "application/json"
+    });
+    if (resposta.statusCode == 200) {
+      print("producao finalizada!");
       return "ok";
     } else {
       throw new Exception("erro");
