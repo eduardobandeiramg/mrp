@@ -1,5 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:mrp/View/artefatos/cartoes/operador/listagem_produtos.dart';
+import '../../../Controller/operador/production_plan.dart';
+
+encheLista() async {
+  try {
+    List<Map<String, dynamic>> productionPlan =
+    await ProductionPlan.getProductionPlan();
+    List<Widget> listaCartoes = [];
+    if (productionPlan.isNotEmpty) {
+      for (var a = 0; a < productionPlan.length; a++) {
+        if(productionPlan[a]["status"] == "finalizado"){
+          listaCartoes.add(CartaoProduto(
+              productionPlan[a]["id"],
+              productionPlan[a]["dateInit"],
+              productionPlan[a]["dateEnd"],
+              productionPlan[a]["status"],
+              productionPlan[a]["product"]["id"],
+              productionPlan[a]["product"]["description"],
+              productionPlan[a]["product"]["code"],
+              productionPlan[a]["product"]["isActive"],
+              productionPlan[a]["productionPlan"]["qtd"]));
+        }
+      }
+      return listaCartoes;
+    }
+  } catch (e) {
+    print("excecao: ${e.toString()}");
+    return null;
+  }
+}
 
 class Finalizado extends StatefulWidget {
   const Finalizado({super.key});
@@ -9,6 +38,18 @@ class Finalizado extends StatefulWidget {
 }
 
 class _FinalizadoState extends State<Finalizado> {
+  List<Widget> listaCartoes = [];
+
+  @override
+  void initState() {
+    encheLista().then((valor){
+      setState(() {
+        listaCartoes = valor;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +61,7 @@ class _FinalizadoState extends State<Finalizado> {
         backgroundColor: Colors.indigo,
       ),
       body: ListView(
-        children: [
-          CartaoProduto("Bicicleta", "123", "produção finalizada", "2"),
-          CartaoProduto("Impressora", "456", "produção finalizada", "15"),
-          CartaoProduto("Piano", "789", "produção finalizada", "30"),
-          CartaoProduto("Furadeira", "756", "produção finalizada", "70"),
-          CartaoProduto("Furadeira", "756", "produção pausada", "50"),
-        ],
+        children: listaCartoes,
       ),
     );
   }

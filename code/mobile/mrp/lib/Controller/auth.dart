@@ -2,7 +2,6 @@ import 'package:http/http.dart' as http;
 import 'package:mrp/Controller/token_app.dart';
 
 class Auth {
-
   String? tokenApp;
 
   static Future<String> login(String username, String senha) async {
