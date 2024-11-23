@@ -10,7 +10,7 @@ class ProductionPlan {
     http.Response resposta = await http.get(Uri.parse(ulrGetProductionPlan),
         headers: {"Authorization": TokenApp.tokenApp!});
     List<Map<String, dynamic>> productionPlan =
-        List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
+    List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
     if (resposta.statusCode == 200) {
       return productionPlan;
     } else {
@@ -44,5 +44,11 @@ class ProductionPlan {
     } else {
       throw new Exception("erro");
     }
+  }
+
+  static pausarProducao(String idDaProducao) async {
+    String urlPausarProducao =
+        "http://10.0.2.2:3000/production/stop-production";
+    var resposta = await http.patch(Uri.parse(urlPausarProducao));
   }
 }
