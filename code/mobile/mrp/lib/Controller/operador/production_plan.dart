@@ -46,7 +46,7 @@ class ProductionPlan {
     }
   }
 
-  static pausarProducao(String idDaProducao) async {
+  static solicitarPecas(String idDaProducao) async {
     String urlPausarProducao =
         "http://10.0.2.2:3000/production/stop-production";
     var resposta = await http.patch(Uri.parse(urlPausarProducao));
