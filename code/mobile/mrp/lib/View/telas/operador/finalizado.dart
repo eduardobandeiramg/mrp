@@ -21,11 +21,6 @@ class _FinalizadoState extends State<Finalizado> {
       ),
       body: ListView(
         children: [
-          CartaoProduto("Bicicleta", "123", "produção finalizada", "2"),
-          CartaoProduto("Impressora", "456", "produção finalizada", "15"),
-          CartaoProduto("Piano", "789", "produção finalizada", "30"),
-          CartaoProduto("Furadeira", "756", "produção finalizada", "70"),
-          CartaoProduto("Furadeira", "756", "produção pausada", "50"),
         ],
       ),
     );

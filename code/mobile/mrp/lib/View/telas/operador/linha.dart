@@ -1,5 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:mrp/View/artefatos/cartoes/operador/listagem_produtos.dart';
+import '../../../Controller/operador/production_plan.dart';
+
+encheLista() async {
+  try {
+    List<Map<String, dynamic>> productionPlan =
+        await ProductionPlan.getProductionPlan();
+    List<Widget> listaCartoes = [];
+    if (productionPlan.isNotEmpty) {
+      for (var a = 0; a < productionPlan.length; a++) {
+        if (productionPlan[a]["status"] == "em produção") {
+          listaCartoes.add(CartaoProduto(
+              productionPlan[a]["id"],
+              productionPlan[a]["dateInit"],
+              productionPlan[a]["dateEnd"],
+              productionPlan[a]["status"],
+              productionPlan[a]["product"]["id"],
+              productionPlan[a]["product"]["description"],
+              productionPlan[a]["product"]["code"],
+              productionPlan[a]["product"]["isActive"],
+              productionPlan[a]["productionPlan"]["qtd"]));
+        }
+      }
+      return listaCartoes;
+    }
+  } catch (e) {
+    print("excecao: ${e.toString()}");
+    return null;
+  }
+}
 
 class LinhaProducao extends StatefulWidget {
   const LinhaProducao({super.key});
@@ -9,6 +38,18 @@ class LinhaProducao extends StatefulWidget {
 }
 
 class _LinhaProducaoState extends State<LinhaProducao> {
+  List<Widget> listaCartoes = [];
+
+  @override
+  void initState() {
+    encheLista().then((valor) {
+      setState(() {
+        listaCartoes = valor;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +61,7 @@ class _LinhaProducaoState extends State<LinhaProducao> {
         backgroundColor: Colors.indigo,
       ),
       body: ListView(
-        children: [
-          CartaoProduto("Bicicleta", "123", "a produzir", "2"),
-          CartaoProduto("Impressora", "456", "aguardando peças", "15"),
-          CartaoProduto("Piano", "789", "produzindo", "30"),
-          CartaoProduto("Furadeira", "756", "produção finalizada", "70"),
-          CartaoProduto("Furadeira", "756", "produção pausada", "50"),
-        ],
+        children: listaCartoes,
       ),
     );
   }
