@@ -44,7 +44,7 @@ class _TelaPrincipalOperadorState extends State<TelaPrincipalOperador> {
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.lock_clock), label: "a produzir"),
+              icon: Icon(Icons.build), label: "a produzir"),
           BottomNavigationBarItem(
               icon: Icon(Icons.conveyor_belt), label: "linha"),
           BottomNavigationBarItem(
