@@ -142,41 +142,49 @@ export class UsersService {
     return user;
   }
 
+  async remove(id: string): Promise<void> {
+    const result = await this.usersRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+  }
+
   async getAllWithFilters(filters: {
     username?: string;
     email?: string;
-    isActive?: boolean;
+    isActive?: string;
   }): Promise<User[]> {
     try {
-      const queryBuilder = this.usersRepository.createQueryBuilder('user');
+      const whereConditions: Partial<User> = {};
 
       if (filters.username) {
-        queryBuilder.andWhere('user.username = :username', {
-          username: filters.username,
-        });
+        whereConditions.username = filters.username;
       }
 
       if (filters.email) {
-        queryBuilder.andWhere('user.email = :email', { email: filters.email });
+        whereConditions.email = filters.email;
       }
 
       if (filters.isActive !== undefined) {
-        queryBuilder.andWhere('user.isActive = :isActive', {
-          isActive: filters.isActive,
-        });
+        whereConditions.isActive = filters.isActive === '1';
       }
 
-      const users = await queryBuilder.getMany();
+      const users = await this.usersRepository.find({
+        where: whereConditions,
+      });
 
-      if (users.length === 0) {
-        throw new NotFoundException('Nenhum usuário encontrado.');
+      if (!users.length) {
+        throw new NotFoundException(
+          'Nenhum usuário encontrado com os filtros aplicados.',
+        );
       }
 
       return users;
     } catch (error) {
       console.error('Erro ao buscar usuários com filtros:', error);
       throw new InternalServerErrorException(
-        'Erro ao buscar usuários com os filtros fornecidos.',
+        'Erro ao buscar usuários com filtros.',
       );
     }
   }

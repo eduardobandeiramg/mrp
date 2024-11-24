@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Param, Put, Query } from '@nestjs/common';
 import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiQuery,
-  ApiTags,
-} from '@nestjs/swagger';
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotImplementedException,
+  Param,
+  Put,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -36,7 +39,7 @@ export class UsersController {
     return this.usersService.update(updateUserDto);
   }
 
-  @Get()
+  @Get('all')
   @ApiOperation({
     summary: 'Obter todos os usuários',
     description:
@@ -76,38 +79,24 @@ export class UsersController {
     return this.usersService.getByEmail(email);
   }
 
+  @Delete(':id')
+  @ApiOperation({
+    summary: 'Remover um usuário por ID',
+    description: 'Remove um usuário específico com base no ID fornecido.',
+  })
+  async remove(@Param('id') id: string): Promise<void> {
+    return this.usersService.remove(id);
+  }
+
   @Get('filters')
   @ApiOperation({
     summary: 'Obter todos os usuários com filtros opcionais',
     description:
-      'Permite filtrar usuários pelo username, email ou status ativo (0 para inativo, 1 para ativo). Se nenhum filtro for aplicado, retorna todos os usuários.',
+      'Este endpoint ainda não está implementado. Será utilizado para filtrar usuários por username, email ou status ativo.',
   })
-  @ApiQuery({
-    name: 'username',
-    required: false,
-    description: 'Filtrar pelo username',
-  })
-  @ApiQuery({
-    name: 'email',
-    required: false,
-    description: 'Filtrar pelo email',
-  })
-  @ApiQuery({
-    name: 'isActive',
-    required: false,
-    description: 'Filtrar pelo status ativo (0 para inativo, 1 para ativo)',
-  })
-  async getAllWithFilters(
-    @Query('username') username?: string,
-    @Query('email') email?: string,
-    @Query('isActive') isActive?: string,
-  ): Promise<User[]> {
-    const filters = {
-      username,
-      email,
-      isActive: isActive !== undefined ? isActive === '1' : undefined,
-    };
-
-    return this.usersService.getAllWithFilters(filters);
+  async getAllWithFilters(): Promise<void> {
+    throw new NotImplementedException(
+      'O método "getAllWithFilters" ainda não foi implementado.',
+    );
   }
 }
