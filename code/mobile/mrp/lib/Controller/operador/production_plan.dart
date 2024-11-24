@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mrp/Controller/token_app.dart';
 
@@ -10,7 +8,7 @@ class ProductionPlan {
     http.Response resposta = await http.get(Uri.parse(ulrGetProductionPlan),
         headers: {"Authorization": TokenApp.tokenApp!});
     List<Map<String, dynamic>> productionPlan =
-    List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
+        List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
     if (resposta.statusCode == 200) {
       return productionPlan;
     } else {
@@ -50,5 +48,18 @@ class ProductionPlan {
     String urlPausarProducao =
         "http://10.0.2.2:3000/production/stop-production";
     http.Response resposta = await http.patch(Uri.parse(urlPausarProducao));
+  }
+
+  static retornaPecasProduto(String idProduto) async {
+    String urlMateriaisProduto =
+        "http://10.0.2.2:3000/build-of-materials/product/$idProduto";
+    http.Response resposta = await http.get(Uri.parse(urlMateriaisProduto),
+        headers: {"Authorization": TokenApp.tokenApp!});
+    if (resposta.statusCode == 200) {
+      print("materiais necessarios para construir o produto:");
+      return List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
+    } else {
+      throw new Exception("erro");
+    }
   }
 }
