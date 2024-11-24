@@ -53,10 +53,11 @@ class ProductionPlan {
   static retornaPecasProduto(String idProduto) async {
     String urlMateriaisProduto =
         "http://10.0.2.2:3000/build-of-materials/product/$idProduto";
-    http.Response resposta = await http.get(Uri.parse(urlMateriaisProduto));
+    http.Response resposta = await http.get(Uri.parse(urlMateriaisProduto),
+        headers: {"Authorization": TokenApp.tokenApp!});
     if (resposta.statusCode == 200) {
-      print("materiais necessarios para construir o produto:}");
-      print(List<Map<String, dynamic>>.from(jsonDecode(resposta.body)));
+      print("materiais necessarios para construir o produto:");
+      return List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
     } else {
       throw new Exception("erro");
     }

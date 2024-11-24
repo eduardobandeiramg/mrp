@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/View/artefatos/cartoes/operador/listagem_produtos.dart';
+import 'package:mrp/View/artefatos/cartoes/operador/cartao_listagem_produtos.dart';
 
 class PerfilOperador extends StatefulWidget {
   const PerfilOperador({super.key});
@@ -18,6 +18,7 @@ class _PerfilOperadorState extends State<PerfilOperador> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.indigo,
+        automaticallyImplyLeading: false,
       ),
       body: ListView(
         children: [

@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:mrp/Controller/operador/production_plan.dart';
+import 'package:mrp/View/telas/operador/detalhamento/detalhamento_pecas_produto.dart';
 
-class DetalhamentoProduto extends StatefulWidget {
+class TelaDetalhamentoProducao extends StatefulWidget {
   String nome;
+  String idProduto;
   String codigo;
   String status;
   int quantidade;
   String idProducao;
 
-  DetalhamentoProduto(
-      this.nome, this.codigo, this.status, this.quantidade, this.idProducao);
+  TelaDetalhamentoProducao(this.nome, this.idProduto, this.codigo, this.status,
+      this.quantidade, this.idProducao);
 
   @override
-  State<DetalhamentoProduto> createState() => _DetalhamentoProdutoState();
+  State<TelaDetalhamentoProducao> createState() =>
+      _TelaDetalhamentoProducaoState();
 }
 
-class _DetalhamentoProdutoState extends State<DetalhamentoProduto> {
+class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
   bool carregando = false;
 
   @override
   Widget build(BuildContext context) {
     double altura = MediaQuery.of(context).size.height;
+    double largura = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Detalhamento do produto",
+          "Detalhamento da produção",
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: IconThemeData(color: Colors.white),
@@ -68,57 +72,83 @@ class _DetalhamentoProdutoState extends State<DetalhamentoProduto> {
                     ),
                     if (widget.status == "a produzir")
                       Center(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            setState(() {
-                              carregando = true;
-                            });
-                            try {
-                              await ProductionPlan.iniciarProducao(
-                                  widget.idProducao);
-                              Navigator.of(context).pop();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content:
-                                      Text("Produção iniciada com sucesso!"),
+                        child: SizedBox(
+                          width: largura * 0.9,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      TelaDetalhamentoPecasProduto(
+                                          widget.idProduto, widget.idProducao),
                                 ),
                               );
-                            } catch (e) {
-                              setState(() {
-                                carregando = false;
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Erro ao iniciar produção"),
-                                ),
-                              );
-                            }
-                          },
-                          child: Text(
-                            "iniciar produção",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.indigo),
+                            },
+                            child: Text(
+                              "Visualizar peças",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(Colors.indigo),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero),
+                              ),
+                            ),
                           ),
                         ),
+                      ),
+                    if (widget.status == "a produzir")
+                      SizedBox(
+                        height: altura * 0.06,
                       ),
                     if (widget.status == "a produzir")
                       Center(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Visualizar peças",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.indigo),
+                        child: SizedBox(
+                          width: largura * 0.9,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                carregando = true;
+                              });
+                              try {
+                                await ProductionPlan.iniciarProducao(
+                                    widget.idProducao);
+                                Navigator.of(context).pop();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        Text("Produção iniciada com sucesso!"),
+                                  ),
+                                );
+                              } catch (e) {
+                                setState(() {
+                                  carregando = false;
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Erro ao iniciar produção"),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text(
+                              "iniciar produção",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(Colors.indigo),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    if (widget.status == "a produzir")
+/*                    if (widget.status == "a produzir")
                       Center(
                         child: ElevatedButton(
                           onPressed: () {},
@@ -131,7 +161,7 @@ class _DetalhamentoProdutoState extends State<DetalhamentoProduto> {
                                 WidgetStatePropertyAll(Colors.indigo),
                           ),
                         ),
-                      ),
+                      ),*/
                     if (widget.status == "aguardando peças")
                       Center(
                         child: ElevatedButton(
@@ -216,7 +246,7 @@ class _DetalhamentoProdutoState extends State<DetalhamentoProduto> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content:
-                                  Text("Produção finalizada com sucesso!"),
+                                      Text("Produção finalizada com sucesso!"),
                                 ),
                               );
                             } catch (e) {

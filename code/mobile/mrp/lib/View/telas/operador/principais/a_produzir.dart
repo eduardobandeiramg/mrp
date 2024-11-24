@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mrp/Controller/operador/production_plan.dart';
-import 'package:mrp/View/artefatos/cartoes/operador/listagem_produtos.dart';
+import 'package:mrp/View/artefatos/cartoes/operador/cartao_listagem_produtos.dart';
 
 encheLista() async {
   try {
@@ -9,8 +9,8 @@ encheLista() async {
     List<Widget> listaCartoes = [];
     if (productionPlan.isNotEmpty) {
       for (var a = 0; a < productionPlan.length; a++) {
-        if(productionPlan[a]["status"] == "a produzir"){
-          listaCartoes.add(CartaoProduto(
+        if (productionPlan[a]["status"] == "a produzir") {
+          listaCartoes.add(CartaoListagemProducao(
               productionPlan[a]["id"],
               productionPlan[a]["dateInit"],
               productionPlan[a]["dateEnd"],
@@ -60,6 +60,7 @@ class _AProduzirState extends State<AProduzir> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.indigo,
+        automaticallyImplyLeading: false,
       ),
       body: ListView(
         children: listaCartoes,

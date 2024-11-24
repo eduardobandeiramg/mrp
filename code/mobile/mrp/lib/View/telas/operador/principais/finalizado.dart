@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/View/artefatos/cartoes/operador/listagem_produtos.dart';
-import '../../../Controller/operador/production_plan.dart';
+import 'package:mrp/View/artefatos/cartoes/operador/cartao_listagem_produtos.dart';
+import '../../../../Controller/operador/production_plan.dart';
 
 encheLista() async {
   try {
@@ -10,7 +10,7 @@ encheLista() async {
     if (productionPlan.isNotEmpty) {
       for (var a = 0; a < productionPlan.length; a++) {
         if(productionPlan[a]["status"] == "finalizado"){
-          listaCartoes.add(CartaoProduto(
+          listaCartoes.add(CartaoListagemProducao(
               productionPlan[a]["id"],
               productionPlan[a]["dateInit"],
               productionPlan[a]["dateEnd"],
@@ -59,6 +59,7 @@ class _FinalizadoState extends State<Finalizado> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.indigo,
+        automaticallyImplyLeading: false,
       ),
       body: ListView(
         children: listaCartoes,
