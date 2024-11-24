@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/View/telas/operador/a_produzir.dart';
-import 'package:mrp/View/telas/operador/finalizado.dart';
-import 'package:mrp/View/telas/operador/linha.dart';
-import 'package:mrp/View/telas/operador/perfil.dart';
+import 'package:mrp/View/telas/operador/principais/a_produzir.dart';
+import 'package:mrp/View/telas/operador/principais/finalizado.dart';
+import 'package:mrp/View/telas/operador/principais/linha.dart';
+import 'package:mrp/View/telas/operador/principais/perfil.dart';
 import 'package:mrp/View/telas/tecnico/lista_estoque.dart';
 
 class TelaPrincipalOperador extends StatefulWidget {
