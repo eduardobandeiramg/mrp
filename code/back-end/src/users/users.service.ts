@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
@@ -104,6 +105,79 @@ export class UsersService {
       });
     } catch (error) {
       throw new InternalServerErrorException('Erro ao atualizar o usuário.');
+    }
+  }
+
+  async getAll(): Promise<User[]> {
+    try {
+      const users = await this.usersRepository.find();
+      return users;
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      throw new InternalServerErrorException('Erro ao buscar usuários.');
+    }
+  }
+
+  async getById(id: string): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+    return user;
+  }
+
+  async getByUsername(username: string): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { username } });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+    return user;
+  }
+
+  async getByEmail(email: string): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { email } });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+    return user;
+  }
+
+  async getAllWithFilters(filters: {
+    username?: string;
+    email?: string;
+    isActive?: boolean;
+  }): Promise<User[]> {
+    try {
+      const queryBuilder = this.usersRepository.createQueryBuilder('user');
+
+      if (filters.username) {
+        queryBuilder.andWhere('user.username = :username', {
+          username: filters.username,
+        });
+      }
+
+      if (filters.email) {
+        queryBuilder.andWhere('user.email = :email', { email: filters.email });
+      }
+
+      if (filters.isActive !== undefined) {
+        queryBuilder.andWhere('user.isActive = :isActive', {
+          isActive: filters.isActive,
+        });
+      }
+
+      const users = await queryBuilder.getMany();
+
+      if (users.length === 0) {
+        throw new NotFoundException('Nenhum usuário encontrado.');
+      }
+
+      return users;
+    } catch (error) {
+      console.error('Erro ao buscar usuários com filtros:', error);
+      throw new InternalServerErrorException(
+        'Erro ao buscar usuários com os filtros fornecidos.',
+      );
     }
   }
 }
