@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
@@ -104,6 +105,87 @@ export class UsersService {
       });
     } catch (error) {
       throw new InternalServerErrorException('Erro ao atualizar o usuário.');
+    }
+  }
+
+  async getAll(): Promise<User[]> {
+    try {
+      const users = await this.usersRepository.find();
+      return users;
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      throw new InternalServerErrorException('Erro ao buscar usuários.');
+    }
+  }
+
+  async getById(id: string): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+    return user;
+  }
+
+  async getByUsername(username: string): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { username } });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+    return user;
+  }
+
+  async getByEmail(email: string): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { email } });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+    return user;
+  }
+
+  async remove(id: string): Promise<void> {
+    const result = await this.usersRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+  }
+
+  async getAllWithFilters(filters: {
+    username?: string;
+    email?: string;
+    isActive?: string;
+  }): Promise<User[]> {
+    try {
+      const whereConditions: Partial<User> = {};
+
+      if (filters.username) {
+        whereConditions.username = filters.username;
+      }
+
+      if (filters.email) {
+        whereConditions.email = filters.email;
+      }
+
+      if (filters.isActive !== undefined) {
+        whereConditions.isActive = filters.isActive === '1';
+      }
+
+      const users = await this.usersRepository.find({
+        where: whereConditions,
+      });
+
+      if (!users.length) {
+        throw new NotFoundException(
+          'Nenhum usuário encontrado com os filtros aplicados.',
+        );
+      }
+
+      return users;
+    } catch (error) {
+      console.error('Erro ao buscar usuários com filtros:', error);
+      throw new InternalServerErrorException(
+        'Erro ao buscar usuários com filtros.',
+      );
     }
   }
 }

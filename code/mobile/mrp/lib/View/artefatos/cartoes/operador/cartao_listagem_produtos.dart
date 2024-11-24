@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/View/telas/operador/detalhamento_produto.dart';
+import 'package:mrp/View/telas/operador/detalhamento/detalhamento_producao.dart';
 
-class CartaoProduto extends StatelessWidget {
+class CartaoListagemProducao extends StatelessWidget {
   String idProducao;
   String dateInit;
   String dateEnd;
@@ -12,7 +12,7 @@ class CartaoProduto extends StatelessWidget {
   var isActiveProduto;
   int qtdProduto;
 
-  CartaoProduto(
+  CartaoListagemProducao(
       this.idProducao,
       this.dateInit,
       this.dateEnd,
@@ -33,8 +33,8 @@ class CartaoProduto extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => DetalhamentoProduto(
-                  nomeProduto, codeProduto, status, qtdProduto, idProducao),
+              builder: (context) => TelaDetalhamentoProducao(nomeProduto, idProduto,
+                  codeProduto, status, qtdProduto, idProducao),
             ),
           );
         },
