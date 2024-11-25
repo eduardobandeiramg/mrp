@@ -16,7 +16,7 @@ class BaixaState extends State<Baixa> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Dar baixa",
+          "Histórico de Saídas",
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.indigo,

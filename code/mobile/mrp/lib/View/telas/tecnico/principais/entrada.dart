@@ -34,7 +34,7 @@ class EntradaState extends State<Entrada> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Dar Entrada",
+          "Histórico de Entradas",
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.indigo,
