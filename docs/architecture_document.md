@@ -136,8 +136,8 @@ _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural
 |----------|-------------------------------------------------------------------------------|----------------|:-------------------:|
 | **RF001**    | Como gestor de produção, operador de produção e técnico de estoque, devo ser capaz de me autenticar por e-mail e senha para acessar funções personalizadas com base no meu papel | Essencial | _web_ |
 | **RF002**    | Como operador de produção e técnico de estoque, devo ser capaz de me autenticar por e-mail e senha para acessar funções personalizadas com base no meu papel | Essencial | _mobile_ |
-| **RF003**    | Como gestor de produção, devo ser capz de gerenciar produtos | Essencial | _web_ |
-| **RF004**    | Como gestor de produção, devo ser capz de gerenciar materiais | Essencial | _web_ |
+| **RF003**    | Como gestor de produção, devo ser capaz de gerenciar produtos | Essencial | _web_ |
+| **RF004**    | Como gestor de produção, devo ser capaz de gerenciar materiais | Essencial | _web_ |
 | **RF005**    | Como gestor de produção, devo ser capaz de gerenciar hierarquia | Essencial | _web_ |
 | **RF006**    | Como gestor de produção, devo receber alertas automáticos sobre baixos níveis de estoque ou necessidade de reposição | Essencial | _web_ |
 | **RF007**    | Como gestor de produção, devo ser capaz de fazer o cadastro de novos produtos e materiais | Essencial | _web_ |
