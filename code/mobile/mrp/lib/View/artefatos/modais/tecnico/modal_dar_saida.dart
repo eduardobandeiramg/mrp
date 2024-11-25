@@ -147,8 +147,9 @@ class _ModalDarSaidaState extends State<ModalDarSaida> {
                   onPressed: () async {
                     try {
                       int quantidade =
-                      int.parse(controladorQtd.text.toString());
-                      var resposta = await Materiais.tirarDoEstoque(controladorCodigo.text, quantidade);
+                          int.parse(controladorQtd.text.toString());
+                      var resposta = await Materiais.tirarDoEstoque(
+                          controladorCodigo.text, quantidade);
                       if (resposta == "ok") {
                         print("resposta é ok");
                         Navigator.of(context).pushReplacement(
@@ -162,11 +163,6 @@ class _ModalDarSaidaState extends State<ModalDarSaida> {
                               "Estoque atualizado com sucesso!",
                               textAlign: TextAlign.center,
                             ),
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.black87,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            duration: Duration(seconds: 4),
                           ),
                         );
                       }
