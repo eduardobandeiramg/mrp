@@ -139,7 +139,7 @@ _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural
 | **RF003**    | Como gestor de produção, devo ser capz de gerenciar produtos | Essencial | _web_ |
 | **RF004**    | Como gestor de produção, devo ser capz de gerenciar materiais | Essencial | _web_ |
 | **RF005**    | Como gestor de produção, devo ser capaz de gerenciar hierarquia | Essencial | _web_ |
-| **RF006**    | Como gestor de produção, devo receber alertas automáticos sobre baixos níveis de estoque ou necessidade de reposição | Essencial | _web e mobile_ |
+| **RF006**    | Como gestor de produção, devo receber alertas automáticos sobre baixos níveis de estoque ou necessidade de reposição | Essencial | _web_ |
 | **RF007**    | Como gestor de produção, devo ser capaz de fazer o cadastro de novos produtos e materiais | Essencial | _web_ |
 | **RF008**    | Como gestor de produção, devo ser capaz de fazer o planejamento de operações e alocação de recursos para otimizar a produção | Essencial | _web_ |
 | **RF009**    | Como gestor de produção, devo ser capaz de cadastrar usuários com nome, e-mail, senha e definição de um papel | Essencial | _web_ |
