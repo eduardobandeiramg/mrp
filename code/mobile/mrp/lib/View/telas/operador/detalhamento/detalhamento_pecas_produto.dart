@@ -166,7 +166,7 @@ class _TelaDetalhamentoPecasProdutoState
                             );
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                builder: (context) => TelaPrincipalOperador(),
+                                builder: (context) => TelaPrincipalOperador(0),
                               ),
                             );
                           } catch (e) {

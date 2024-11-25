@@ -126,7 +126,7 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        TelaPrincipalOperador(),
+                                        TelaPrincipalOperador(0),
                                   ),
                                 );
                               } catch (e) {
@@ -362,7 +362,7 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        TelaPrincipalOperador(),
+                                        TelaPrincipalOperador(1),
                                   ),
                                 );
                               } catch (e) {
