@@ -47,30 +47,31 @@ class Materiais {
     }
   }
 
-  void tirarDoEstoque(String idMaterial, int qtdARetirar) async {
-    int quantidadeAtual;
-    String urlConsultarMaterial = "http://10.0.2.2:3000/materials/$idMaterial";
+  static Future<String> tirarDoEstoque(String codigo, int qtdARetirar) async {
     String urlAtualizarEstoque = "http://10.0.2.2:3000/materials/stock/update";
-    http.Response respostaConsultarMaterial = await http.get(
-        Uri.parse(urlConsultarMaterial),
-        headers: {"Authorization": TokenApp.tokenApp!});
-    if (respostaConsultarMaterial.statusCode == 200) {
-      Map<String, dynamic> mapaMaterial =
-          Map<String, dynamic>.from(jsonDecode(respostaConsultarMaterial.body));
-      quantidadeAtual = mapaMaterial["qtd"];
+    List<Map<String, dynamic>> listaMateriais = await buscaMateriais();
+    if (listaMateriais.any((element) => element["code"] == codigo)) {
+      Map<String, dynamic> mapaProduto =
+          listaMateriais.firstWhere((mapa) => mapa["code"] == codigo);
+      int quantidadeAtual = mapaProduto["qtd"];
+      int novaQuantidade = quantidadeAtual - qtdARetirar;
+      http.Response respostaAtualizarEstoque = await http.patch(
+        Uri.parse(urlAtualizarEstoque),
+        headers: {
+          "Authorization": TokenApp.tokenApp!,
+          "Content-Type": "application/json"
+        },
+        body: jsonEncode({"id": mapaProduto["id"], "qtd": novaQuantidade}),
+      );
+      if (respostaAtualizarEstoque.statusCode == 204) {
+        print("atualizacao deu certo!");
+        return "ok";
+      } else {
+        print("atualizacao deu errado");
+        throw new Exception("erro-ao-atualizar-estoque");
+      }
     } else {
-      throw new Exception("erro-ao-acessar-dados-material");
+      throw new Exception("erro-ao-atualizar-estoque");
     }
-    int novaQuantidade = quantidadeAtual - qtdARetirar;
-    print("quantidade atual : $quantidadeAtual");
-    print("nova quantidade : $novaQuantidade");
-    http.Response respostaAtualizarEstoque = await http
-        .patch(Uri.parse(urlAtualizarEstoque), headers: {
-      "Authorization": TokenApp.tokenApp!,
-      "Content-Type": "application/json"
-    }, body: {
-      "id": idMaterial,
-      "qtd": novaQuantidade
-    });
   }
 }

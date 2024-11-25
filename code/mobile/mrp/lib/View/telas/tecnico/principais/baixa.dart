@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/View/artefatos/modais/tecnico/modal_dar_entrada.dart';
+import 'package:mrp/View/artefatos/modais/tecnico/modal_dar_saida.dart';
 
 class Baixa extends StatefulWidget {
   const Baixa({super.key});
@@ -23,7 +23,7 @@ class BaixaState extends State<Baixa> {
         automaticallyImplyLeading: false,
       ),
       body: mostraModal
-          ? ModalDarEntrada()
+          ? ModalDarSaida()
           : Center(
               child: Text("Clique no botão para dar baixa"),
             ),
