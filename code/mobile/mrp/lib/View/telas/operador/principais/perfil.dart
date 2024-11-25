@@ -59,7 +59,10 @@ class _PerfilOperadorState extends State<PerfilOperador> {
           SizedBox(
             height: altura * 0.1,
           ),
-          BotaoLogOut(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: BotaoLogOut(),
+          ),
         ],
       ),
     );

@@ -46,7 +46,7 @@ class _PerfilTecnicoState extends State<PerfilTecnico> {
           Padding(
             padding: EdgeInsets.all(8.0),
             child:
-            CartaoListagemPerfil("Username:    ${InfosUsuario.username}"),
+                CartaoListagemPerfil("Username:    ${InfosUsuario.username}"),
           ),
           Padding(
             padding: EdgeInsets.all(8.0),
@@ -59,7 +59,10 @@ class _PerfilTecnicoState extends State<PerfilTecnico> {
           SizedBox(
             height: altura * 0.1,
           ),
-          BotaoLogOut(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: BotaoLogOut(),
+          ),
         ],
       ),
     );
