@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mrp/Controller/tecnico/materiais.dart';
 import 'package:mrp/View/telas/tecnico/tela_principal_tecnico.dart';
 
-class ModalDarEntrada extends StatefulWidget {
-  ModalDarEntrada({super.key});
+class ModalDarSaida extends StatefulWidget {
+  ModalDarSaida({super.key});
 
   @override
-  State<ModalDarEntrada> createState() => _ModalDarEntradaState();
+  State<ModalDarSaida> createState() => _ModalDarSaidaState();
 }
 
-class _ModalDarEntradaState extends State<ModalDarEntrada> {
+class _ModalDarSaidaState extends State<ModalDarSaida> {
   final TextEditingController controladorCodigo = TextEditingController();
   final TextEditingController controladorQtd = TextEditingController();
   String valor = "Selecione o produto";
@@ -148,9 +148,10 @@ class _ModalDarEntradaState extends State<ModalDarEntrada> {
                     try {
                       int quantidade =
                           int.parse(controladorQtd.text.toString());
-                      var resposta = await Materiais.adicionarAoEstoque(
+                      var resposta = await Materiais.tirarDoEstoque(
                           controladorCodigo.text, quantidade);
                       if (resposta == "ok") {
+                        print("resposta é ok");
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                             builder: (context) => TelaPrincipalTecnico(),
@@ -159,21 +160,16 @@ class _ModalDarEntradaState extends State<ModalDarEntrada> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              "Estoque atualizado com sucesso! =)",
+                              "Estoque atualizado com sucesso!",
                               textAlign: TextAlign.center,
                             ),
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.black87,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            duration: Duration(seconds: 4),
                           ),
                         );
                       }
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text("O código deste produto não existe"),
+                          content: Text("Erro ao atualizar estoque"),
                         ),
                       );
                     }

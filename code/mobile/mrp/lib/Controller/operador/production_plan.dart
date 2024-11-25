@@ -22,8 +22,10 @@ class ProductionPlan {
       "Authorization": TokenApp.tokenApp!,
       "Content-Type": "application/json"
     });
+    await Future.delayed(
+      Duration(seconds: 1),
+    );
     if (resposta.statusCode == 200) {
-      print("producao iniciada!");
       return "ok";
     } else {
       throw new Exception("erro");
@@ -36,8 +38,11 @@ class ProductionPlan {
       "Authorization": TokenApp.tokenApp!,
       "Content-Type": "application/json"
     });
+    await Future.delayed(
+      Duration(seconds: 1),
+    );
+
     if (resposta.statusCode == 200) {
-      print("producao finalizada!");
       return "ok";
     } else {
       throw new Exception("erro");
@@ -47,7 +52,7 @@ class ProductionPlan {
   static solicitarPecas(String idDaProducao) async {
     String urlPausarProducao =
         "http://10.0.2.2:3000/production/stop-production";
-    http.Response resposta = await http.patch(Uri.parse(urlPausarProducao));
+    //http.Response resposta = await http.patch(Uri.parse(urlPausarProducao));
   }
 
   static retornaPecasProduto(String idProduto) async {
@@ -56,10 +61,16 @@ class ProductionPlan {
     http.Response resposta = await http.get(Uri.parse(urlMateriaisProduto),
         headers: {"Authorization": TokenApp.tokenApp!});
     if (resposta.statusCode == 200) {
-      print("materiais necessarios para construir o produto:");
       return List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
     } else {
       throw new Exception("erro");
     }
+  }
+
+  static pausarProducao(String idProducao) async {
+    String urlPausarProducao =
+        "http://10.0.2.2:3000/production/stop-production";
+    http.Response resposta = await http.patch(Uri.parse(urlPausarProducao),
+        headers: {"Authorization": TokenApp.tokenApp!});
   }
 }

@@ -3,35 +3,31 @@ import 'package:mrp/View/telas/operador/principais/a_produzir.dart';
 import 'package:mrp/View/telas/operador/principais/finalizado.dart';
 import 'package:mrp/View/telas/operador/principais/linha.dart';
 import 'package:mrp/View/telas/operador/principais/perfil.dart';
-import 'package:mrp/View/telas/tecnico/lista_estoque.dart';
 
 class TelaPrincipalOperador extends StatefulWidget {
-  TelaPrincipalOperador({super.key});
+  int indice;
+
+  TelaPrincipalOperador(this.indice, {super.key});
 
   @override
   State<TelaPrincipalOperador> createState() => _TelaPrincipalOperadorState();
 }
 
 class _TelaPrincipalOperadorState extends State<TelaPrincipalOperador> {
-  int indexBarraNavegacao = 0;
-
   void aoSelecionarOIndex(int index) {
     setState(() {
-      indexBarraNavegacao = index;
+      widget.indice = index;
     });
   }
 
   telaAMoatrar(int indice) {
-    if(indice == 0){
+    if (indice == 0) {
       return AProduzir();
-    }
-    else if (indice == 1) {
+    } else if (indice == 1) {
       return LinhaProducao();
-    }
-    else if(indice == 2){
+    } else if (indice == 2) {
       return Finalizado();
-    }
-    else if(indice == 3){
+    } else if (indice == 3) {
       return PerfilOperador();
     }
   }
@@ -39,12 +35,11 @@ class _TelaPrincipalOperadorState extends State<TelaPrincipalOperador> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: telaAMoatrar(indexBarraNavegacao),
+      body: telaAMoatrar(widget.indice),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.build), label: "a produzir"),
+          BottomNavigationBarItem(icon: Icon(Icons.build), label: "a produzir"),
           BottomNavigationBarItem(
               icon: Icon(Icons.conveyor_belt), label: "linha"),
           BottomNavigationBarItem(
@@ -56,7 +51,7 @@ class _TelaPrincipalOperadorState extends State<TelaPrincipalOperador> {
           BottomNavigationBarItem(
               icon: Icon(Icons.person_2_rounded), label: "perfil"),
         ],
-        currentIndex: indexBarraNavegacao,
+        currentIndex: widget.indice,
         onTap: aoSelecionarOIndex,
         backgroundColor: Colors.black,
         unselectedItemColor: Colors.white,

@@ -113,7 +113,7 @@ class _LoginState extends State<Login> {
                             builder: (context) => TelaPrincipalTecnico()));
                       } else if (retornoLogin == "production-operator") {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => TelaPrincipalOperador()));
+                            builder: (context) => TelaPrincipalOperador(0)));
                       }
                       else if(retornoLogin == "admin"){
                         ///TODO: Implementar navegação referente ao papel de adm

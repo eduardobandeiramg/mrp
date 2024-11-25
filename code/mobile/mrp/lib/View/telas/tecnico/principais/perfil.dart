@@ -3,14 +3,14 @@ import 'package:mrp/Controller/infos_usuario.dart';
 import 'package:mrp/View/artefatos/cartoes/botao_logout.dart';
 import 'package:mrp/View/artefatos/cartoes/cartao_listagem_perfil.dart';
 
-class PerfilOperador extends StatefulWidget {
-  const PerfilOperador({super.key});
+class PerfilTecnico extends StatefulWidget {
+  const PerfilTecnico({super.key});
 
   @override
-  State<PerfilOperador> createState() => _PerfilOperadorState();
+  State<PerfilTecnico> createState() => _PerfilTecnicoState();
 }
 
-class _PerfilOperadorState extends State<PerfilOperador> {
+class _PerfilTecnicoState extends State<PerfilTecnico> {
   @override
   Widget build(BuildContext context) {
     double altura = MediaQuery.of(context).size.height;
@@ -54,7 +54,7 @@ class _PerfilOperadorState extends State<PerfilOperador> {
           ),
           Padding(
             padding: EdgeInsets.all(8.0),
-            child: CartaoListagemPerfil("Função:    Operador de Produção"),
+            child: CartaoListagemPerfil("Função:    Operador de Estoque"),
           ),
           SizedBox(
             height: altura * 0.1,

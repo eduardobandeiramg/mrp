@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:mrp/Controller/infos_usuario.dart';
 import 'package:mrp/Controller/token_app.dart';
 
 class Auth {
@@ -19,6 +20,7 @@ class Auth {
         List<String> valorRetorno = retornoPerfil.body.split(",");
         String papel = valorRetorno[3].substring(8, valorRetorno[3].length - 2);
         TokenApp.setToken(token);
+        await InfosUsuario.setarInfosUsuario();
         return papel;
       } else {
         throw new Exception("erro");
