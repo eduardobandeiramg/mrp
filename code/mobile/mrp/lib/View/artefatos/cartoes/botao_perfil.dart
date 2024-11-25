@@ -29,6 +29,5 @@ class BotaoLogOut extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

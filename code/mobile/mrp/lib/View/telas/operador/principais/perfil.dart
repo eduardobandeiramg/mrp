@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mrp/Controller/infos_usuario.dart';
 import 'package:mrp/View/artefatos/cartoes/botao_perfil.dart';
 import 'package:mrp/View/artefatos/cartoes/cartao_listagem_perfil.dart';
-import 'package:mrp/View/artefatos/cartoes/operador/cartao_listagem_produtos.dart';
 
 class PerfilOperador extends StatefulWidget {
   const PerfilOperador({super.key});

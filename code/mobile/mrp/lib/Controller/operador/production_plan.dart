@@ -54,7 +54,7 @@ class ProductionPlan {
   static solicitarPecas(String idDaProducao) async {
     String urlPausarProducao =
         "http://10.0.2.2:3000/production/stop-production";
-    http.Response resposta = await http.patch(Uri.parse(urlPausarProducao));
+    //http.Response resposta = await http.patch(Uri.parse(urlPausarProducao));
   }
 
   static retornaPecasProduto(String idProduto) async {

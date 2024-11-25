@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mrp/Controller/operador/production_plan.dart';
 import 'package:mrp/View/artefatos/cartoes/operador/cartao_listagem_pecas.dart';
-import 'package:mrp/View/telas/operador/principais/a_produzir.dart';
 import 'package:mrp/View/telas/operador/tela_principal_operador.dart';
 
 /*bool retornaAlgumSelecionado(List<CartaoListagemPecas> listaDeTiles) {

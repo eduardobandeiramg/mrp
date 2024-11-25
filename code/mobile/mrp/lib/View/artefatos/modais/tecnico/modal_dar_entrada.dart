@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mrp/Controller/tecnico/materiais.dart';
-import 'package:mrp/View/telas/tecnico/principais/baixa.dart';
-import 'package:mrp/View/telas/tecnico/principais/entrada.dart';
 import 'package:mrp/View/telas/tecnico/tela_principal_tecnico.dart';
 
 class ModalDarEntrada extends StatefulWidget {
