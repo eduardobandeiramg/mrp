@@ -125,7 +125,8 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                                 );
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                    builder: (context) => TelaPrincipalOperador(),
+                                    builder: (context) =>
+                                        TelaPrincipalOperador(),
                                   ),
                                 );
                               } catch (e) {
@@ -352,11 +353,16 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                               try {
                                 await ProductionPlan.finalizarProducao(
                                     widget.idProducao);
-                                Navigator.of(context).pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
                                         "Produção finalizada com sucesso!"),
+                                  ),
+                                );
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        TelaPrincipalOperador(),
                                   ),
                                 );
                               } catch (e) {
