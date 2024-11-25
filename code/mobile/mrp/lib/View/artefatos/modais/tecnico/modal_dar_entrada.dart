@@ -171,7 +171,6 @@ class _ModalDarEntradaState extends State<ModalDarEntrada> {
                         );
                       }
                     } catch (e) {
-                      print("excecao: $e");
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text("O código deste produto não existe"),

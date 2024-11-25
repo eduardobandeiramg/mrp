@@ -6,7 +6,6 @@ encheCartoes() async {
   List<Map<String, dynamic>> listaEstoque = [];
   List<Widget> listaCartoes = [];
   listaEstoque = await Materiais.retornaEstoque();
-  print("lista estoque: $listaEstoque");
   if (listaEstoque != []) {
     for (int a = 0; a < listaEstoque.length; a++) {
       listaCartoes.add(

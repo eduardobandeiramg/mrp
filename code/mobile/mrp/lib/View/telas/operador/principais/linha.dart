@@ -25,7 +25,6 @@ encheLista() async {
       return listaCartoes;
     }
   } catch (e) {
-    print("excecao: ${e.toString()}");
     return null;
   }
 }

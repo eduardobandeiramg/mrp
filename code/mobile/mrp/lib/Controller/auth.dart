@@ -21,8 +21,6 @@ class Auth {
         String papel = valorRetorno[3].substring(8, valorRetorno[3].length - 2);
         TokenApp.setToken(token);
         await InfosUsuario.setarInfosUsuario();
-        print(
-            "Testando se deu certo. Username do usuario:  ${InfosUsuario.username}");
         return papel;
       } else {
         throw new Exception("erro");

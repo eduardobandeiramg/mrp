@@ -46,7 +46,7 @@ class TelaDetalhamentoPecaEstoque extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {},
                 child: Text(
-                  "Relatar nível crítico",
+                  "Reportar nível crítico",
                   style: TextStyle(
                     color: Colors.white,
                   ),

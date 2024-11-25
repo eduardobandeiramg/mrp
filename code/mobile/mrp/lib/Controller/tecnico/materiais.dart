@@ -17,12 +17,10 @@ class Materiais {
     var resposta = await http.get(Uri.parse(urlEstoque),
         headers: {"Authorization": TokenApp.tokenApp!});
     if (resposta.statusCode == 200) {
-      print("codigo ta dando 200!");
       List<Map<String, dynamic>> estoque =
           List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
       return estoque;
     } else {
-      print("resposta nao é 200!");
       throw new Exception("erro-no-servidor");
     }
   }
@@ -39,7 +37,6 @@ class Materiais {
             "Content-Type": "application/json"
           },
           body: jsonEncode({"id": mapaProduto["id"], "qtd": qtd}));
-      print("resposta ao add estoque: ${resposta.statusCode}");
       if (resposta.statusCode == 204) {
         return "ok";
       } else {
