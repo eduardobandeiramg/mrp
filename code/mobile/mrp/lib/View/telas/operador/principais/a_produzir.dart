@@ -9,7 +9,7 @@ encheLista() async {
     List<Widget> listaCartoes = [];
     if (productionPlan.isNotEmpty) {
       for (var a = 0; a < productionPlan.length; a++) {
-        if (productionPlan[a]["status"] == "a produzir") {
+        if (productionPlan[a]["status"] == "a produzir" || productionPlan[a]["status"] == "aguardando peças") {
           listaCartoes.add(CartaoListagemProducao(
               productionPlan[a]["id"],
               productionPlan[a]["dateInit"],

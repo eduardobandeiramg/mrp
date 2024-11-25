@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/View/telas/tecnico/baixa.dart';
-import 'package:mrp/View/telas/tecnico/entrada.dart';
-import 'package:mrp/View/telas/tecnico/lista_estoque.dart';
+import 'package:mrp/View/telas/tecnico/principais/baixa.dart';
+import 'package:mrp/View/telas/tecnico/principais/entrada.dart';
+import 'package:mrp/View/telas/tecnico/principais/lista_estoque.dart';
+import 'package:mrp/View/telas/tecnico/principais/perfil.dart';
 
 class TelaPrincipalTecnico extends StatefulWidget {
   TelaPrincipalTecnico({super.key});
@@ -26,6 +27,8 @@ class _TelaPrincipalTecnicoState extends State<TelaPrincipalTecnico> {
       return Entrada();
     } else if (indice == 2) {
       return Baixa();
+    } else if (indice == 3) {
+      return PerfilTecnico();
     }
   }
 

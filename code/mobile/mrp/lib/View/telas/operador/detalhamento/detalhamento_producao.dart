@@ -164,109 +164,218 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                       ),*/
                     if (widget.status == "aguardando peças")
                       Center(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Visualizar pedido",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.indigo),
-                          ),
-                        ),
-                      ),
-                    if (widget.status == "aguardando peças")
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Cancelar pedido",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.indigo),
+                        child: SizedBox(
+                          width: largura * 0.9,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: Text(
+                              "Visualizar pedido",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(Colors.indigo),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero),
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     if (widget.status == "aguardando peças")
+                      SizedBox(
+                        height: altura * 0.02,
+                      ),
+                    if (widget.status == "aguardando peças")
                       Center(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Confirmar recebimento",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.indigo),
+                        child: SizedBox(
+                          width: largura * 0.9,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: Text(
+                              "Cancelar pedido",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(Colors.indigo),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    if (widget.status == "em produção")
+                    if (widget.status == "aguardando peças")
+                      SizedBox(
+                        height: altura * 0.02,
+                      ),
+                    if (widget.status == "aguardando peças")
                       Center(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Pausar produção",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.indigo),
+                        child: SizedBox(
+                          width: largura * 0.9,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: Text(
+                              "Confirmar recebimento das peças",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(Colors.indigo),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    if (widget.status == "em produção")
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Cancelar produção",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.indigo),
-                          ),
-                        ),
+                    if (widget.status == "aguardando peças")
+                      SizedBox(
+                        height: altura * 0.08,
                       ),
-                    if (widget.status == "em produção")
+                    if (widget.status == "aguardando peças")
                       Center(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            setState(() {
-                              carregando = true;
-                            });
-                            try {
-                              await ProductionPlan.finalizarProducao(
-                                  widget.idProducao);
-                              Navigator.of(context).pop();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content:
-                                      Text("Produção finalizada com sucesso!"),
-                                ),
-                              );
-                            } catch (e) {
+                        child: SizedBox(
+                          width: largura * 0.9,
+                          child: ElevatedButton(
+                            onPressed: () async {
                               setState(() {
-                                carregando = false;
+                                carregando = true;
                               });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Erro ao finalizar produção"),
-                                ),
-                              );
-                            }
-                          },
-                          child: Text(
-                            "Finalizar produção",
-                            style: TextStyle(color: Colors.white),
+                              try {
+                                await ProductionPlan.iniciarProducao(
+                                    widget.idProducao);
+                                Navigator.of(context).pop();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        Text("Produção retomada com sucesso!"),
+                                  ),
+                                );
+                              } catch (e) {
+                                setState(() {
+                                  carregando = false;
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Erro ao iniciar produção"),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text(
+                              "Retomar Produção",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(Colors.indigo),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero),
+                              ),
+                            ),
                           ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.indigo),
+                        ),
+                      ),
+                    if (widget.status == "em produção")
+                      Center(
+                        child: SizedBox(
+                          width: largura * 0.9,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              ProductionPlan.pausarProducao(widget.idProducao);
+                            },
+                            child: Text(
+                              "Pausar produção",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(Colors.indigo),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (widget.status == "em produção")
+                      SizedBox(
+                        height: altura * 0.02,
+                      ),
+                    if (widget.status == "em produção")
+                      Center(
+                        child: SizedBox(
+                          width: largura * 0.9,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: Text(
+                              "Cancelar produção",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(Colors.indigo),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (widget.status == "em produção")
+                      SizedBox(
+                        height: altura * 0.06,
+                      ),
+                    if (widget.status == "em produção")
+                      Center(
+                        child: SizedBox(
+                          width: largura * 0.9,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                carregando = true;
+                              });
+                              try {
+                                await ProductionPlan.finalizarProducao(
+                                    widget.idProducao);
+                                Navigator.of(context).pop();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        "Produção finalizada com sucesso!"),
+                                  ),
+                                );
+                              } catch (e) {
+                                setState(() {
+                                  carregando = false;
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Erro ao finalizar produção"),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text(
+                              "Finalizar produção",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(Colors.indigo),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero),
+                              ),
+                            ),
                           ),
                         ),
                       ),

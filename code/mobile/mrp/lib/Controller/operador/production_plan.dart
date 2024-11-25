@@ -22,6 +22,9 @@ class ProductionPlan {
       "Authorization": TokenApp.tokenApp!,
       "Content-Type": "application/json"
     });
+    await Future.delayed(
+      Duration(seconds: 1),
+    );
     if (resposta.statusCode == 200) {
       print("producao iniciada!");
       return "ok";
@@ -36,6 +39,10 @@ class ProductionPlan {
       "Authorization": TokenApp.tokenApp!,
       "Content-Type": "application/json"
     });
+    await Future.delayed(
+      Duration(seconds: 1),
+    );
+
     if (resposta.statusCode == 200) {
       print("producao finalizada!");
       return "ok";
@@ -61,5 +68,13 @@ class ProductionPlan {
     } else {
       throw new Exception("erro");
     }
+  }
+
+  static pausarProducao(String idProducao) async {
+    String urlPausarProducao =
+        "http://10.0.2.2:3000/production/stop-production";
+    http.Response resposta = await http.patch(Uri.parse(urlPausarProducao),
+        headers: {"Authorization": TokenApp.tokenApp!});
+    print("Resposta: ${resposta.body}");
   }
 }

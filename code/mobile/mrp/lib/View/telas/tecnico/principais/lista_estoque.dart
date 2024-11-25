@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mrp/View/artefatos/cartoes/tecnico/cartao_listagem_estoque.dart';
-import '../../../Controller/tecnico/materiais.dart';
+import '../../../../Controller/tecnico/materiais.dart';
 
 encheCartoes() async {
   List<Map<String, dynamic>> listaEstoque = [];

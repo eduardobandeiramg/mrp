@@ -78,9 +78,11 @@ class _TelaDetalhamentoPecasProdutoState
               color: Colors.black.withOpacity(0.5),
             ),
           if (carregando)
-            CircularProgressIndicator(
-              color: Colors.orange,
-              semanticsLabel: "Carregando. Aguarde",
+            Center(
+              child: CircularProgressIndicator(
+                color: Colors.orange,
+                semanticsLabel: "Carregando. Aguarde",
+              ),
             ),
           if (!carregando)
             SingleChildScrollView(

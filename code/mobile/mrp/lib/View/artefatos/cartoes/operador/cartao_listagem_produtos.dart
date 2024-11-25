@@ -56,11 +56,11 @@ class CartaoListagemProducao extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Text("item: $nomeProduto"),
+                  child: Text("Item: $nomeProduto"),
                 ),
                 Expanded(
                   flex: 1,
-                  child: Text("código: $codeProduto"),
+                  child: Text("Código: $codeProduto"),
                 ),
 /*                Expanded(
                   flex: 1,
@@ -73,7 +73,7 @@ class CartaoListagemProducao extends StatelessWidget {
                   ),
                 Expanded(
                   flex: 1,
-                  child: Text("quantidade: $qtdProduto"),
+                  child: Text("Quantidade: $qtdProduto"),
                 ),
               ],
             ),
