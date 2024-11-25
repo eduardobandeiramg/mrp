@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mrp/Controller/operador/production_plan.dart';
 import 'package:mrp/View/telas/operador/detalhamento/detalhamento_pecas_produto.dart';
 
+import '../tela_principal_operador.dart';
+
 class TelaDetalhamentoProducao extends StatefulWidget {
   String nome;
   String idProduto;
@@ -115,11 +117,15 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                               try {
                                 await ProductionPlan.iniciarProducao(
                                     widget.idProducao);
-                                Navigator.of(context).pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content:
                                         Text("Produção iniciada com sucesso!"),
+                                  ),
+                                );
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => TelaPrincipalOperador(),
                                   ),
                                 );
                               } catch (e) {
