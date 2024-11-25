@@ -50,6 +50,7 @@ class _ListagemEstoqueState extends State<ListagemEstoque> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.indigo,
+        automaticallyImplyLeading: false,
       ),
       body: ListView(
         children: listaCartoes,

@@ -59,6 +59,27 @@ class TelaDetalhamentoPecaEstoque extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(
+              height: altura * 0.07,
+            ),
+            SizedBox(
+              width: largura * 0.9,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text(
+                  "Reportar problema com peça",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(Colors.indigo),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

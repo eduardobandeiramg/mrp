@@ -20,6 +20,7 @@ class BaixaState extends State<Baixa> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.indigo,
+        automaticallyImplyLeading: false,
       ),
       body: mostraModal
           ? ModalDarEntrada()

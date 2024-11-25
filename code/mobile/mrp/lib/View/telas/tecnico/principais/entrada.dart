@@ -38,6 +38,7 @@ class EntradaState extends State<Entrada> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.indigo,
+        automaticallyImplyLeading: false,
       ),
       body: telaAMostrar(),
       /*mostraModal
