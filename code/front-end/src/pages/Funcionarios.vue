@@ -32,9 +32,11 @@
         <v-card-title class="headline">{{ modalTitulo }}</v-card-title>
         <v-card-text>
           <v-form ref="form">
-            <v-text-field v-model="novoFuncionario.name" label="Nome do Funcionário" required></v-text-field>
-            <v-text-field v-model="novoFuncionario.position" label="Cargo" required></v-text-field>
-            <v-text-field v-model="novoFuncionario.department" label="Departamento" required></v-text-field>
+            <v-text-field v-model="novoFuncionario.username" label="Nome do Funcionário" required></v-text-field>
+            <v-text-field v-model="novoFuncionario.email" label="E-mail" required></v-text-field>
+            <v-select v-model="novoFuncionario.role" :items="roles" label="Função" :rules="[rules.required]"
+              item-text="text" item-value="value" required />
+
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -49,7 +51,8 @@
     <v-dialog v-model="modalExcluirVisivel" max-width="500px">
       <v-card>
         <v-card-title class="headline">Confirmar Exclusão</v-card-title>
-        <v-card-text>Deseja realmente excluir o funcionário <strong>{{ funcionarioParaExcluir?.name }}</strong>?</v-card-text>
+        <v-card-text>Deseja realmente excluir o funcionário <strong>{{ funcionarioParaExcluir?.username
+            }}</strong>?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="fecharModalExcluir">Cancelar</v-btn>
@@ -68,7 +71,13 @@ export default {
     return {
       search: '',
       funcionarios: [],
-      novoFuncionario: { name: '', position: '', department: '' },
+      novoFuncionario: { username: '', email: '', role: '' },
+      roles: [
+        { align: 'center', key: 'admin', title: 'Administrador' },
+        { align: 'center', key: 'production-planner', title: 'Gerente de Produção' },
+        { align: 'center', key: 'production-operator', title: 'Operador de Produção' },
+        { align: 'center', key: 'inventory-manager', title: 'Gerente de Estoque' },
+      ],
       modalVisivel: false,
       modalExcluirVisivel: false,
       modalTitulo: 'Incluir Novo Funcionário',
@@ -76,12 +85,16 @@ export default {
       funcionarioParaExcluir: null,
       indexEditando: null,
       headers: [
-        { align: 'center', text: 'Nome do Funcionário', value: 'name' },
-        { align: 'center', text: 'Cargo', value: 'position' },
-        { align: 'center', text: 'Departamento', value: 'department' },
-        { align: 'center', text: 'Ações', value: 'actions', sortable: false },
+        { align: 'center', title: 'Nome do Funcionário', key: 'username' },
+        { align: 'center', title: 'E-mail', key: 'email' },
+        { align: 'center', title: 'Função', key: 'role' },
+        { align: 'center', title: 'Ações', key: 'actions', sortable: false },
       ],
+      rules: {
+        required: (value) => !!value || 'Este campo é obrigatório.',
+      },
     };
+
   },
   methods: {
     abrirModalIncluir() {
@@ -110,12 +123,12 @@ export default {
       this.funcionarioParaExcluir = null;
     },
     limparFormulario() {
-      this.novoFuncionario = { name: '', position: '', department: '' };
+      this.novoFuncionario = { username: '', email: '', role: '' };
       this.indexEditando = null;
     },
     async carregarFuncionarios() {
       try {
-        this.funcionarios = await funcionarioService.getFuncionarios();
+        this.funcionarios = await funcionarioService.getAllUsers();
       } catch (error) {
         console.error('Erro ao carregar funcionários:', error);
       }
@@ -123,9 +136,9 @@ export default {
     async salvar() {
       try {
         if (this.editando) {
-          await funcionarioService.updateFuncionario(this.novoFuncionario.id, this.novoFuncionario);
+          await funcionarioService.updateUser(this.novoFuncionario.id, this.novoFuncionario);
         } else {
-          await funcionarioService.addFuncionario(this.novoFuncionario);
+          await funcionarioService.registerUser(this.novoFuncionario);
         }
         this.fecharModal();
         this.carregarFuncionarios();
@@ -135,7 +148,7 @@ export default {
     },
     async confirmarExcluir() {
       try {
-        await funcionarioService.deleteFuncionario(this.funcionarioParaExcluir.id);
+        await funcionarioService.deleteUser(this.funcionarioParaExcluir.id);
         this.fecharModalExcluir();
         this.carregarFuncionarios();
       } catch (error) {

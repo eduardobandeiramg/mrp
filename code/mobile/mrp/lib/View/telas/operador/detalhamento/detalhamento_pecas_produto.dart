@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mrp/Controller/operador/production_plan.dart';
 import 'package:mrp/View/artefatos/cartoes/operador/cartao_listagem_pecas.dart';
-import 'package:mrp/View/telas/operador/principais/a_produzir.dart';
 import 'package:mrp/View/telas/operador/tela_principal_operador.dart';
 
 /*bool retornaAlgumSelecionado(List<CartaoListagemPecas> listaDeTiles) {
@@ -78,9 +77,11 @@ class _TelaDetalhamentoPecasProdutoState
               color: Colors.black.withOpacity(0.5),
             ),
           if (carregando)
-            CircularProgressIndicator(
-              color: Colors.orange,
-              semanticsLabel: "Carregando. Aguarde",
+            Center(
+              child: CircularProgressIndicator(
+                color: Colors.orange,
+                semanticsLabel: "Carregando. Aguarde",
+              ),
             ),
           if (!carregando)
             SingleChildScrollView(
@@ -165,7 +166,7 @@ class _TelaDetalhamentoPecasProdutoState
                             );
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                builder: (context) => TelaPrincipalOperador(),
+                                builder: (context) => TelaPrincipalOperador(0),
                               ),
                             );
                           } catch (e) {

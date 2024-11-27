@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mrp/View/artefatos/cartoes/tecnico/cartao_listagem_estoque.dart';
-import '../../../Controller/tecnico/materiais.dart';
+import '../../../../Controller/tecnico/materiais.dart';
 
 encheCartoes() async {
   List<Map<String, dynamic>> listaEstoque = [];
   List<Widget> listaCartoes = [];
   listaEstoque = await Materiais.retornaEstoque();
-  print("lista estoque: $listaEstoque");
   if (listaEstoque != []) {
     for (int a = 0; a < listaEstoque.length; a++) {
       listaCartoes.add(
@@ -51,6 +50,7 @@ class _ListagemEstoqueState extends State<ListagemEstoque> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.indigo,
+        automaticallyImplyLeading: false,
       ),
       body: ListView(
         children: listaCartoes,
