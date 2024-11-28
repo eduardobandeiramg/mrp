@@ -148,7 +148,7 @@ _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural
 | **RF012**    | Como operador de produção, devo ser capaz de realizar o registro de início e fim da produção | Essencial | _mobile_ |
 | **RF013**    | Como operador de produção, devo ser capaz de realizar solicitação de peças extras diretamente do chão de fábrica | Essencial | _mobile_ |
 | **RF014**    | Como operador de produção, devo ser capaz de receber notificações em tempo real sobre mudanças no planejamento de operações | Essencial | _mobile_ |
-| **RF015**    | Como operador de produção, devo ser capaz de comuniar, em tempo real, sobre atividades de operação com outros setores | Essencial | _web e mobile_ |
+| **RF015**    | Como operador de produção, devo ser capaz de comunicar, em tempo real, sobre atividades de operação com outros setores | Essencial | _web e mobile_ |
 | **RF016**    | Como operador de produção, devo ser capaz de sinalizar o fim da produção | Essencial | _mobile_ |
 | **RF017**    | Como operador de produção, devo ser capaz de sinalizar o início de produção | Essencial | _web e mobile_ |
 | **RF018**    | Como operador de produção ou técnico de estoque, devo ser capaz de descartar peças defeituosas | Essencial | _web e mobile_ |
@@ -159,8 +159,7 @@ _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural
 | **RF023**    | Como gestor de produção, devo ser capaz de realizar o planejamento da produção | Desejável | _web_ |
 | **RF024**    | Como gestor de produção, devo ser capaz de realizar a gestão de pessoas | Desejável | _web_ |
 | **RF025**    | Como operador de produção, devo ser capaz de realizar a gestão de linha de montagem | Desejável | _web_ |
-| **RF026**    | Como operador de produção, devo ser capaz de solicitar peças sobressalentes individualmente para caso de quebras ou defeitos de produção| Opcional | _mobile_ |
-| **RF027**    | Como operador de produção, devo ser capaz de sinalizar defeitos na produção  | Opcional | _mobile_ |
+| **RF026**    | Como operador de produção, devo ser capaz de sinalizar defeitos na produção  | Opcional | _mobile_ |
 
 ## 2.2. Requisitos Não-Funcionais
 
