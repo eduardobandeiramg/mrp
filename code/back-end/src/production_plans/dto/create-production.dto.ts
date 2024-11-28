@@ -13,21 +13,4 @@ export class CreateProductionDto {
   @IsUUID()
   productionPlanId: string;
 
-  @ApiProperty({
-    example: '2024-10-19',
-    description: 'Data de início da produção',
-    required: false,
-  })
-  @IsOptional()
-  @IsDateString()
-  dateInit?: string;
-
-  @ApiProperty({
-    example: '2024-10-24',
-    description: 'Data de término da produção',
-    required: false,
-  })
-  @IsOptional()
-  @IsDateString()
-  dateEnd?: string;
 }

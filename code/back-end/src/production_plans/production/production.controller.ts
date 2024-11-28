@@ -46,6 +46,15 @@ export class ProductionController {
     return this.productionService.stopProduction(productionId);
   }
 
+  @Patch('reestart-production')
+  @ApiOperation({
+    summary:
+      'Retorna status para EM_PRODUCAO',
+  })
+  async reestartProduction(@Query('productionId') productionId: string) {
+    return this.productionService.reestartProduction(productionId);
+  }
+
   @Get('less-productions')
   @ApiOperation({
     summary:
@@ -70,5 +79,32 @@ export class ProductionController {
   })
   findProductsWithInitButNoEnd() {
     return this.productionService.findProductsWithInitButNoEnd();
+  }
+
+  @Get('to-production')
+  @ApiOperation({
+    summary:
+      'Busca dados dos produtos para produzir',
+  })
+  findProductsToProduction() {
+    return this.productionService.findProductsToProduction();
+  }
+
+  @Get('on-production')
+  @ApiOperation({
+    summary:
+      'Busca dados dos produtos em produção',
+  })
+  findProductsOnProduction() {
+    return this.productionService.findProductsOnProduction();
+  }
+
+  @Get('finished-production')
+  @ApiOperation({
+    summary:
+      'Busca dados dos produtos finalizados',
+  })
+  findProductsFinishedProduction() {
+    return this.productionService.findProductsFinishedProduction();
   }
 }

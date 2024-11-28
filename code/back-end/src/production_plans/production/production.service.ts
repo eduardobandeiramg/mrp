@@ -25,7 +25,7 @@ export class ProductionService {
   ) {}
 
   async create(createProductionDto: CreateProductionDto) {
-    const { productId, productionPlanId, dateInit, dateEnd } =
+    const { productId, productionPlanId } =
       createProductionDto;
 
     const product = await this.productRepository.findOne({
@@ -43,8 +43,6 @@ export class ProductionService {
     const production = new Production();
     production.product = product;
     production.productionPlan = productionPlan;
-    production.dateInit = dateInit ? new Date(dateInit) : null;
-    production.dateEnd = dateEnd ? new Date(dateEnd) : null;
     production.status = ProductionStatus.A_PRODUZIR;
 
     return this.productionRepository.save(production);
@@ -66,6 +64,22 @@ export class ProductionService {
 
     this.sendRequestToStock;
     production.status = ProductionStatus.AGUARDANDO_PECAS;
+
+    return this.productionRepository.save(production);
+  }
+
+  async reestartProduction(id: string): Promise<Production> {
+    const production = await this.productionRepository.findOne({
+      where: { id },
+      relations: ['product', 'productionPlan'],
+    });
+
+    if (!production) {
+      throw new NotFoundException(`Production with ID ${id} not found`);
+    }
+
+    this.sendRequestToStock;
+    production.status = ProductionStatus.EM_PRODUCAO;
 
     return this.productionRepository.save(production);
   }
@@ -139,5 +153,81 @@ export class ProductionService {
       where: { dateInit: Not(null), dateEnd: null },
       relations: ['product', 'productionPlan'],
     });
+  }
+
+  async findProductsToProduction(): Promise<Object[]> {
+    const products = await this.productionRepository.find({
+      where: {status: ProductionStatus.A_PRODUZIR},
+      relations: ['product', 'productionPlan']
+    });
+
+    const groupedData = products.reduce((acc, item) => {
+      const productionPlan = item.productionPlan.id;
+      if (!acc[productionPlan]) {
+        acc[productionPlan] = {
+          qtd: 0,
+          status: item.status,
+          product: item.product,
+          productionIds: [],
+          productionPlan: item.productionPlan
+        };
+      }
+      acc[productionPlan].productionIds.push(item.id);
+      acc[productionPlan].qtd += 1;
+      return acc;
+    }, {});
+
+    return Object.values(groupedData);
+  }
+
+  async findProductsOnProduction(): Promise<Object[]> {
+    const products = await this.productionRepository.find({
+      where: [
+        { status: ProductionStatus.EM_PRODUCAO },
+        { status: ProductionStatus.AGUARDANDO_PECAS },
+      ],
+      relations: ['product', 'productionPlan'],
+    });
+    const groupedData = products.reduce((acc, item) => {
+      const key = `${item.status}_${item.productionPlan.id}`;
+      if (!acc[key]) {
+        acc[key] = {
+          qtd: 0,
+          status: item.status,
+          product: item.product,
+          productionIds: [],
+          productionPlan: item.productionPlan
+        };
+      }
+      acc[key].productionIds.push(item.id);
+      acc[key].qtd += 1;
+      return acc;
+    }, {});
+
+    return Object.values(groupedData);
+  }
+
+  async findProductsFinishedProduction(): Promise<Object[]> {
+    const products = await this.productionRepository.find({
+      where: { status: ProductionStatus.FINALIZADO },
+      relations: ['product', 'productionPlan'],
+    });
+    const groupedData = products.reduce((acc, item) => {
+      const productionPlan = item.productionPlan.id;
+      if (!acc[productionPlan]) {
+        acc[productionPlan] = {
+          qtd: 0,
+          status: item.status,
+          product: item.product,
+          productionIds: [],
+          productionPlan: item.productionPlan
+        };
+      }
+      acc[productionPlan].productionIds.push(item.id);
+      acc[productionPlan].qtd += 1;
+      return acc;
+    }, {});
+
+    return Object.values(groupedData);
   }
 }
