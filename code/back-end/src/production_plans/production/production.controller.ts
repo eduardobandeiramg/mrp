@@ -8,20 +8,14 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateProductionDto } from '../dto/create-production.dto';
 import { ProductionService } from './production.service';
+import { EventPattern } from '@nestjs/microservices';
 
 @ApiTags('production')
 @ApiBearerAuth()
 @Controller('production')
 export class ProductionController {
   constructor(private readonly productionService: ProductionService) {}
-
-  @Post()
-  @ApiOperation({ summary: 'Coloca no status A_PRODUZIR' })
-  create(@Body() createProductionDto: CreateProductionDto) {
-    return this.productionService.create(createProductionDto);
-  }
 
   @Patch(':id/start')
   @ApiOperation({ summary: 'Inicia a produção e coloca no status EM_PRODUCAO' })
@@ -106,5 +100,10 @@ export class ProductionController {
   })
   findProductsFinishedProduction() {
     return this.productionService.findProductsFinishedProduction();
+  }
+
+  @EventPattern('production_plan_created')
+  handleProductionPlanCreated(data: any) {
+    this.productionService.handleProductionPlanCreated(data);
   }
 }

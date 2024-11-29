@@ -1,12 +1,11 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
-import { Product } from '../../products/entities/product.entity';
-import { CreateProductionDto } from '../dto/create-production.dto';
 import { Production } from '../entities/production.entity';
 import { ProductionPlan } from '../entities/production_plan.entity';
 import { ProductionStatus } from '../enums/status.enum';
@@ -16,41 +15,9 @@ export class ProductionService {
   constructor(
     @InjectRepository(Production)
     private readonly productionRepository: Repository<Production>,
-
     @InjectRepository(ProductionPlan)
     private readonly productionPlanRepository: Repository<ProductionPlan>,
-
-    @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
   ) {}
-
-  async create(createProductionDto: CreateProductionDto) {
-    const { productId, productionPlanId } =
-      createProductionDto;
-
-    const product = await this.productRepository.findOne({
-      where: { id: productId },
-    });
-
-    const productionPlan = await this.productionPlanRepository.findOne({
-      where: { id: productionPlanId },
-    });
-
-    if (!product || !productionPlan) {
-      throw new Error('Produto ou Plano de Produção não encontrado.');
-    }
-
-    const production = new Production();
-    production.product = product;
-    production.productionPlan = productionPlan;
-    production.status = ProductionStatus.A_PRODUZIR;
-
-    return this.productionRepository.save(production);
-  }
-
-  async sendRequestToStock() {
-    // TODO: Lógica para enviar requisição ao estoque
-  }
 
   async stopProduction(id: string): Promise<Production> {
     const production = await this.productionRepository.findOne({
@@ -62,7 +29,6 @@ export class ProductionService {
       throw new NotFoundException(`Production with ID ${id} not found`);
     }
 
-    this.sendRequestToStock;
     production.status = ProductionStatus.AGUARDANDO_PECAS;
 
     return this.productionRepository.save(production);
@@ -78,7 +44,6 @@ export class ProductionService {
       throw new NotFoundException(`Production with ID ${id} not found`);
     }
 
-    this.sendRequestToStock;
     production.status = ProductionStatus.EM_PRODUCAO;
 
     return this.productionRepository.save(production);
@@ -229,5 +194,22 @@ export class ProductionService {
     }, {});
 
     return Object.values(groupedData);
+  }
+
+  async handleProductionPlanCreated(data: {
+    id: string;
+    productId: string;
+    qtd: number;
+  }) {
+    const { id, productId, qtd } = data;
+
+    for (let i = 0; i < qtd; i++) {
+      const production = this.productionRepository.create({
+        productionPlan: { id },
+        product: { id: productId },
+        status: ProductionStatus.A_PRODUZIR,
+      });
+      await this.productionRepository.save(production);
+    }
   }
 }

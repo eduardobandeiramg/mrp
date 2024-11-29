@@ -49,8 +49,7 @@ export class ProductionPlansService {
       id: savedPlan.id,
       qtd: savedPlan.qtd,
       datePrev: savedPlan.datePrev,
-      productId,
-      lineId,
+      productId
     });
 
     return savedPlan;
