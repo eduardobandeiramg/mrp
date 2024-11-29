@@ -1,22 +1,23 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Line } from '../../line/entities/line.entity';
 import { Product } from '../../products/entities/product.entity';
 import { CreateProductionPlanDto } from '../dto/create-production_plan.dto';
 import { ProductionPlan } from '../entities/production_plan.entity';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class ProductionPlansService {
   constructor(
     @InjectRepository(ProductionPlan)
     private productionPlansRepository: Repository<ProductionPlan>,
-
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
-
     @InjectRepository(Line)
     private linesRepository: Repository<Line>,
+    @Inject('RABBITMQ_SERVICE')
+    private readonly client: ClientProxy,
   ) {}
 
   async create(createProductionPlanDto: CreateProductionPlanDto) {
@@ -42,7 +43,17 @@ export class ProductionPlansService {
     productionPlan.product = product;
     productionPlan.line = line;
 
-    return this.productionPlansRepository.save(productionPlan);
+    const savedPlan = await this.productionPlansRepository.save(productionPlan);
+
+    this.client.emit('production_plan_created', {
+      id: savedPlan.id,
+      qtd: savedPlan.qtd,
+      datePrev: savedPlan.datePrev,
+      productId,
+      lineId,
+    });
+
+    return savedPlan;
   }
 
   async findByDates(startDate: string, endDate: string) {
