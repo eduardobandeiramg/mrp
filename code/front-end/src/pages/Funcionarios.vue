@@ -54,7 +54,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="fecharModal">Cancelar</v-btn>
-          <v-btn color="blue darken-1" text @click="salvar" :disabled="!isFormValid">Salvar</v-btn>
+          <v-btn color="blue darken-1" text @click="salvar" :disabled="!isFormValid()">Salvar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -106,14 +106,14 @@ export default {
         { align: 'center', title: 'Nome do Funcionário', key: 'username' },
         { align: 'center', title: 'E-mail', key: 'email' },
         { align: 'center', title: 'Função', key: 'role' },
-        { align: 'center', title: 'Ações', key: 'actions', sortable: false },
+        { align: 'center', title: 'Ações', key: 'actions', sortable: false, width: "150px"  },
       ],
       rules: {
         required: (value) => !!value || "Este campo é obrigatório.",
         email: (value) =>
           /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || "E-mail inválido.",
         confirmPassword: (value) =>
-          value === this.form.password || "As senhas não coincidem.",
+          value === this.novoFuncionario.password || "As senhas não coincidem.",
         password: (value) =>
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value) ||
           "A senha deve conter no mínimo 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial.",
@@ -186,17 +186,7 @@ export default {
   },
   computed: {
     isFormValid() {
-      return (
-        this.form.username &&
-        this.form.email &&
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.form.email) &&
-        this.form.password &&
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-          this.form.password
-        ) &&
-        this.form.confirmPassword === this.form.password &&
-        this.form.role
-      );
+      return this.novoProduto.description && this.novoProduto.code && this.$refs.form.validate();
     },
   },
 };
