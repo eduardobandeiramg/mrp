@@ -1,135 +1,142 @@
 <template>
-  <div class="login">
-    <h1>Registrar</h1>
-    <form @submit.prevent="loginUser">
-      <div class="form-group">
-        <label for="username">Usuário:</label>
-        <input
-          type="text"
-          id="username"
-          v-model="username"
-          placeholder="Username"
-          required
-        />
-      </div>
+  <v-container class="cadastro-container">
+    <v-snackbar v-model="snackbar.show" :timeout="3000" :color="snackbar.color" top>
+      <v-icon left>{{ snackbar.icon }}</v-icon>
+      {{ snackbar.message }}
+      <v-btn color="white" text @click="snackbar.show = false">Fechar</v-btn>
+    </v-snackbar>
 
-      <div class="form-group">
-        <label for="password">Senha:</label>
-        <input
-          type="password"
-          id="password"
-          v-model="password"
-          placeholder="Password"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="role">Função:</label>
-        <select id="role" v-model="role" required>
-          <option disabled value="">Selecione a Função</option>
-          <option value="admin">Administrador</option>
-          <option value="production-planner">Gerente de Produção</option>
-          <option value="production-operator">Operador de Produção</option>
-          <option value="inventory-manager">Gerente de Estoque</option>
-        </select>
-      </div>
-
-      <button @click="logar()" class="register-button">Registrar</button>
-    </form>
-  </div>
+    <!-- Card de Cadastro -->
+    <v-card class="cadastro-card">
+      <v-card-title class="headline">Cadastro de Usuário</v-card-title>
+      <v-card-text>
+        <v-form ref="form">
+          <v-text-field v-model="form.username" label="Nome do Usuário" :rules="[rules.required]"
+            required></v-text-field>
+          <v-text-field v-model="form.email" label="E-mail" :rules="[rules.required, rules.email]"
+            required></v-text-field>
+          <v-text-field v-model="form.password" label="Senha" type="password" :rules="[rules.required, rules.password]"
+            required></v-text-field>
+          <v-text-field v-model="form.confirmPassword" label="Confirmar Senha" type="password"
+            :rules="[rules.required, rules.confirmPassword]" required></v-text-field>
+          <v-select v-model="form.role" :items="roles" label="Função" :rules="[rules.required]" item-text="title"
+            item-value="key" required></v-select>
+        </v-form>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="blue darken-1" text @click="resetForm">Cancelar</v-btn>
+        <v-btn color="blue darken-1" text @click="registerUser" :disabled="!isFormValid">
+          Salvar
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-container>
 </template>
 
-
-
 <script>
-import Login from "@/model/Login.js";
+import { register } from "@/services/auth";
+
 export default {
   data() {
     return {
-      username: "",
-      password: "",
-      auth: "",
-      role: "",
-      login: new Login(),
+      snackbar: {
+        show: false,
+        message: "",
+        icon: "",
+        color: "",
+      },
+      form: {
+        username: "",
+        email: "",
+        password: "",
+        role: "",
+      },
+      roles: [
+        { title: "Administrador", key: "admin" },
+        { title: "Gerente de Produção", key: "production-planner" },
+        { title: "Operador de Produção", key: "production-operator" },
+        { title: "Gerente de Estoque", key: "inventory-manager" },
+      ],
+      rules: {
+        required: (value) => !!value || "Este campo é obrigatório.",
+        email: (value) =>
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || "E-mail inválido.",
+        confirmPassword: (value) =>
+          value === this.form.password || "As senhas não coincidem.",
+        password: (value) =>
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value) ||
+          "A senha deve conter no mínimo 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial.",
+      },
+
     };
   },
   methods: {
-    loginUser() {
-      // Lógica de autenticação
+    async registerUser() {
+      try {
+        if (this.$refs.form.validate()) {
+          console.log(this.form)
+          await register(this.form);
+          this.showSnackbar("Usuário registrado com sucesso!", "success");
+          this.resetForm();
+          this.$router.push('/login');
+        } else {
+          this.showSnackbar("Por favor, corrija os erros no formulário.", "error");
+        }
+      } catch (error) {
+        console.error("Erro ao registrar usuário:", error);
+        const errorMessage =
+          error.response?.data?.message || "Erro ao registrar o usuário.";
+        this.showSnackbar(errorMessage, "error");
+      }
     },
-    logar() {
-      localStorage.setItem("usuario", JSON.stringify(this.login));
-      this.$router.push({
-        name: "home",
-      });
+    resetForm() {
+      this.form = {
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        role: "",
+      };
+
+    },
+    showSnackbar(message, type) {
+      this.snackbar.message = message;
+      this.snackbar.icon = type === "success" ? "mdi-check-circle" : "mdi-alert-circle";
+      this.snackbar.color = type === "success" ? "green" : "red";
+      this.snackbar.show = true;
     },
   },
+  computed: {
+    isFormValid() {
+      return (
+        this.form.username &&
+        this.form.email &&
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.form.email) &&
+        this.form.password &&
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+          this.form.password
+        ) &&
+        this.form.confirmPassword === this.form.password &&
+        this.form.role
+      );
+    },
+  },
+
 };
 </script>
 
 <style scoped>
-h1 {
-  color: white;
-}
-
-.login {
-  max-width: 300px;
-  margin: 0 auto;
+.cadastro-container {
+  margin: 100px auto;
   padding: 20px;
-  text-align: center;
 }
 
-.form-group {
-  margin-bottom: 15px;
-  color: white;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-}
-
-input, select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  margin-top: 5px;
+.cadastro-card {
+  width: 800px;
+  padding: 30px;
   background-color: #333;
-  color: #fff;
-}
-
-button {
-  background: #00b300;
   color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #009900;
-}
-
-/* Estilo ao passar o mouse sobre o botão */
-button:hover {
-  opacity: 0.9;
-}
-
-/* Estilo de alinhamento */
-.register-button {
-  width: 100%;
-  padding: 15px;
-  margin-top: 15px;
-  font-weight: bold;
-  background-color: #00b300;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.register-button:hover {
-  background-color: #009900;
+  border-radius: 8px;
 }
 </style>

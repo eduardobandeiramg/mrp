@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <v-snackbar v-model="snackbar.show" :timeout="3000" :color="snackbar.color" top>
+      <v-icon left>{{ snackbar.icon }}</v-icon>
+      {{ snackbar.message }}
+      <v-btn color="white" text @click="snackbar.show = false">Fechar</v-btn>
+    </v-snackbar>
     <v-card flat class="gestao-funcionarios-container">
       <v-card-title>
         <h1>Gestão de Funcionários</h1>
@@ -32,17 +37,24 @@
         <v-card-title class="headline">{{ modalTitulo }}</v-card-title>
         <v-card-text>
           <v-form ref="form">
-            <v-text-field v-model="novoFuncionario.username" label="Nome do Funcionário" required></v-text-field>
-            <v-text-field v-model="novoFuncionario.email" label="E-mail" required></v-text-field>
+            <v-text-field v-model="novoFuncionario.username" label="Nome do Usuário" :rules="[rules.required]"
+              required></v-text-field>
+            <v-text-field v-model="novoFuncionario.email" label="E-mail" :rules="[rules.required, rules.email]"
+              required></v-text-field>
+            <v-text-field v-model="novoFuncionario.password" label="Senha" type="password"
+              :rules="[rules.required, rules.password]" required></v-text-field>
+            <v-text-field v-model="novoFuncionario.confirmPassword" label="Confirmar Senha" type="password"
+              :rules="[rules.required, rules.confirmPassword]" required></v-text-field>
             <v-select v-model="novoFuncionario.role" :items="roles" label="Função" :rules="[rules.required]"
-              item-text="text" item-value="value" required />
-
+              item-text="title" item-value="key" required></v-select>
           </v-form>
+
+
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="fecharModal">Cancelar</v-btn>
-          <v-btn color="blue darken-1" text @click="salvar">Salvar</v-btn>
+          <v-btn color="blue darken-1" text @click="salvar" :disabled="!isFormValid">Salvar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -69,14 +81,20 @@ import funcionarioService from '@/services/Funcionarios';
 export default {
   data() {
     return {
+      snackbar: {
+        show: false,
+        message: "",
+        icon: "",
+        color: "",
+      },
       search: '',
       funcionarios: [],
-      novoFuncionario: { username: '', email: '', role: '' },
+      novoFuncionario: { username: '', email: '', password: '', confirmPassword: '', role: '' },
       roles: [
-        { align: 'center', key: 'admin', title: 'Administrador' },
-        { align: 'center', key: 'production-planner', title: 'Gerente de Produção' },
-        { align: 'center', key: 'production-operator', title: 'Operador de Produção' },
-        { align: 'center', key: 'inventory-manager', title: 'Gerente de Estoque' },
+        { title: "Administrador", key: "admin" },
+        { title: "Gerente de Produção", key: "production-planner" },
+        { title: "Operador de Produção", key: "production-operator" },
+        { title: "Gerente de Estoque", key: "inventory-manager" },
       ],
       modalVisivel: false,
       modalExcluirVisivel: false,
@@ -91,7 +109,14 @@ export default {
         { align: 'center', title: 'Ações', key: 'actions', sortable: false },
       ],
       rules: {
-        required: (value) => !!value || 'Este campo é obrigatório.',
+        required: (value) => !!value || "Este campo é obrigatório.",
+        email: (value) =>
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || "E-mail inválido.",
+        confirmPassword: (value) =>
+          value === this.form.password || "As senhas não coincidem.",
+        password: (value) =>
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value) ||
+          "A senha deve conter no mínimo 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial.",
       },
     };
 
@@ -158,6 +183,21 @@ export default {
   },
   mounted() {
     this.carregarFuncionarios();
+  },
+  computed: {
+    isFormValid() {
+      return (
+        this.form.username &&
+        this.form.email &&
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.form.email) &&
+        this.form.password &&
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+          this.form.password
+        ) &&
+        this.form.confirmPassword === this.form.password &&
+        this.form.role
+      );
+    },
   },
 };
 </script>

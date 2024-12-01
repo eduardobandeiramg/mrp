@@ -5,7 +5,7 @@ import { routes as autoRoutes } from 'vue-router/auto-routes'
 const manualRoutes = [
 
   {
-    path: '/menu',
+    path: '/',
     name: 'menu',
     component: () => import('@/pages/Menu.vue'),
   },
