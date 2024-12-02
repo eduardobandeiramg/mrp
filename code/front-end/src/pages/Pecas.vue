@@ -163,7 +163,6 @@ export default {
     },
     async confirmarExcluir() {
       try {
-        console.log(this.pecaParaExcluir.id)
         await pecaService.deleteMaterial(this.pecaParaExcluir.id);
         this.fecharModalExcluir();
         this.carregarPecas();

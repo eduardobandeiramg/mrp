@@ -1,165 +1,120 @@
 <template>
   <v-container>
-    <v-card flat class="caixa-entrada-container">
-      <v-card-title>
-        <h1>Caixa de Entrada</h1>
-        <v-spacer></v-spacer>
-      </v-card-title>
-      <v-card-text>
-        <v-data-table :items="mensagens" :headers="headers" :search="search" class="elevation-1 tabela-escura">
-          <template v-slot:[`item.acao`]="{ item }">
-            <div class="d-flex justify-content-end">
-              <v-btn color="blue" @click="abrirModalVisualizar(item)">
-                <v-icon>mdi-eye</v-icon>Ver Detalhes
-              </v-btn>
-            </div>
-          </template>
-        </v-data-table>
-      </v-card-text>
-    </v-card>
+    <h1 class="text-center">Caixa de Entrada</h1>
 
-    <!-- Modal para visualizar mensagem -->
-    <v-dialog v-model="modalVisualizarVisivel" max-width="500px">
-      <v-card>
-        <v-card-title class="headline">Visualizar Mensagem</v-card-title>
-        <v-card-text>
-          <p><strong>De:</strong> {{ mensagemSelecionada?.responsavel }}</p>
-          <p><strong>Status:</strong> {{ mensagemSelecionada?.status }}</p>
-          <p>{{ mensagemSelecionada?.conteudo }}</p>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="fecharModalVisualizar">Fechar</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- Modal de resposta -->
-    <v-dialog v-model="modalResponderVisivel" max-width="500px">
-      <v-card>
-        <v-card-title class="headline">Responder Mensagem</v-card-title>
-        <v-card-text>
-          <v-form ref="form">
-            <v-text-field v-model="resposta.status" label="Status" required></v-text-field>
-            <v-textarea v-model="resposta.conteudo" label="Conteúdo da resposta" rows="5" required></v-textarea>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="fecharModalResponder">Cancelar</v-btn>
-          <v-btn color="green darken-1" text @click="enviarResposta">Enviar</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- Modal de confirmação de exclusão -->
-    <v-dialog v-model="modalExcluirVisivel" max-width="500px">
-      <v-card>
-        <v-card-title class="headline">Confirmar Exclusão</v-card-title>
-        <v-card-text>Deseja realmente excluir a mensagem de
-          <strong>{{ mensagemSelecionada?.responsavel }}</strong>?</v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="fecharModalExcluir">Cancelar</v-btn>
-          <v-btn color="red darken-1" text @click="confirmarExcluir">Excluir</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <!-- Bloco 1: To Production -->
+    <!-- <v-row>
+      <v-col cols="12">
+        <v-card class="mb-4">
+          <v-card-title>Produtos para Produzir</v-card-title>
+          <v-card-text>
+            <v-data-table :items="toProduction" :headers="headers" class="elevation-1 tabela-escura"></v-data-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row> -->
+    <v-row>
+      <!-- Bloco 2: On Production -->
+      <v-col cols="12">
+        <v-card class="mb-4">
+          <v-card-title>Produtos em Produção</v-card-title>
+          <v-card-text>
+            <v-data-table :items="onProduction" :headers="headers" class="elevation-1 tabela-escura"></v-data-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <!-- Bloco 3: Finished Production -->
+      <v-col cols="12">
+        <v-card class="mb-4">
+          <v-card-title>Produtos Finalizados</v-card-title>
+          <v-card-text>
+            <v-data-table :items="finishedProduction" :headers="headers"
+              class="elevation-1 tabela-escura"></v-data-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <!-- Bloco 4: Status Production -->
+      <v-col cols="12">
+        <v-card class="mb-4">
+          <v-card-title>Status dos Produtos</v-card-title>
+          <v-card-text>
+            <v-data-table :items="statusProduction" :headers="headers" class="elevation-1 tabela-escura"></v-data-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
+import productionService from "@/services/Producao";
+
 export default {
   data() {
     return {
-      search: "",
-      mensagens: [],
-
-      modalVisualizarVisivel: false,
-      modalResponderVisivel: false,
-      modalExcluirVisivel: false,
-
-      mensagemSelecionada: null,
-      resposta: { status: "", conteudo: "" },
-
+      toProduction: [],
+      onProduction: [],
+      finishedProduction: [],
+      statusProduction: [],
       headers: [
-        { align: "center", title: "Produção", key: "producao" },
-        { align: "center", title: "Status", key: "Status" },
-        { align: "center", title: "Data de início", key: "dataIni" },
-        { align: "center", title: "Data da útima atualização", key: "data" },
-        { align: "center", title: "Ações", key: "acao", sortable: false },
+        { align: "center", title: "Produção", key: "production" },
+        { align: "center", title: "Status", key: "status" },
+        { align: "center", title: "Data de Início", key: "startDate" },
+        { align: "center", title: "Última Atualização", key: "lastUpdate" },
       ],
     };
   },
   methods: {
-    abrirModalVisualizar(item) {
-      this.mensagemSelecionada = item;
-      this.modalVisualizarVisivel = true;
+    async carregarToProduction() {
+      try {
+        this.toProduction = await productionService.getToProduction();
+      } catch (error) {
+        console.error("Erro ao carregar 'To Production':", error);
+      }
     },
-    fecharModalVisualizar() {
-      this.modalVisualizarVisivel = false;
+    async carregarOnProduction() {
+      try {
+        this.onProduction = await productionService.getOnProduction();
+      } catch (error) {
+        console.error("Erro ao carregar 'On Production':", error);
+      }
     },
-    abrirModalResponder(item) {
-      this.mensagemSelecionada = item;
-      this.resposta.status = `Re: ${item.status}`;
-      this.modalResponderVisivel = true;
+    async carregarFinishedProduction() {
+      try {
+        this.finishedProduction = await productionService.getFinishedProduction();
+      } catch (error) {
+        console.error("Erro ao carregar 'Finished Production':", error);
+      }
     },
-    fecharModalResponder() {
-      this.modalResponderVisivel = false;
-    },
-    enviarResposta() {
-      // Lógica para enviar a resposta
-      this.fecharModalResponder();
-    },
-    abrirModalExcluir(item) {
-      this.mensagemSelecionada = item;
-      this.modalExcluirVisivel = true;
-    },
-    fecharModalExcluir() {
-      this.modalExcluirVisivel = false;
-    },
-    confirmarExcluir() {
-      // Lógica para excluir a mensagem
-      this.fecharModalExcluir();
+    async carregarStatusProduction() {
+      try {
+        this.statusProduction = await productionService.getStatusProduction();
+      } catch (error) {
+        console.error("Erro ao carregar 'Status Production':", error);
+      }
     },
   },
   mounted() {
-    // Carregar mensagens ao montar o componente
-    this.mensagens = [
-      {
-        responsavel: "João",
-        Status: "Orçamento",
-        data: "2024-10-20",
-        conteudo: "Olá, segue o orçamento.",
-      },
-      {
-        responsavel: "Maria",
-        Status: "Reunião",
-        data: "2024-10-21",
-        conteudo: "A reunião será às 14h.",
-      },
-      // Mais mensagens...
-    ];
+    this.carregarToProduction();
+    this.carregarOnProduction();
+    this.carregarFinishedProduction();
+    this.carregarStatusProduction();
   },
 };
 </script>
 
 <style scoped>
-.headline {
-  font-weight: bold;
-}
-
-.caixa-entrada-container {
-  margin-top: 70px;
-  padding: 20px;
-  background-color: #333;
-  color: #fff;
+.text-center {
   text-align: center;
-  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
-.v-btn {
-  margin-right: 10px;
+.mb-4 {
+  margin-bottom: 16px;
 }
 
 .tabela-escura .v-data-table__wrapper {
@@ -169,11 +124,5 @@ export default {
 
 .tabela-escura th {
   background-color: #555;
-  color: #fff;
-}
-
-.tabela-escura td {
-  background-color: #444;
-  color: #fff;
 }
 </style>
