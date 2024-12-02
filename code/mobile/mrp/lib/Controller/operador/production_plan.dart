@@ -3,6 +3,17 @@ import 'package:http/http.dart' as http;
 import 'package:mrp/Controller/token_app.dart';
 
 class ProductionPlan {
+  static dynamic getAProduzir() async {
+    String urlGetAProduzir = "http://10.0.2.2:3000/production/to-production";
+    http.Response resposta = await http.get(Uri.parse(urlGetAProduzir),
+        headers: {"Authorization": TokenApp.tokenApp!});
+    if (resposta.statusCode == 200) {
+      return resposta.body;
+    } else {
+      throw new Exception("erro-no-servidor");
+    }
+  }
+
   static dynamic getProductionPlan() async {
     String ulrGetProductionPlan = "http://10.0.2.2:3000/production/null-dates";
     http.Response resposta = await http.get(Uri.parse(ulrGetProductionPlan),

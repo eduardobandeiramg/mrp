@@ -32,9 +32,9 @@ Future<List<CartaoListagemPecas>> encheLista(String idProduto) async {
 
 class TelaDetalhamentoPecasProduto extends StatefulWidget {
   String idProduto;
-  String idProducao;
+  List<String> idsProducao;
 
-  TelaDetalhamentoPecasProduto(this.idProduto, this.idProducao);
+  TelaDetalhamentoPecasProduto(this.idProduto, this.idsProducao);
 
   @override
   State<TelaDetalhamentoPecasProduto> createState() =>
@@ -158,7 +158,7 @@ class _TelaDetalhamentoPecasProdutoState
                           });
                           try {
                             await ProductionPlan.iniciarProducao(
-                                widget.idProducao);
+                                widget.idsProducao[0]);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text("Produção iniciada com sucesso!"),
