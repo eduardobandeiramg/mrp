@@ -196,6 +196,20 @@ export class ProductionService {
     return Object.values(groupedData);
   }
 
+  async findProductionStatus(): Promise<Object[]> {
+    const result = await this.productionRepository
+      .createQueryBuilder('production')
+      .leftJoin('production.product', 'product')
+      .leftJoin('production.productionPlan', 'productionPlan')
+      .select('product.code', 'producao')
+      .addSelect('production.status', 'status')
+      .addSelect('productionPlan.datePrev', 'datePrev')
+      .addSelect('production.dateInit', 'dateInit')
+      .where('production.status != :status', { status: ProductionStatus.FINALIZADO })
+      .getRawMany();
+    return Object.values(result);
+  }
+
   async handleProductionPlanCreated(data: {
     id: string;
     productId: string;

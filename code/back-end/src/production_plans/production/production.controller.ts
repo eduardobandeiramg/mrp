@@ -102,6 +102,15 @@ export class ProductionController {
     return this.productionService.findProductsFinishedProduction();
   }
 
+  @Get('status-production')
+  @ApiOperation({
+    summary:
+      'Busca dados do status dos produtos a produzir',
+  })
+  findProductionStatus() {
+    return this.productionService.findProductionStatus();
+  }
+
   @EventPattern('production_plan_created')
   handleProductionPlanCreated(data: any) {
     this.productionService.handleProductionPlanCreated(data);
