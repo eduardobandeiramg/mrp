@@ -1,14 +1,24 @@
 <template>
-  <v-app-bar color="grey darken-1" dark flat app>
+  <v-app-bar class="nav-bar">
 
-    <div class="nav-links">
+    <v-btn icon to="/menu" title="Início" class="mr-4" v-if="isLoggedIn">
+      <v-icon>mdi-home</v-icon>
+    </v-btn>
+
+
+    <div class="nav-links" v-if="isLoggedIn">
       <v-btn v-for="(link, index) in navLinks" :key="index" :to="link.to" text class="mr-4 white--text">
         {{ link.text }}
       </v-btn>
     </div>
 
-    <!-- Botão de login à direita -->
+    <!-- Ícone de Caixa de Entrada e Botão de login/logout à direita -->
     <v-spacer></v-spacer>
+
+    <v-btn icon to="/entrada" title="Caixa de Entrada" class="mr-4" v-if="isLoggedIn">
+      <v-icon>mdi-bell</v-icon>
+    </v-btn>
+
     <v-btn text @click="handleAuthAction">
       {{ isLoggedIn ? 'Logout' : 'Login' }}
     </v-btn>
@@ -21,12 +31,12 @@ export default {
     return {
       isLoggedIn: false,
       navLinks: [
-        { text: "Menu", to: "/menu" },
-        { text: "Gerenciar Peças", to: "/pecas" },
-        { text: "Gerenciar Produtos", to: "/produtos" },
-        { text: "Gerenciar Linhas de Produção", to: "/linha" },
-        { text: "Biuld Of Materials", to: "/bom" },
-        { text: "Planejamento de produção", to: "/planejamento" },
+        { text: "Funcionários", to: "/funcionarios" },
+        { text: "Materiais", to: "/pecas" },
+        { text: "Produtos", to: "/produtos" },
+        { text: "Linhas", to: "/linha" },
+        { text: "B.O.M.", to: "/bom" },
+        { text: "M.O.P.", to: "/planejamento" },
 
 
       ],
@@ -39,8 +49,9 @@ export default {
         // Logout logic: Remove the token from localStorage
         localStorage.removeItem('authToken');
         this.isLoggedIn = false;
+        this.$router.push('/login');
       } else {
-        
+
         // Login logic: Redirect to login page
         this.$router.push('/login');
       }
@@ -61,8 +72,9 @@ export default {
 </script>
 
 <style scoped>
-.v-app-bar {
+.nav-bar {
   width: 100%;
+  background-color: rgb(49, 175, 133);
 }
 
 .nav-links {

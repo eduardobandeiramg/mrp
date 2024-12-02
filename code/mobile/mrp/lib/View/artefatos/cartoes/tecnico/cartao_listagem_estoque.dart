@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mrp/Controller/tecnico/materiais.dart';
+import 'package:mrp/View/telas/tecnico/detalhamento/tela_detalhamento_peca_estoque.dart';
 
 class CartaoItemEstoque extends StatelessWidget {
-  const CartaoItemEstoque({super.key});
+  String description;
+  String code;
+  int qtd;
 
-  printa() {
-    print("apertou");
-  }
+  CartaoItemEstoque(this.description, this.code, this.qtd);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,14 @@ class CartaoItemEstoque extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: printa(),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  TelaDetalhamentoPecaEstoque(description, code, qtd),
+            ),
+          );
+        },
         child: Container(
           height: altura * 0.1,
           decoration: BoxDecoration(
@@ -29,12 +38,16 @@ class CartaoItemEstoque extends StatelessWidget {
                 width: largura * 0.03,
               ),
               Expanded(
-                flex: 5,
-                child: Text("item:"),
+                flex: 1,
+                child: Text("item: $description"),
               ),
               Expanded(
                 flex: 1,
-                child: Text("qtd: "),
+                child: Text("código: $code"),
+              ),
+              Expanded(
+                flex: 1,
+                child: Text("qtd: $qtd"),
               ),
             ],
           ),

@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <v-snackbar v-model="snackbar.show" :timeout="3000" :color="snackbar.color" top>
+      <v-icon left>{{ snackbar.icon }}</v-icon>
+      {{ snackbar.message }}
+    </v-snackbar>
+
     <v-card flat class="linha-container">
       <v-card-title>
         <h1>Gestão de Linhas de Produção</h1>
@@ -9,23 +14,22 @@
 
       <!-- Tabela de Linhas -->
       <v-card-text>
-        <v-text-field v-model="search" label="Search" prepend-inner-icon="mdi-magnify"></v-text-field>
+        <v-text-field v-model="search" label="Pesquisar" prepend-inner-icon="mdi-magnify"></v-text-field>
         <v-data-table :items="linhas" :headers="headers" :search="search" class="elevation-1 tabela-escura">
           <template v-slot:[`item.acao`]="{ item }">
-            <div class="d-flex justify-content-end">
-              <v-spacer></v-spacer>
-              <v-spacer></v-spacer>
-              <v-spacer></v-spacer>
-
-              <v-btn color="blue" @click="abrirModalEditar(item)">
-                <v-icon>mdi-pencil</v-icon>Editar
+            <div class="acoes-container">
+              <v-btn color="blue" @click="abrirModalEditar(item)" small>
+                <v-icon>mdi-pencil</v-icon>
+                Editar
               </v-btn>
-              <v-btn color="red" @click="abrirModalExcluir(item)">
-                <v-icon>mdi-delete</v-icon>Excluir
+              <v-btn color="red" @click="abrirModalExcluir(item)" small>
+                <v-icon>mdi-delete</v-icon>
+                Excluir
               </v-btn>
             </div>
           </template>
         </v-data-table>
+
       </v-card-text>
     </v-card>
 
@@ -35,14 +39,14 @@
         <v-card-title class="headline">{{ modalTitulo }}</v-card-title>
         <v-card-text>
           <v-form ref="form">
-            <v-text-field v-model="novaLinha.name" label="Nome da linha" required></v-text-field>
-            <!-- <v-text-field v-model="novaLinha.code" label="Código da linha" required></v-text-field> -->
+            <v-text-field v-model="novaLinha.name" label="Nome da linha" :rules="[rules.required]"
+              required></v-text-field>
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="fecharModal">Cancelar</v-btn>
-          <v-btn color="blue darken-1" text @click="salvar">Salvar</v-btn>
+          <v-btn color="blue darken-1" text @click="salvar" :disabled="!isFormValid">Salvar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -51,7 +55,9 @@
     <v-dialog v-model="modalExcluirVisivel" max-width="500px">
       <v-card>
         <v-card-title class="headline">Confirmar Exclusão</v-card-title>
-        <v-card-text>Deseja realmente excluir a linha <strong>{{ linhaParaExcluir?.nome }}</strong>?</v-card-text>
+        <v-card-text>
+          Deseja realmente excluir a linha <strong>{{ linhaParaExcluir?.name }}</strong>?
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="fecharModalExcluir">Cancelar</v-btn>
@@ -59,8 +65,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-
   </v-container>
 </template>
 
@@ -70,6 +74,12 @@ import linhaService from '@/services/Linha.js';
 export default {
   data() {
     return {
+      snackbar: {
+        show: false,
+        message: '',
+        color: '',
+        icon: '',
+      },
       search: '',
       linhas: [],
       novaLinha: { name: '' },
@@ -79,18 +89,27 @@ export default {
       modalTitulo: 'Incluir Nova Linha',
       editando: false,
       linhaParaExcluir: null,
-      indexEditando: null,
 
       headers: [
-        { align: 'center', title: 'Nome', key: 'name' },
-        { align: 'center', title: 'Ações', key: 'acao', sortable: false },
+        { align: "center", title: "Nome", key: "name" },
+        { align: "center", title: "Ações", key: "acao", sortable: false, width: "150px" },
       ],
 
+
+      rules: {
+        required: value => !!value || 'Este campo é obrigatório.',
+      },
     };
   },
+  computed: {
+    isFormValid() {
+      if (this.editando) {
+        return true;
+      }
+      return this.novaLinha.name && this.$refs.form.validate();
+    },
+  },
   methods: {
-
-    /////////////////////////////////////////////////
     abrirModalIncluir() {
       this.modalTitulo = 'Incluir Nova Linha';
       this.editando = false;
@@ -101,7 +120,6 @@ export default {
       this.modalTitulo = 'Editar Linha';
       this.editando = true;
       this.novaLinha = { ...item };
-      this.indexEditando = this.linhas.indexOf(item);
       this.modalVisivel = true;
     },
     fecharModal() {
@@ -117,19 +135,15 @@ export default {
       this.linhaParaExcluir = null;
     },
     limparFormulario() {
-      this.novaLinha = { description: '' };
-      this.indexEditando = null;
+      this.novaLinha = { name: '' };
     },
-    /////////////////////////////////////////////////
-
     async carregarLinhas() {
       try {
         this.linhas = await linhaService.getAllLines();
       } catch (error) {
-        console.error('Erro ao carregar linhas:', error);
+        this.exibirSnackbar('Erro ao carregar linhas.', 'red', 'mdi-alert');
       }
     },
- 
     async salvar() {
       try {
         if (this.editando) {
@@ -139,21 +153,24 @@ export default {
         }
         this.fecharModal();
         this.carregarLinhas();
+        this.exibirSnackbar('Linha salva com sucesso!', 'green', 'mdi-check-circle');
       } catch (error) {
-        console.error('Erro ao salvar linha:', error);
+        this.exibirSnackbar(error.response?.data?.message || 'Erro ao salvar linha.', 'red', 'mdi-alert');
       }
     },
-
     async confirmarExcluir() {
       try {
         await linhaService.deleteLine(this.linhaParaExcluir.lineId);
         this.fecharModalExcluir();
         this.carregarLinhas();
+        this.exibirSnackbar('Linha excluída com sucesso!', 'green', 'mdi-check-circle');
       } catch (error) {
-        console.error('Erro ao excluir linha:', error);
+        this.exibirSnackbar(error.response?.data?.message || 'Erro ao excluir linha.', 'red', 'mdi-alert');
       }
     },
-
+    exibirSnackbar(message, color, icon) {
+      this.snackbar = { show: true, message, color, icon };
+    },
   },
   mounted() {
     this.carregarLinhas();
@@ -162,8 +179,11 @@ export default {
 </script>
 
 <style scoped>
-.headline {
-  font-weight: bold;
+.acoes-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  /* Espaçamento entre os botões */
 }
 
 .linha-container {
@@ -175,29 +195,22 @@ export default {
   border-radius: 8px;
 }
 
-.v-btn {
-  margin-right: 10px;
-}
-
 .tabela-escura .v-data-table__wrapper {
   background-color: #444;
-  /* Cor de fundo escura para a tabela */
   color: #fff;
-  /* Cor do texto */
 }
 
 .tabela-escura th {
   background-color: #555;
-  /* Cor de fundo dos cabeçalhos da tabela */
   color: #fff;
-  /* Cor do texto dos cabeçalhos */
 }
 
 .tabela-escura td {
   background-color: #444;
-  /* Cor de fundo das células */
   color: #fff;
-  /* Cor do texto das células */
 }
 
+.v-btn {
+  margin-right: 10px;
+}
 </style>

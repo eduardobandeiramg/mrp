@@ -6,12 +6,14 @@ import { ProductsModule } from '../../products/products.module';
 import { Production } from '../entities/production.entity';
 import { ProductionPlan } from '../entities/production_plan.entity';
 import { ProductionPlansController } from './production_plans.controller';
+import { RabbitMQModule } from '../../rabbit/rabbitmq.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ProductionPlan, Production]),
     LineModule,
     ProductsModule,
+    RabbitMQModule,
   ],
   controllers: [ProductionPlansController],
   providers: [ProductionPlansService],

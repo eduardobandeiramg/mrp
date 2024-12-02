@@ -1,22 +1,23 @@
 <template>
   <v-container>
+    <v-snackbar v-model="snackbar.show" :timeout="3000" :color="snackbar.color" top>
+      <v-icon left>{{ snackbar.icon }}</v-icon>
+      {{ snackbar.message }}
+    </v-snackbar>
+
     <v-card flat class="gestao-pecas-container">
       <v-card-title>
         <h1>Gestão de Peças</h1>
         <v-spacer></v-spacer>
-        <v-btn class="mb-12" color="primary" @click="abrirModalIncluir"> Adicionar Peça </v-btn>
+        <v-btn class="mb-12" color="primary" @click="abrirModalIncluir">Adicionar Peça</v-btn>
       </v-card-title>
 
       <!-- Tabela de Peças -->
       <v-card-text>
-        <v-text-field v-model="search" label="Search" prepend-inner-icon="mdi-magnify"></v-text-field>
+        <v-text-field v-model="search" label="Pesquisar" prepend-inner-icon="mdi-magnify"></v-text-field>
         <v-data-table :headers="headers" :items="pecas" :search="search" class="elevation-1 tabela-escura">
           <template v-slot:item.actions="{ item }">
             <div class="d-flex justify-content-end">
-              <v-spacer></v-spacer>
-              <v-spacer></v-spacer>
-              <v-spacer></v-spacer>
-
               <v-btn color="blue" @click="abrirModalEditar(item)">
                 <v-icon>mdi-pencil</v-icon> Editar
               </v-btn>
@@ -35,14 +36,24 @@
         <v-card-title class="headline">{{ modalTitulo }}</v-card-title>
         <v-card-text>
           <v-form ref="form">
-            <v-text-field v-model="novaPeca.description" label="Nome da Peça" required></v-text-field>
-            <v-text-field v-model="novaPeca.code" label="Código da Peça" required></v-text-field>
+            <v-text-field
+              v-model="novaPeca.description"
+              label="Nome da Peça"
+              :rules="[rules.required]"
+              required
+            ></v-text-field>
+            <v-text-field
+              v-model="novaPeca.code"
+              label="Código da Peça"
+              :rules="[rules.required, rules.codeFormat]"
+              required
+            ></v-text-field>
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="fecharModal">Cancelar</v-btn>
-          <v-btn color="blue darken-1" text @click="salvar">Salvar</v-btn>
+          <v-btn color="blue darken-1" text @click="salvar" :disabled="!isFormValid">Salvar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -51,7 +62,7 @@
     <v-dialog v-model="modalExcluirVisivel" max-width="500px">
       <v-card>
         <v-card-title class="headline">Confirmar Exclusão</v-card-title>
-        <v-card-text>Deseja realmente excluir a peça <strong>{{ pecaParaExcluir?.nome }}</strong>?</v-card-text>
+        <v-card-text>Deseja realmente excluir a peça <strong>{{ pecaParaExcluir?.description }}</strong>?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="fecharModalExcluir">Cancelar</v-btn>
@@ -68,6 +79,12 @@ import pecaService from '@/services/Pecas';
 export default {
   data() {
     return {
+      snackbar: {
+        show: false,
+        message: '',
+        color: '',
+        icon: '',
+      },
       search: '',
       pecas: [],
       novaPeca: { description: '', code: '' },
@@ -76,17 +93,26 @@ export default {
       modalTitulo: 'Incluir Nova Peça',
       editando: false,
       pecaParaExcluir: null,
-      indexEditando: null,
       headers: [
         { align: 'center', title: 'Nome da Peça', key: 'description' },
         { align: 'center', title: 'Código da Peça', key: 'code' },
-        { align: 'center', title: 'Ações', key: 'actions', sortable: false },
+        { align: 'center', title: 'Ações', key: 'actions', sortable: false, width: "150px"  },
       ],
+      rules: {
+        required: value => !!value || 'Este campo é obrigatório.',
+        codeFormat: value => /^[A-Z0-9]+$/.test(value) || 'Código deve conter apenas letras maiúsculas e números.',
+      },
     };
   },
+  computed: {
+    isFormValid() {
+      if(this.editando){
+        return true
+      }
+      return this.novaPeca.description && this.novaPeca.code && this.$refs.form.validate();
+    },
+  },
   methods: {
-
-    /////////////////////////////////////////////////
     abrirModalIncluir() {
       this.modalTitulo = 'Incluir Nova Peça';
       this.editando = false;
@@ -97,7 +123,6 @@ export default {
       this.modalTitulo = 'Editar Peça';
       this.editando = true;
       this.novaPeca = { ...item };
-      this.indexEditando = this.pecas.indexOf(item);
       this.modalVisivel = true;
     },
     fecharModal() {
@@ -114,17 +139,14 @@ export default {
     },
     limparFormulario() {
       this.novaPeca = { description: '', code: '' };
-      this.indexEditando = null;
     },
-    /////////////////////////////////////////////////
     async carregarPecas() {
       try {
         this.pecas = await pecaService.getMaterials();
       } catch (error) {
-        console.error('Erro ao carregar peças:', error);
+        this.exibirSnackbar(this.pecas.response.data.message, 'red', 'mdi-alert');
       }
     },
-
     async salvar() {
       try {
         if (this.editando) {
@@ -134,21 +156,25 @@ export default {
         }
         this.fecharModal();
         this.carregarPecas();
+        this.exibirSnackbar('Peça salva com sucesso', 'green', 'mdi-check-circle');
       } catch (error) {
-        console.error('Erro ao salvar peça:', error);
+        this.exibirSnackbar(error.response.data.message, 'red', 'mdi-alert');
       }
     },
-
     async confirmarExcluir() {
       try {
+        console.log(this.pecaParaExcluir.id)
         await pecaService.deleteMaterial(this.pecaParaExcluir.id);
         this.fecharModalExcluir();
         this.carregarPecas();
+        this.exibirSnackbar('Peça excluída com sucesso', 'green', 'mdi-check-circle');
       } catch (error) {
-        console.error('Erro ao excluir peça:', error);
+        this.exibirSnackbar(error.response.data.message, 'red', 'mdi-alert');
       }
     },
-
+    exibirSnackbar(message, color, icon) {
+      this.snackbar = { show: true, message, color, icon };
+    },
   },
   mounted() {
     this.carregarPecas();

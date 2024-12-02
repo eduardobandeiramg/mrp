@@ -1,14 +1,6 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Param, Patch, Query } from '@nestjs/common';
+import { EventPattern } from '@nestjs/microservices';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateProductionDto } from '../dto/create-production.dto';
 import { ProductionService } from './production.service';
 
 @ApiTags('production')
@@ -16,12 +8,6 @@ import { ProductionService } from './production.service';
 @Controller('production')
 export class ProductionController {
   constructor(private readonly productionService: ProductionService) {}
-
-  @Post()
-  @ApiOperation({ summary: 'Coloca no status A_PRODUZIR' })
-  create(@Body() createProductionDto: CreateProductionDto) {
-    return this.productionService.create(createProductionDto);
-  }
 
   @Patch(':id/start')
   @ApiOperation({ summary: 'Inicia a produção e coloca no status EM_PRODUCAO' })
@@ -44,6 +30,14 @@ export class ProductionController {
   })
   async sendRequestToStock(@Query('productionId') productionId: string) {
     return this.productionService.stopProduction(productionId);
+  }
+
+  @Patch('reestart-production')
+  @ApiOperation({
+    summary: 'Retorna status para EM_PRODUCAO',
+  })
+  async reestartProduction(@Query('productionId') productionId: string) {
+    return this.productionService.reestartProduction(productionId);
   }
 
   @Get('less-productions')
@@ -70,5 +64,39 @@ export class ProductionController {
   })
   findProductsWithInitButNoEnd() {
     return this.productionService.findProductsWithInitButNoEnd();
+  }
+
+  @Get('to-production')
+  @ApiOperation({
+    summary: 'Busca dados dos produtos para produzir',
+  })
+  findProductsToProduction() {
+    return this.productionService.findProductsToProduction();
+  }
+
+  @Get('on-production')
+  @ApiOperation({
+    summary: 'Busca dados dos produtos em produção',
+  })
+  findProductsOnProduction() {
+    return this.productionService.findProductsOnProduction();
+  }
+
+  @Get('finished-production')
+  @ApiOperation({
+    summary: 'Busca dados dos produtos finalizados',
+  })
+  findProductsFinishedProduction() {
+    return this.productionService.findProductsFinishedProduction();
+  }
+
+  @EventPattern('production_plan_created')
+  handleProductionPlanCreated(data: any) {
+    this.productionService.handleProductionPlanCreated(data);
+  }
+
+  @Patch(':id/cancel')
+  async cancelProduction(@Param('id') id: string) {
+    return this.productionService.cancelProduction(id);
   }
 }

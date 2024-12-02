@@ -27,14 +27,10 @@ Estiveram presentes na reunião:
 
 ## Notas e Decisões
 
-## Notas e Decisões
-
 | Item                                   | Quem  | Anotações                                                                                                                                                                                                                                   |
 | -------------------------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Revisão da tabela de requisitos        | Todos | A equipe revisou a tabela de requisitos para assegurar que todas as necessidades do sistema estão adequadamente documentadas e priorizadas. |
 | Planejamento da Sprint 5               | Todos | Foram definidos os itens prioritários para a Sprint 5.|
-
-
 
 
 ## Ações e pendências

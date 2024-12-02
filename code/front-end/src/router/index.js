@@ -5,10 +5,11 @@ import { routes as autoRoutes } from 'vue-router/auto-routes'
 const manualRoutes = [
 
   {
-    path: '/menu',
+    path: '/',
     name: 'menu',
     component: () => import('@/pages/Menu.vue'),
   },
+
   {
     path: '/login',
     name: 'Login',
@@ -48,6 +49,22 @@ const manualRoutes = [
     path: '/planejamento',
     name: 'Planejamento',
     component: () => import('@/pages/Planejamento.vue'), 
+  },
+
+  {
+    path: '/entrada',
+    name: 'CaixaDeEntrada',
+    component: () => import('@/pages/CaixaDeEntrada.vue'), 
+  },
+  {
+    path: '/entrada',
+    name: 'CaixaDeEntrada',
+    component: () => import('@/pages/CaixaDeEntrada.vue'), 
+  },
+  {
+    path: '/funcionarios',
+    name: 'Funcionarios',
+    component: () => import('@/pages/Funcionarios.vue'), 
   },
 
   // Você pode adicionar mais rotas manualmente aqui

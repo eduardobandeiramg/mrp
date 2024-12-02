@@ -39,7 +39,7 @@ export class LineService {
     }
     const { name } = updateLineDto;
 
-    if(name !== undefined){
+    if (name !== undefined) {
       findedLine.name = name;
     }
 
@@ -63,5 +63,4 @@ export class LineService {
       throw new Error('Erro ao buscar linhas de produção: ' + error.message);
     }
   }
-
 }

@@ -9,10 +9,14 @@
   },
   "dependencies": {
     "@mdi/font": "7.4.47",
+    "@schedule-x/theme-default": "^2.5.0",
+    "@schedule-x/vue": "^2.4.0",
     "axios": "^1.7.7",
     "core-js": "^3.37.1",
+    "qalendar": "^3.9.0",
     "roboto-fontface": "*",
     "vue": "^3.4.31",
+    "vue-cal": "^4.10.0",
     "vuetify": "^3.6.11"
   },
   "devDependencies": {

@@ -1,37 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:mrp/View/telas/operador/lista.dart';
-import 'package:mrp/View/telas/tecnico/lista.dart';
+import 'package:mrp/View/telas/operador/principais/a_produzir.dart';
+import 'package:mrp/View/telas/operador/principais/finalizado.dart';
+import 'package:mrp/View/telas/operador/principais/linha.dart';
+import 'package:mrp/View/telas/operador/principais/perfil.dart';
 
 class TelaPrincipalOperador extends StatefulWidget {
-  TelaPrincipalOperador({super.key});
+  int indice;
+
+  TelaPrincipalOperador(this.indice, {super.key});
 
   @override
   State<TelaPrincipalOperador> createState() => _TelaPrincipalOperadorState();
 }
 
 class _TelaPrincipalOperadorState extends State<TelaPrincipalOperador> {
-  int indexBarraNavegacao = 0;
-
   void aoSelecionarOIndex(int index) {
     setState(() {
-      indexBarraNavegacao = index;
+      widget.indice = index;
     });
   }
 
   telaAMoatrar(int indice) {
     if (indice == 0) {
-      return ListagemProdutos();
+      return AProduzir();
+    } else if (indice == 1) {
+      return LinhaProducao();
+    } else if (indice == 2) {
+      return Finalizado();
+    } else if (indice == 3) {
+      return PerfilOperador();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: telaAMoatrar(indexBarraNavegacao),
+      body: telaAMoatrar(widget.indice),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.conveyor_belt), label: "linha"),
+          BottomNavigationBarItem(icon: Icon(Icons.build), label: "a produzir"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.conveyor_belt), label: "linha"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.check_box), label: "finalizado"),
 /*          BottomNavigationBarItem(
               icon: Icon(Icons.fire_truck), label: "dar entrada"),
           BottomNavigationBarItem(
@@ -39,7 +51,7 @@ class _TelaPrincipalOperadorState extends State<TelaPrincipalOperador> {
           BottomNavigationBarItem(
               icon: Icon(Icons.person_2_rounded), label: "perfil"),
         ],
-        currentIndex: indexBarraNavegacao,
+        currentIndex: widget.indice,
         onTap: aoSelecionarOIndex,
         backgroundColor: Colors.black,
         unselectedItemColor: Colors.white,

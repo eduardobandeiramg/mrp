@@ -1,54 +1,66 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Line } from '../../line/entities/line.entity';
 import { Product } from '../../products/entities/product.entity';
 import { CreateProductionPlanDto } from '../dto/create-production_plan.dto';
 import { ProductionPlan } from '../entities/production_plan.entity';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class ProductionPlansService {
   constructor(
     @InjectRepository(ProductionPlan)
     private productionPlansRepository: Repository<ProductionPlan>,
-
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
-
     @InjectRepository(Line)
     private linesRepository: Repository<Line>,
+    @Inject('RABBITMQ_SERVICE')
+    private readonly client: ClientProxy,
   ) {}
 
   async create(createProductionPlanDto: CreateProductionPlanDto) {
-    const { qtd, datePrev, productId } = createProductionPlanDto;
+    const { qtd, datePrev, productId, lineId } = createProductionPlanDto;
 
-    const product = await this.productsRepository.findOneOrFail({
+    const product = await this.productsRepository.findOne({
       where: { id: productId },
+    });
+
+    const line = await this.linesRepository.findOne({
+      where: { lineId: lineId },
     });
 
     const productionPlan = new ProductionPlan();
     productionPlan.qtd = qtd;
 
-    productionPlan.datePrev = new Date(datePrev);
-
-    if (!isNaN(productionPlan.datePrev.getTime())) {
-      productionPlan.datePrev = new Date(
-        productionPlan.datePrev.toISOString().split('T')[0],
-      );
-    } else {
+    const [year, month, day] = datePrev.split('-').map(Number);
+    productionPlan.datePrev = new Date(year, month - 1, day);
+    if (isNaN(productionPlan.datePrev.getTime())) {
       throw new Error('Invalid date value provided for datePrev');
     }
 
     productionPlan.product = product;
+    productionPlan.line = line;
 
-    return this.productionPlansRepository.save(productionPlan);
+    const savedPlan = await this.productionPlansRepository.save(productionPlan);
+
+    this.client.emit('production_plan_created', {
+      id: savedPlan.id,
+      qtd: savedPlan.qtd,
+      datePrev: savedPlan.datePrev,
+      productId
+    });
+
+    return savedPlan;
   }
 
   async findByDates(startDate: string, endDate: string) {
     try {
       const query = this.productionPlansRepository
         .createQueryBuilder('productionPlan')
-        .leftJoinAndSelect('productionPlan.product', 'product');
+        .leftJoinAndSelect('productionPlan.product', 'product')
+        .leftJoinAndSelect('productionPlan.line', 'line');
 
       if (startDate) {
         query.andWhere('productionPlan.datePrev >= :startDate', { startDate });
