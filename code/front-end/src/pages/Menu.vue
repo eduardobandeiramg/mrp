@@ -11,20 +11,20 @@
         </v-row>
         <v-row>
           <v-col cols="12" md="4">
-            <v-card @click="irParaServico('/gerenciar-pecas')" class="d-flex align-center justify-center">
+            <v-card @click="irParaServico('/pecas')" class="d-flex align-center justify-center">
               <v-card-title class="text-center">Gerenciar Peças</v-card-title>
             </v-card>
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-card @click="irParaServico('/gerenciar-produtos')" class="d-flex align-center justify-center">
+            <v-card @click="irParaServico('/produtos')" class="d-flex align-center justify-center">
               <v-card-title class="text-center">Gerenciar Produtos</v-card-title>
             </v-card>
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-card @click="irParaServico('/gerenciar-linhas-producao')" class="d-flex align-center justify-center">
-              <v-card-title class="text-center">Gerenciar Linhas de Produção</v-card-title>
+            <v-card @click="irParaServico('/linha')" class="d-flex align-center justify-center">
+              <v-card-title class="text-center">Gerenciar Linhas</v-card-title>
             </v-card>
           </v-col>
 

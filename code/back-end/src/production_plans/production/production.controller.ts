@@ -1,15 +1,7 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Param, Patch, Query } from '@nestjs/common';
+import { EventPattern } from '@nestjs/microservices';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ProductionService } from './production.service';
-import { EventPattern } from '@nestjs/microservices';
 
 @ApiTags('production')
 @ApiBearerAuth()
@@ -42,8 +34,7 @@ export class ProductionController {
 
   @Patch('reestart-production')
   @ApiOperation({
-    summary:
-      'Retorna status para EM_PRODUCAO',
+    summary: 'Retorna status para EM_PRODUCAO',
   })
   async reestartProduction(@Query('productionId') productionId: string) {
     return this.productionService.reestartProduction(productionId);
@@ -77,8 +68,7 @@ export class ProductionController {
 
   @Get('to-production')
   @ApiOperation({
-    summary:
-      'Busca dados dos produtos para produzir',
+    summary: 'Busca dados dos produtos para produzir',
   })
   findProductsToProduction() {
     return this.productionService.findProductsToProduction();
@@ -86,8 +76,7 @@ export class ProductionController {
 
   @Get('on-production')
   @ApiOperation({
-    summary:
-      'Busca dados dos produtos em produção',
+    summary: 'Busca dados dos produtos em produção',
   })
   findProductsOnProduction() {
     return this.productionService.findProductsOnProduction();
@@ -95,8 +84,7 @@ export class ProductionController {
 
   @Get('finished-production')
   @ApiOperation({
-    summary:
-      'Busca dados dos produtos finalizados',
+    summary: 'Busca dados dos produtos finalizados',
   })
   findProductsFinishedProduction() {
     return this.productionService.findProductsFinishedProduction();
@@ -114,5 +102,10 @@ export class ProductionController {
   @EventPattern('production_plan_created')
   handleProductionPlanCreated(data: any) {
     this.productionService.handleProductionPlanCreated(data);
+  }
+
+  @Patch(':id/cancel')
+  async cancelProduction(@Param('id') id: string) {
+    return this.productionService.cancelProduction(id);
   }
 }

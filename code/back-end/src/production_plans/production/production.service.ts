@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -122,8 +121,8 @@ export class ProductionService {
 
   async findProductsToProduction(): Promise<Object[]> {
     const products = await this.productionRepository.find({
-      where: {status: ProductionStatus.A_PRODUZIR},
-      relations: ['product', 'productionPlan']
+      where: { status: ProductionStatus.A_PRODUZIR },
+      relations: ['product', 'productionPlan'],
     });
 
     const groupedData = products.reduce((acc, item) => {
@@ -134,7 +133,7 @@ export class ProductionService {
           status: item.status,
           product: item.product,
           productionIds: [],
-          productionPlan: item.productionPlan
+          productionPlan: item.productionPlan,
         };
       }
       acc[productionPlan].productionIds.push(item.id);
@@ -161,7 +160,7 @@ export class ProductionService {
           status: item.status,
           product: item.product,
           productionIds: [],
-          productionPlan: item.productionPlan
+          productionPlan: item.productionPlan,
         };
       }
       acc[key].productionIds.push(item.id);
@@ -185,7 +184,7 @@ export class ProductionService {
           status: item.status,
           product: item.product,
           productionIds: [],
-          productionPlan: item.productionPlan
+          productionPlan: item.productionPlan,
         };
       }
       acc[productionPlan].productionIds.push(item.id);
@@ -224,6 +223,35 @@ export class ProductionService {
         status: ProductionStatus.A_PRODUZIR,
       });
       await this.productionRepository.save(production);
+    }
+  }
+
+  async cancelProduction(productionId: string): Promise<Production> {
+    try {
+      const production = await this.productionRepository.findOne({
+        where: { id: productionId },
+      });
+
+      if (!production) {
+        throw new NotFoundException('Produção não encontrada');
+      }
+
+      if (
+        production.status !== ProductionStatus.A_PRODUZIR &&
+        production.status !== ProductionStatus.EM_PRODUCAO &&
+        production.status !== ProductionStatus.AGUARDANDO_PECAS
+      ) {
+        throw new BadRequestException(
+          'A produção não pode ser cancelada nesse status',
+        );
+      }
+
+      production.status = ProductionStatus.CANCELADA;
+      return await this.productionRepository.save(production);
+    } catch (error) {
+      throw new BadRequestException(
+        `Erro ao cancelar a produção: ${error.message}`,
+      );
     }
   }
 }

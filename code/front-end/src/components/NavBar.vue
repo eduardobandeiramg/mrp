@@ -1,6 +1,12 @@
 <template>
   <v-app-bar class="nav-bar">
-    <div class="nav-links">
+
+    <v-btn icon to="/menu" title="Início" class="mr-4" v-if="isLoggedIn">
+      <v-icon>mdi-home</v-icon>
+    </v-btn>
+
+
+    <div class="nav-links" v-if="isLoggedIn">
       <v-btn v-for="(link, index) in navLinks" :key="index" :to="link.to" text class="mr-4 white--text">
         {{ link.text }}
       </v-btn>
@@ -9,7 +15,7 @@
     <!-- Ícone de Caixa de Entrada e Botão de login/logout à direita -->
     <v-spacer></v-spacer>
 
-    <v-btn icon to="/entrada" title="Caixa de Entrada" class="mr-4">
+    <v-btn icon to="/entrada" title="Caixa de Entrada" class="mr-4" v-if="isLoggedIn">
       <v-icon>mdi-bell</v-icon>
     </v-btn>
 
@@ -43,6 +49,7 @@ export default {
         // Logout logic: Remove the token from localStorage
         localStorage.removeItem('authToken');
         this.isLoggedIn = false;
+        this.$router.push('/login');
       } else {
 
         // Login logic: Redirect to login page
