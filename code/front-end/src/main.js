@@ -1,9 +1,13 @@
-import { createApp } from '@vue/compat'
-import App from './App.vue'
-import router from './routes/router'
-import BootstrapVue from 'bootstrap-vue'
+import { registerPlugins } from '@/plugins'
 
-createApp(App)
-  .use(router)
-  .use(BootstrapVue)
-  .mount('#app')
+// Components
+import App from './App.vue'
+
+// Composables
+import { createApp } from 'vue'
+
+const app = createApp(App)
+
+registerPlugins(app)
+
+app.mount('#app')

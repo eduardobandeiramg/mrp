@@ -1,66 +1,87 @@
 <template>
-  <nav class="navbar">
-    <div class="nav-links">
-      <router-link to="/" class="nav-item">Home</router-link>
-      <router-link to="/produtos" class="nav-item">Gerir Produtos</router-link>
-      <router-link to="/pessoas" class="nav-item">Gerir Pessoas</router-link>
-      <router-link to="/planejamentos" class="nav-item">Gerir Planejamentos</router-link>
+  <v-app-bar class="nav-bar">
+
+    <v-btn icon to="/menu" title="Início" class="mr-4" v-if="isLoggedIn">
+      <v-icon>mdi-home</v-icon>
+    </v-btn>
+
+
+    <div class="nav-links" v-if="isLoggedIn">
+      <v-btn v-for="(link, index) in navLinks" :key="index" :to="link.to" text class="mr-4 white--text">
+        {{ link.text }}
+      </v-btn>
     </div>
-    <div class="nav-login">
-      <router-link to="/login" class="login-button">Login</router-link>
-    </div>
-  </nav>
+
+    <!-- Ícone de Caixa de Entrada e Botão de login/logout à direita -->
+    <v-spacer></v-spacer>
+
+    <v-btn icon to="/entrada" title="Caixa de Entrada" class="mr-4" v-if="isLoggedIn">
+      <v-icon>mdi-bell</v-icon>
+    </v-btn>
+
+    <v-btn text @click="handleAuthAction">
+      {{ isLoggedIn ? 'Logout' : 'Login' }}
+    </v-btn>
+  </v-app-bar>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      isLoggedIn: false,
+      navLinks: [
+        { text: "Funcionários", to: "/funcionarios" },
+        { text: "Materiais", to: "/pecas" },
+        { text: "Produtos", to: "/produtos" },
+        { text: "Linhas", to: "/linha" },
+        { text: "B.O.M.", to: "/bom" },
+        { text: "M.O.P.", to: "/planejamento" },
+
+
+      ],
+    };
+  },
+  methods: {
+    handleAuthAction() {
+
+      if (this.isLoggedIn) {
+        // Logout logic: Remove the token from localStorage
+        localStorage.removeItem('authToken');
+        this.isLoggedIn = false;
+        this.$router.push('/login');
+      } else {
+
+        // Login logic: Redirect to login page
+        this.$router.push('/login');
+      }
+    },
+  },
+  created() {
+    (localStorage.getItem('authToken'))
+    // Check if the user is logged in by checking if the token exists in localStorage
+    this.isLoggedIn = !!localStorage.getItem('authToken');
+  },
+  watch: {
+    // Watch for changes to the token in localStorage to update the button accordingly
+    '$route'(to, from) {
+      this.isLoggedIn = !!localStorage.getItem('authToken');
+    },
+  },
+};
 </script>
 
 <style scoped>
-.navbar {
+.nav-bar {
   width: 100%;
-  height: 60px;
-  background-color: #757575;
-  display: flex;
-  justify-content: space-between; /* Já está assim, o que é correto */
-  align-items: center;
-  padding: 0 50px; /* Você pode ajustar esse valor */
+  background-color: rgb(49, 175, 133);
 }
-
 
 .nav-links {
   display: flex;
 }
 
-.nav-item {
-  color: white;
-  margin-right: 20px;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.nav-item:hover {
-  color: #fff;
-  opacity: 0.8;
-}
-
-.nav-login {
-  display: flex;
-  align-items: center;
-}
-
 .login-button {
-  background-color: #fff;
-  color: #757575;
-  padding: 10px 20px;
-  border-radius: 30px;
-  font-weight: bold;
-  text-decoration: none;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.login-button:hover {
-  background-color: #f0f0f0;
-  color: #555;
+  margin-right: 20px;
 }
 </style>
