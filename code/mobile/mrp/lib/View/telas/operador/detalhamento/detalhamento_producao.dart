@@ -5,15 +5,13 @@ import 'package:mrp/View/telas/operador/detalhamento/detalhamento_pecas_produto.
 import '../tela_principal_operador.dart';
 
 class TelaDetalhamentoProducao extends StatefulWidget {
-  String nome;
-  String idProduto;
-  String codigo;
+  int qtd;
   String status;
-  int quantidade;
-  String idProducao;
+  Map<String,dynamic> produto;
+  List<String> idsProducao;
+  Map<String,dynamic> productionPlan;
 
-  TelaDetalhamentoProducao(this.nome, this.idProduto, this.codigo, this.status,
-      this.quantidade, this.idProducao);
+  TelaDetalhamentoProducao(this.qtd , this.status , this.produto , this.idsProducao , this.productionPlan);
 
   @override
   State<TelaDetalhamentoProducao> createState() =>
@@ -56,15 +54,15 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Produto: ${widget.nome}"),
+                    Text("Produto: ${widget.produto["description"]}"),
                     SizedBox(
                       height: altura * 0.01,
                     ),
-                    Text("Código: ${widget.codigo}"),
+                    Text("Código: ${widget.produto["code"]}"),
                     SizedBox(
                       height: altura * 0.01,
                     ),
-                    Text("Quantidade: ${widget.quantidade}"),
+                    Text("Quantidade: ${widget.qtd}"),
                     SizedBox(
                       height: altura * 0.01,
                     ),
@@ -82,7 +80,7 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       TelaDetalhamentoPecasProduto(
-                                          widget.idProduto, widget.idProducao),
+                                          widget.produto["id"], widget.idsProducao),
                                 ),
                               );
                             },
@@ -116,7 +114,7 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                               });
                               try {
                                 await ProductionPlan.iniciarProducao(
-                                    widget.idProducao);
+                                    widget.idsProducao[0]);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content:
@@ -255,7 +253,7 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                               });
                               try {
                                 await ProductionPlan.iniciarProducao(
-                                    widget.idProducao);
+                                    widget.idsProducao[0]);
                                 Navigator.of(context).pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -295,7 +293,7 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                           width: largura * 0.9,
                           child: ElevatedButton(
                             onPressed: () {
-                              ProductionPlan.pausarProducao(widget.idProducao);
+                              //ProductionPlan.pausarProducao(widget.idsProducao);
                             },
                             child: Text(
                               "Pausar produção",
@@ -351,8 +349,8 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                                 carregando = true;
                               });
                               try {
-                                await ProductionPlan.finalizarProducao(
-                                    widget.idProducao);
+/*                                await ProductionPlan.finalizarProducao(
+                                    widget.idProducao);*/
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
