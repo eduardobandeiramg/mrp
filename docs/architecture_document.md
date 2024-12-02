@@ -44,7 +44,7 @@ Instituto de Informática e Ciências Exatas – Pontifícia Universidade de Min
 | *[03/09/2024]* | [Eric Rodrigues Diniz] | [Revisão da seção 2.2 e 3.1: Requisitos Não-Funcionais e Histórias de usuário ] | [1.8] |
 | *[04/09/2024]* | [Eric Rodrigues Diniz] | [Revisão da seção 2.2: Requisitos Não-Funcionais] | [1.9] |
 | *[13/10/2024]* | [Eduardo Bandeira] | [Revisão das seções 2.1 e 2.2 (requisitos funcionais e requisitos não-funcionais)] | [1.10] | 
-
+| *[14/10/2024]* | [Vítor Lion Guimarães Rodrigues] | [Revisão das seções 2.1 e 2.2 (requisitos funcionais e requisitos não-funcionais)] | [1.11] |
 
 ## SUMÁRIO
 
@@ -171,7 +171,7 @@ Esta seção descreve os requisitos comtemplados nesta descrição arquitetural,
 | *RNF006* | O sistema deve ser fácil de usar, com uma curva de aprendizado que não exceda 2 horas para novos usuários|
 | *RNF007* | O sistema deve ser capaz de operar nos navegadores Google Chrome a partir da versão 90 e Safari da versão 17, sem modificações|
 | *RNF008* | O sistema deve ser capaz de operar no Android a partir da versão 13 e iOS 15|
-| *RNF009* | A comunicação entre o sistema e os usuários deve ser criptografada para proteger dados sensíveis|
+| *RNF009* | A comunicação entre o sistema e os usuários deve utilizar criptografia baseada em JWT e hash bcrypt para garantir a proteção de dados sensíveis durante a transmissão, assegurando a integridade e confidencialidade das informações.
 | *RNF010* | O sistema deve garantir atualizações e comunicação de status em tempo real com intervalos de até 1 minuto|
 
 ## 2.3. Restrições Arquiteturais
