@@ -383,8 +383,8 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                                 carregando = true;
                               });
                               try {
-/*                                await ProductionPlan.finalizarProducao(
-                                    widget.idProducao);*/
+                                await ProductionPlan.finalizarProducao(
+                                    widget.idsProducao[0]);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
