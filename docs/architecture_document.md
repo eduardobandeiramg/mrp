@@ -443,146 +443,132 @@ Esta seção descreve a avaliação da arquitetura apresentada, baseada no méto
 
 ## 5.1. Cenários
 
-Apresente os cenários de testes utilizados na realização dos testes da sua aplicação. Escolha cenários de testes que demonstrem os requisitos não funcionais sendo satisfeitos. Os requisitos a seguir são apenas exemplos de possíveis requisitos, devendo ser revistos, adequados a cada projeto e complementados de forma a terem uma especificação completa e auto-explicativa.
+Apresentamos cenários de teste que demonstram o atendimento aos requisitos não-funcionais do sistema.
 
-*Cenário 1 - Acessibilidade:* Suspendisse consequat consectetur velit. Sed sem risus, dictum dictum facilisis vitae, commodo quis leo. Vivamus nulla sem, cursus a mollis quis, interdum at nulla. Nullam dictum congue mauris. Praesent nec nisi hendrerit, ullamcorper tortor non, rutrum sem. In non lectus tortor. Nulla vel tincidunt eros.
-
-*Cenário 2 - Interoperabilidade:* Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ut accumsan erat. Pellentesque in enim tempus, iaculis sem in, semper arcu.
-
-*Cenário 3 - Manutenibilidade:* Phasellus magna tellus, consectetur quis scelerisque eget, ultricies eu ligula. Sed rhoncus fermentum nisi, a ullamcorper leo fringilla id. Nulla lacinia sem vel magna ornare, non tincidunt ipsum rhoncus. Nam euismod semper ante id tristique. Mauris vel elit augue.
-
-*Cenário 4 - Segurança:* Suspendisse consectetur porta tortor non convallis. Sed lobortis erat sed dignissim dignissim. Nunc eleifend elit et aliquet imperdiet. Ut eu quam at lacus tincidunt fringilla eget maximus metus. Praesent finibus, sapien eget molestie porta, neque turpis congue risus, vel porttitor sapien tortor ac nulla. Aliquam erat volutpat.
-
-## 5.2. Avaliação
-
-### Medidas Registradas na Coleta de Dados
-
-Para cada cenário, foram registradas métricas de desempenho, disponibilidade, confiabilidade, segurança, e escalabilidade. Nem todas as métricas puderam ser quantificadas com precisão; nos casos em que isso não foi possível, apresentamos justificativas qualitativas baseadas em evidências e boas práticas que suportam o atendimento dos requisitos não-funcionais.
-
-### Avaliação Geral da Arquitetura
-
-A avaliação geral da arquitetura indica os pontos fortes e limitações identificados durante a análise dos cenários. Abaixo apresentamos a descrição detalhada para cada um dos cenários priorizados.
-
----
-
-### Cenário 1: Pico de Tráfego
-
-| **Atributo de Qualidade:** | Performance |
-| --- | --- |
-| **Requisito de Qualidade** | O sistema deve suportar altos volumes de tráfego sem degradação perceptível na resposta. |
-| **Preocupação:** | Manter a capacidade do sistema de responder a solicitações dentro dos SLAs durante picos de demanda. |
-| **Cenário(s):** | Cenário 1 - Pico de Tráfego |
-| **Ambiente:** | Sistema em operação normal com aumento de demanda durante campanhas especiais. |
-| **Estímulo:** | Aumento de 10x no volume de requisições ao sistema. |
-| **Mecanismo:** | Escalonamento automático horizontal utilizando Kubernetes com HPA (Horizontal Pod Autoscaler) e cache Redis para melhorar a capacidade de resposta. |
-| **Medida de Resposta:** | Latência abaixo de 1s para 95% das requisições durante o pico. |
-
-*Justificativa Qualitativa:* Em ambientes de alta carga, o uso de escalonamento automático e cache distribuído são práticas bem estabelecidas, proporcionando resiliência e tempos de resposta adequados.
-
-*Considerações sobre a Arquitetura:*
-
-| **Pontos Fortes:** | Escalonabilidade e uso eficiente de recursos durante alta demanda. |
-| --- | --- |
-| **Limitações:** | Dependência do escalonamento automático que pode gerar custos imprevisíveis e desafios de controle. |
-
----
-
-### Cenário 2: Falha em Serviço Crítico
-
-| **Atributo de Qualidade:** | Confiabilidade |
-| --- | --- |
-| **Requisito de Qualidade** | O sistema deve ser capaz de se recuperar rapidamente de falhas em serviços críticos. |
-| **Preocupação:** | Garantir que serviços essenciais estejam sempre disponíveis e que a recuperação de falhas ocorra em um tempo adequado. |
-| **Cenário(s):** | Cenário 2 - Falha em Serviço Crítico |
-| **Ambiente:** | Sistema em operação normal com simulação de falha em serviços críticos. |
-| **Estímulo:** | Falha inesperada no serviço de mensageria. |
-| **Mecanismo:** | Implementação do padrão Circuit Breaker e fallback em mensagens críticas com Apache Kafka. |
-| **Medida de Resposta:** | Recuperação do serviço em até 30 segundos após a falha. |
-
-*Justificativa Qualitativa:* O uso de padrões como Circuit Breaker é reconhecido na indústria como uma prática que aumenta a confiabilidade em sistemas distribuídos, reduzindo a propagação de falhas.
-
-*Considerações sobre a Arquitetura:*
-
-| **Pontos Fortes:** | Confiabilidade aumentada pelo uso de padrões robustos de tolerância a falhas. |
-| --- | --- |
-| **Limitações:** | Latência adicional durante a recuperação pode afetar serviços que requerem alta disponibilidade contínua. |
-
----
-
-### Cenário 3: Segurança - Acesso Indevido
+### Cenário 1: Criptografia de Senhas
 
 | **Atributo de Qualidade:** | Segurança |
 | --- | --- |
-| **Requisito de Qualidade** | Acesso aos recursos restritos deve ser controlado para evitar acessos indevidos. |
-| **Preocupação:** | Garantir que cada usuário tenha acesso apenas aos recursos que lhe são permitidos, de acordo com suas credenciais. |
-| **Cenário(s):** | Cenário 3 - Acesso Indevido |
+| **Requisito de Qualidade** | Todas as senhas devem ser armazenadas utilizando criptografia Hash. |
+| **Preocupação:** | Garantir a segurança e integridade das credenciais dos usuários. |
+| **Cenário(s):** | Cenário 1 - Criptografia de Senhas |
 | **Ambiente:** | Sistema em operação normal. |
-| **Estímulo:** | Tentativa de acesso não autorizado a uma área administrativa. |
-| **Mecanismo:** | Autenticação e autorização via JWT, validação na API Gateway e restrição baseada em papéis de acesso. |
-| **Medida de Resposta:** | Acesso negado para todas as tentativas que não apresentem credenciais válidas. |
+| **Estímulo:** | Tentativa de acesso ao banco de dados de senhas. |
+| **Mecanismo:** | Criptografia utilizando Hash bcrypt para todas as senhas armazenadas. |
+| **Medida de Resposta:** | Nenhuma senha é armazenada em texto claro no banco de dados. |
 
-*Justificativa Qualitativa:* A segurança foi garantida pela adoção de práticas como autenticação JWT e API Gateway, amplamente aceitas como métodos seguros e eficientes de controle de acesso.
+*Justificativa Qualitativa:* A criptografia Hash bcrypt é uma prática amplamente aceita, garantindo que as senhas sejam protegidas contra ataques de força bruta.
 
-*Considerações sobre a Arquitetura:*
+**Considerações sobre a Arquitetura:**
 
-| **Pontos Fortes:** | Controle seguro de acesso, minimizando o risco de acessos não autorizados. |
+| **Pontos Fortes:** | Garantia da segurança das credenciais dos usuários. |
 | --- | --- |
-| **Limitações:** | Vulnerabilidade possível em tokens JWT expostos, requerendo monitoramento constante. |
+| **Limitações:** | O custo computacional da criptografia Hash pode aumentar em ambientes de alta carga. |
 
 ---
 
-### Cenário 4: Consistência de Dados
+### Cenário 2: Disponibilidade via HTTPS em Nuvem Pública
 
-| **Atributo de Qualidade:** | Confiabilidade |
+| **Atributo de Qualidade:** | Disponibilidade e Segurança |
 | --- | --- |
-| **Requisito de Qualidade** | Os dados devem ser consistentes entre diferentes serviços e sistemas. |
-| **Preocupação:** | Garantir que operações críticas que envolvem múltiplos serviços mantenham a consistência dos dados. |
-| **Cenário(s):** | Cenário 4 - Consistência de Dados |
-| **Ambiente:** | Operações de atualização simultânea de inventário e pedidos. |
-| **Estímulo:** | Atualizações concorrentes no estoque por múltiplos serviços. |
-| **Mecanismo:** | Uso do padrão Saga para coordenação de transações distribuídas, garantindo que todos os serviços sejam notificados e atualizados. |
-| **Medida de Resposta:** | Consistência dos dados em todas as operações distribuídas, sem conflitos. |
+| **Requisito de Qualidade** | Disponibilização do serviço em HTTPS em nuvem pública. |
+| **Preocupação:** | Garantir a comunicação segura e a disponibilidade do sistema. |
+| **Cenário(s):** | Cenário 2 - Comunicação Segura |
+| **Ambiente:** | Sistema em operação em ambiente de nuvem pública. |
+| **Estímulo:** | Acesso ao sistema por um usuário autenticado. |
+| **Mecanismo:** | Utilização de HTTPS para todas as comunicações entre clientes e servidor. |
+| **Medida de Resposta:** | Comunicação segura com todos os usuários autenticados. |
 
-*Justificativa Qualitativa:* O padrão Saga é uma solução eficiente para manter a consistência eventual entre microserviços, sendo utilizado em arquiteturas orientadas a eventos.
+*Justificativa Qualitativa:* HTTPS é o protocolo padrão para comunicação segura e é amplamente suportado em nuvens públicas.
 
-*Considerações sobre a Arquitetura:*
+**Considerações sobre a Arquitetura:**
 
-| **Pontos Fortes:** | Coordenação robusta de transações distribuídas, evitando problemas de inconsistência. |
+| **Pontos Fortes:** | Protocolo seguro para a troca de informações sensíveis. |
 | --- | --- |
-| **Limitações:** | Tempo de resposta maior devido à necessidade de compensação de transações. |
+| **Limitações:** | Dependência da infraestrutura da nuvem para garantir a disponibilidade. |
 
 ---
 
-### Cenário 5: Aumento da Escalabilidade
+### Cenário 3: Acesso Simultâneo sem Degradação de Desempenho
 
-| **Atributo de Qualidade:** | Escalabilidade |
+| **Atributo de Qualidade:** | Performance |
 | --- | --- |
-| **Requisito de Qualidade** | O sistema deve ser capaz de escalar horizontalmente para lidar com aumentos repentinos de carga. |
-| **Preocupação:** | Garantir que o sistema tenha capacidade de atender a demandas crescentes sem degradação no serviço. |
-| **Cenário(s):** | Cenário 5 - Aumento de Escalabilidade |
-| **Ambiente:** | Sistema em operação durante uma campanha promocional com alta demanda. |
-| **Estímulo:** | Aumento de 5x no número de usuários simultâneos durante uma campanha. |
-| **Mecanismo:** | Escalonamento horizontal utilizando Kubernetes e escalonamento automático de pods. |
-| **Medida de Resposta:** | Sistema deve manter o SLA de resposta para 90% das requisições com o aumento de carga. |
+| **Requisito de Qualidade** | Suportar até 60 acessos simultâneos sem comprometer o desempenho. |
+| **Preocupação:** | Manter o desempenho do sistema em cargas típicas. |
+| **Cenário(s):** | Cenário 3 - Acesso Simultâneo |
+| **Ambiente:** | Sistema em operação durante um pico de 60 acessos simultâneos. |
+| **Estímulo:** | Acesso simultâneo por múltiplos usuários. |
+| **Mecanismo:** | Balanceamento de carga e escalonamento horizontal com Kubernetes. |
+| **Medida de Resposta:** | Tempo de resposta inferior a 2 segundos para todas as requisições. |
 
-*Justificativa Qualitativa:* A escalabilidade horizontal é alcançada com Kubernetes e escalonamento automático, práticas amplamente aceitas para gerenciamento de grandes cargas de trabalho.
+*Justificativa Qualitativa:* O uso de balanceadores de carga e Kubernetes assegura que o sistema seja capaz de lidar com múltiplos acessos simultâneos.
 
-*Considerações sobre a Arquitetura:*
+**Considerações sobre a Arquitetura:**
 
-| **Pontos Fortes:** | Suporte ao aumento de carga sem afetar a performance. |
+| **Pontos Fortes:** | Capacidade de escalar horizontalmente para lidar com cargas crescentes. |
 | --- | --- |
-| **Limitações:** | Custo de infraestrutura pode aumentar proporcionalmente ao crescimento da carga. |
+| **Limitações:** | Pode gerar custos adicionais dependendo do uso da infraestrutura. |
+
+---
+
+### Cenário 4: Criptografia de Comunicações com SSL/TLS
+
+| **Atributo de Qualidade:** | Segurança |
+| --- | --- |
+| **Requisito de Qualidade** | Todas as comunicações devem ser criptografadas utilizando SSL/TLS. |
+| **Preocupação:** | Garantir a integridade e confidencialidade das informações transmitidas entre serviços. |
+| **Cenário(s):** | Cenário 4 - Criptografia de Comunicações |
+| **Ambiente:** | Operações normais de comunicação entre clientes e servidor. |
+| **Estímulo:** | Comunicação entre serviços do sistema. |
+| **Mecanismo:** | Criptografia utilizando SSL/TLS para comunicação segura. |
+| **Medida de Resposta:** | Todas as comunicações criptografadas, garantindo segurança contra interceptações. |
+
+*Justificativa Qualitativa:* SSL/TLS é um padrão amplamente aceito para garantir a segurança das comunicações.
+
+**Considerações sobre a Arquitetura:**
+
+| **Pontos Fortes:** | Comunicação segura entre serviços do sistema. |
+| --- | --- |
+| **Limitações:** | Pode haver latência adicional devido ao processo de criptografia. |
+
+---
+
+### Cenário 5: Alta Disponibilidade do Sistema
+
+| **Atributo de Qualidade:** | Disponibilidade |
+| --- | --- |
+| **Requisito de Qualidade** | Sistema deve ter disponibilidade de 99%, com downtime máximo de 3 horas por mês. |
+| **Preocupação:** | Garantir a continuidade dos serviços com mínima interrupção. |
+| **Cenário(s):** | Cenário 5 - Alta Disponibilidade |
+| **Ambiente:** | Sistema em operação com eventos de manutenção planejada. |
+| **Estímulo:** | Evento de manutenção ou falha inesperada. |
+| **Mecanismo:** | Redundância de serviços e escalonamento automático com Kubernetes. |
+| **Medida de Resposta:** | Downtime inferior a 3 horas mensais. |
+
+*Justificativa Qualitativa:* A arquitetura em microserviços e a redundância garantem que, mesmo em caso de falha, o sistema permaneça disponível.
+
+**Considerações sobre a Arquitetura:**
+
+| **Pontos Fortes:** | Alta resiliência e redundância dos serviços. |
+| --- | --- |
+| **Limitações:** | Complexidade de manutenção e monitoramento dos microserviços. |
 
 ---
 
 ### Resumo da Avaliação Geral
 
-A arquitetura do sistema MRP mostrou-se robusta ao lidar com os desafios apresentados pelos cenários analisados. Os pontos fortes incluem a escalabilidade independente dos microserviços, a confiabilidade assegurada pelos padrões como Circuit Breaker e Saga, além do controle de acesso eficiente utilizando JWT.
+A avaliação da arquitetura do sistema MRP baseou-se nos requisitos não-funcionais identificados. A arquitetura proposta demonstrou ser capaz de atender adequadamente aos cenários de segurança, performance, disponibilidade e confiabilidade.
 
-Por outro lado, algumas limitações foram observadas, como a latência introduzida durante a recuperação de falhas e a gestão de tokens JWT, que requer um monitoramento cuidadoso. Além disso, o custo de infraestrutura pode crescer significativamente em momentos de escalonamento, exigindo planejamento financeiro adequado.
+**Pontos Fortes:**
+- Segurança robusta com criptografia de senhas e comunicação SSL/TLS.
+- Escalabilidade horizontal com Kubernetes, permitindo que o sistema lide com picos de demanda.
+- Alta disponibilidade garantida por meio de redundância e monitoramento.
 
-No geral, a arquitetura é bem projetada para suportar as necessidades de um sistema de manufatura complexo, com boa capacidade de adaptação e mitigação de falhas, desde que seus trade-offs sejam bem geridos.
+**Limitações:**
+- Dependência da infraestrutura de nuvem, que pode gerar custos adicionais.
+- Complexidade operacional e de manutenção dos microserviços e mecanismos de escalonamento.
 
+Em geral, a arquitetura atende aos requisitos de segurança, performance e disponibilidade, mantendo a flexibilidade necessária para escalar e garantir a confiabilidade do sistema em operações críticas.
 
 Evidências dos testes realizados
 
