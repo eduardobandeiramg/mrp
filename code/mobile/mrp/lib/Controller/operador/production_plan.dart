@@ -8,7 +8,18 @@ class ProductionPlan {
     http.Response resposta = await http.get(Uri.parse(urlGetAProduzir),
         headers: {"Authorization": TokenApp.tokenApp!});
     if (resposta.statusCode == 200) {
-      return resposta.body;
+      return List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
+    } else {
+      throw new Exception("erro-no-servidor");
+    }
+  }
+
+  static dynamic getEmProducao() async {
+    String urlGetAProduzir = "http://10.0.2.2:3000/production/on-production";
+    http.Response resposta = await http.get(Uri.parse(urlGetAProduzir),
+        headers: {"Authorization": TokenApp.tokenApp!});
+    if (resposta.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
     } else {
       throw new Exception("erro-no-servidor");
     }
@@ -60,6 +71,18 @@ class ProductionPlan {
     }
   }
 
+  static Future<List<Map<String, dynamic>>> getProdutosFinalizados() async {
+    String urlProdutosFinalizados =
+        "http://10.0.2.2:3000/production/finished-production";
+    http.Response resposta = await http.get(Uri.parse(urlProdutosFinalizados),
+        headers: {"Authorization": TokenApp.tokenApp!});
+    if (resposta.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
+    } else {
+      throw new Exception("erro");
+    }
+  }
+
   static solicitarPecas(String idDaProducao) async {
     String urlPausarProducao =
         "http://10.0.2.2:3000/production/stop-production";
@@ -78,10 +101,39 @@ class ProductionPlan {
     }
   }
 
-  static pausarProducao(String idProducao) async {
+  static Future<String> pausarProducao(String idProducao) async {
+    String stringExtra = "productionId=$idProducao";
     String urlPausarProducao =
-        "http://10.0.2.2:3000/production/stop-production";
-    http.Response resposta = await http.patch(Uri.parse(urlPausarProducao),
-        headers: {"Authorization": TokenApp.tokenApp!});
+        "http://10.0.2.2:3000/production/stop-production?$stringExtra";
+    http.Response resposta = await http.patch(
+      Uri.parse(urlPausarProducao),
+      headers: {
+        "Authorization": TokenApp.tokenApp!,
+      },
+    );
+    if (resposta.statusCode == 200) {
+      await Future.delayed(Duration(seconds: 1));
+      return "ok";
+    } else {
+      throw new Exception("erro");
+    }
+  }
+
+  static Future<String> retomarProducao(String idProducao) async {
+    String stringExtra = "productionId=$idProducao";
+    String urlRetomarProducao =
+        "http://10.0.2.2:3000/production/reestart-production?$stringExtra";
+    http.Response resposta = await http.patch(
+      Uri.parse(urlRetomarProducao),
+      headers: {
+        "Authorization": TokenApp.tokenApp!,
+      },
+    );
+    if (resposta.statusCode == 200) {
+      await Future.delayed(Duration(seconds: 1));
+      return "ok";
+    } else {
+      throw new Exception("erro");
+    }
   }
 }

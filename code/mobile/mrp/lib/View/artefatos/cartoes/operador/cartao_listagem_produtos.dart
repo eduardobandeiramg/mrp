@@ -5,7 +5,7 @@ class CartaoListagemProducao extends StatelessWidget {
   int qtd;
   String status;
   Map<String, dynamic> produto;
-  List<String> idsProducao;
+  List<dynamic> idsProducao;
   Map<String, dynamic> productionPlan;
 
   CartaoListagemProducao(this.qtd, this.status, this.produto, this.idsProducao,
