@@ -6,11 +6,8 @@ Future<List<Widget>> encheLista() async {
   try {
     List<Map<String, dynamic>> productionPlan =
         await ProductionPlan.getAProduzir();
-    print("production plan:");
-    print(productionPlan);
     List<CartaoListagemProducao> listaCartoes = [];
     if (productionPlan.isNotEmpty) {
-      print("nao esta vazia!");
       for (var a = 0; a < productionPlan.length; a++) {
         listaCartoes.add(
           CartaoListagemProducao(

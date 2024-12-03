@@ -8,9 +8,17 @@ class ProductionPlan {
     http.Response resposta = await http.get(Uri.parse(urlGetAProduzir),
         headers: {"Authorization": TokenApp.tokenApp!});
     if (resposta.statusCode == 200) {
-      print("tipo do retorno:");
-      print(List<Map<String, dynamic>>.from(jsonDecode(resposta.body))
-          .runtimeType);
+      return List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
+    } else {
+      throw new Exception("erro-no-servidor");
+    }
+  }
+
+  static dynamic getEmProducao() async {
+    String urlGetAProduzir = "http://10.0.2.2:3000/production/on-production";
+    http.Response resposta = await http.get(Uri.parse(urlGetAProduzir),
+        headers: {"Authorization": TokenApp.tokenApp!});
+    if (resposta.statusCode == 200) {
       return List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
     } else {
       throw new Exception("erro-no-servidor");
