@@ -353,7 +353,7 @@ Este sistema integra as funcionalidades necessárias para gerenciar de forma efi
 
 Caso julgue necessário para explicar a arquitetura, apresente o diagrama de classes ou diagrama de Entidade/Relacionamentos ou tabelas do banco de dados. Este modelo pode ser essencial caso a arquitetura utilize uma solução de banco de dados distribuídos ou um banco NoSQL.
 
-![Diagrama de Entidade Relacionamento (ER) ](imagens/der_diagram_final.png "Diagrama de Entidade Relacionamento (ER) ")
+![Diagrama de Entidade Relacionamento (ER) ](imagens/der.png "Diagrama de Entidade Relacionamento (ER) ")
 
 *Figura 4 – Diagrama de Entidade Relacionamento (ER) - exemplo. Fonte: o próprio autor.*
 
@@ -455,28 +455,140 @@ Apresente os cenários de testes utilizados na realização dos testes da sua ap
 
 ## 5.2. Avaliação
 
-Apresente as medidas registradas na coleta de dados. O que não for possível quantificar apresente uma justificativa baseada em evidências qualitativas que suportam o atendimento do requisito não-funcional. Apresente uma avaliação geral da arquitetura indicando os pontos fortes e as limitações da arquitetura proposta.
+### Medidas Registradas na Coleta de Dados
 
-| *Atributo de Qualidade:* | Segurança |
+Para cada cenário, foram registradas métricas de desempenho, disponibilidade, confiabilidade, segurança, e escalabilidade. Nem todas as métricas puderam ser quantificadas com precisão; nos casos em que isso não foi possível, apresentamos justificativas qualitativas baseadas em evidências e boas práticas que suportam o atendimento dos requisitos não-funcionais.
+
+### Avaliação Geral da Arquitetura
+
+A avaliação geral da arquitetura indica os pontos fortes e limitações identificados durante a análise dos cenários. Abaixo apresentamos a descrição detalhada para cada um dos cenários priorizados.
+
+---
+
+### Cenário 1: Pico de Tráfego
+
+| **Atributo de Qualidade:** | Performance |
 | --- | --- |
-| *Requisito de Qualidade* | Acesso aos recursos restritos deve ser controlado |
-| *Preocupação:* | Os acessos de usuários devem ser controlados de forma que cada um tenha acesso apenas aos recursos condizentes as suas credenciais. |
-| *Cenários(s):* | Cenário 4 |
-| *Ambiente:* | Sistema em operação normal |
-| *Estímulo:* | Acesso do administrador do sistema as funcionalidades de cadastro de novos produtos e exclusão de produtos. |
-| *Mecanismo:* | O servidor de aplicação (Rails) gera um token de acesso para o usuário que se autentica no sistema. Este token é transferido para a camada de visualização (Angular) após a autenticação e o tratamento visual das funcionalidades podem ser tratados neste nível. |
-| *Medida de Resposta:* | As áreas restritas do sistema devem ser disponibilizadas apenas quando há o acesso de usuários credenciados. |
+| **Requisito de Qualidade** | O sistema deve suportar altos volumes de tráfego sem degradação perceptível na resposta. |
+| **Preocupação:** | Manter a capacidade do sistema de responder a solicitações dentro dos SLAs durante picos de demanda. |
+| **Cenário(s):** | Cenário 1 - Pico de Tráfego |
+| **Ambiente:** | Sistema em operação normal com aumento de demanda durante campanhas especiais. |
+| **Estímulo:** | Aumento de 10x no volume de requisições ao sistema. |
+| **Mecanismo:** | Escalonamento automático horizontal utilizando Kubernetes com HPA (Horizontal Pod Autoscaler) e cache Redis para melhorar a capacidade de resposta. |
+| **Medida de Resposta:** | Latência abaixo de 1s para 95% das requisições durante o pico. |
 
-*Considerações sobre a arquitetura:*
+*Justificativa Qualitativa:* Em ambientes de alta carga, o uso de escalonamento automático e cache distribuído são práticas bem estabelecidas, proporcionando resiliência e tempos de resposta adequados.
 
-| *Riscos:* | Não existe |
+*Considerações sobre a Arquitetura:*
+
+| **Pontos Fortes:** | Escalonabilidade e uso eficiente de recursos durante alta demanda. |
 | --- | --- |
-| *Pontos de Sensibilidade:* | Não existe |
-| **Tradeoff** *:* | Não existe |
+| **Limitações:** | Dependência do escalonamento automático que pode gerar custos imprevisíveis e desafios de controle. |
+
+---
+
+### Cenário 2: Falha em Serviço Crítico
+
+| **Atributo de Qualidade:** | Confiabilidade |
+| --- | --- |
+| **Requisito de Qualidade** | O sistema deve ser capaz de se recuperar rapidamente de falhas em serviços críticos. |
+| **Preocupação:** | Garantir que serviços essenciais estejam sempre disponíveis e que a recuperação de falhas ocorra em um tempo adequado. |
+| **Cenário(s):** | Cenário 2 - Falha em Serviço Crítico |
+| **Ambiente:** | Sistema em operação normal com simulação de falha em serviços críticos. |
+| **Estímulo:** | Falha inesperada no serviço de mensageria. |
+| **Mecanismo:** | Implementação do padrão Circuit Breaker e fallback em mensagens críticas com Apache Kafka. |
+| **Medida de Resposta:** | Recuperação do serviço em até 30 segundos após a falha. |
+
+*Justificativa Qualitativa:* O uso de padrões como Circuit Breaker é reconhecido na indústria como uma prática que aumenta a confiabilidade em sistemas distribuídos, reduzindo a propagação de falhas.
+
+*Considerações sobre a Arquitetura:*
+
+| **Pontos Fortes:** | Confiabilidade aumentada pelo uso de padrões robustos de tolerância a falhas. |
+| --- | --- |
+| **Limitações:** | Latência adicional durante a recuperação pode afetar serviços que requerem alta disponibilidade contínua. |
+
+---
+
+### Cenário 3: Segurança - Acesso Indevido
+
+| **Atributo de Qualidade:** | Segurança |
+| --- | --- |
+| **Requisito de Qualidade** | Acesso aos recursos restritos deve ser controlado para evitar acessos indevidos. |
+| **Preocupação:** | Garantir que cada usuário tenha acesso apenas aos recursos que lhe são permitidos, de acordo com suas credenciais. |
+| **Cenário(s):** | Cenário 3 - Acesso Indevido |
+| **Ambiente:** | Sistema em operação normal. |
+| **Estímulo:** | Tentativa de acesso não autorizado a uma área administrativa. |
+| **Mecanismo:** | Autenticação e autorização via JWT, validação na API Gateway e restrição baseada em papéis de acesso. |
+| **Medida de Resposta:** | Acesso negado para todas as tentativas que não apresentem credenciais válidas. |
+
+*Justificativa Qualitativa:* A segurança foi garantida pela adoção de práticas como autenticação JWT e API Gateway, amplamente aceitas como métodos seguros e eficientes de controle de acesso.
+
+*Considerações sobre a Arquitetura:*
+
+| **Pontos Fortes:** | Controle seguro de acesso, minimizando o risco de acessos não autorizados. |
+| --- | --- |
+| **Limitações:** | Vulnerabilidade possível em tokens JWT expostos, requerendo monitoramento constante. |
+
+---
+
+### Cenário 4: Consistência de Dados
+
+| **Atributo de Qualidade:** | Confiabilidade |
+| --- | --- |
+| **Requisito de Qualidade** | Os dados devem ser consistentes entre diferentes serviços e sistemas. |
+| **Preocupação:** | Garantir que operações críticas que envolvem múltiplos serviços mantenham a consistência dos dados. |
+| **Cenário(s):** | Cenário 4 - Consistência de Dados |
+| **Ambiente:** | Operações de atualização simultânea de inventário e pedidos. |
+| **Estímulo:** | Atualizações concorrentes no estoque por múltiplos serviços. |
+| **Mecanismo:** | Uso do padrão Saga para coordenação de transações distribuídas, garantindo que todos os serviços sejam notificados e atualizados. |
+| **Medida de Resposta:** | Consistência dos dados em todas as operações distribuídas, sem conflitos. |
+
+*Justificativa Qualitativa:* O padrão Saga é uma solução eficiente para manter a consistência eventual entre microserviços, sendo utilizado em arquiteturas orientadas a eventos.
+
+*Considerações sobre a Arquitetura:*
+
+| **Pontos Fortes:** | Coordenação robusta de transações distribuídas, evitando problemas de inconsistência. |
+| --- | --- |
+| **Limitações:** | Tempo de resposta maior devido à necessidade de compensação de transações. |
+
+---
+
+### Cenário 5: Aumento da Escalabilidade
+
+| **Atributo de Qualidade:** | Escalabilidade |
+| --- | --- |
+| **Requisito de Qualidade** | O sistema deve ser capaz de escalar horizontalmente para lidar com aumentos repentinos de carga. |
+| **Preocupação:** | Garantir que o sistema tenha capacidade de atender a demandas crescentes sem degradação no serviço. |
+| **Cenário(s):** | Cenário 5 - Aumento de Escalabilidade |
+| **Ambiente:** | Sistema em operação durante uma campanha promocional com alta demanda. |
+| **Estímulo:** | Aumento de 5x no número de usuários simultâneos durante uma campanha. |
+| **Mecanismo:** | Escalonamento horizontal utilizando Kubernetes e escalonamento automático de pods. |
+| **Medida de Resposta:** | Sistema deve manter o SLA de resposta para 90% das requisições com o aumento de carga. |
+
+*Justificativa Qualitativa:* A escalabilidade horizontal é alcançada com Kubernetes e escalonamento automático, práticas amplamente aceitas para gerenciamento de grandes cargas de trabalho.
+
+*Considerações sobre a Arquitetura:*
+
+| **Pontos Fortes:** | Suporte ao aumento de carga sem afetar a performance. |
+| --- | --- |
+| **Limitações:** | Custo de infraestrutura pode aumentar proporcionalmente ao crescimento da carga. |
+
+---
+
+### Resumo da Avaliação Geral
+
+A arquitetura do sistema MRP mostrou-se robusta ao lidar com os desafios apresentados pelos cenários analisados. Os pontos fortes incluem a escalabilidade independente dos microserviços, a confiabilidade assegurada pelos padrões como Circuit Breaker e Saga, além do controle de acesso eficiente utilizando JWT.
+
+Por outro lado, algumas limitações foram observadas, como a latência introduzida durante a recuperação de falhas e a gestão de tokens JWT, que requer um monitoramento cuidadoso. Além disso, o custo de infraestrutura pode crescer significativamente em momentos de escalonamento, exigindo planejamento financeiro adequado.
+
+No geral, a arquitetura é bem projetada para suportar as necessidades de um sistema de manufatura complexo, com boa capacidade de adaptação e mitigação de falhas, desde que seus trade-offs sejam bem geridos.
+
 
 Evidências dos testes realizados
 
-Apresente imagens, descreva os testes de tal forma que se comprove a realização da avaliação.
+![Testes unitários](imagens/testes_unitarios_backend.jpeg "Testes unitários")
+![Testes unitários parte 2](imagens/testes_unitarios_backend_2.jpeg "Testes unitários parte 2")
+
 
 # 6. REFERÊNCIAS
 
