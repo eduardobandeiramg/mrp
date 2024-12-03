@@ -106,4 +106,23 @@ class ProductionPlan {
       throw new Exception("erro");
     }
   }
+
+  static Future<String> retomarProducao (String idProducao) async {
+    String stringExtra = "productionId=$idProducao";
+    String urlRetomarProducao =
+        "http://10.0.2.2:3000/production/reestart-production?$stringExtra";
+    http.Response resposta = await http.patch(
+      Uri.parse(urlRetomarProducao),
+      headers: {
+        "Authorization": TokenApp.tokenApp!,
+      },
+    );
+    if (resposta.statusCode == 200) {
+      await Future.delayed(Duration(seconds: 1));
+      return "ok";
+    } else {
+      throw new Exception("erro");
+    }
+  }
+
 }

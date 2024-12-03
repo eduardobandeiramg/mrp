@@ -255,13 +255,18 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                                 carregando = true;
                               });
                               try {
-                                await ProductionPlan.iniciarProducao(
+                                await ProductionPlan.retomarProducao(
                                     widget.idsProducao[0]);
-                                Navigator.of(context).pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content:
                                         Text("Produção retomada com sucesso!"),
+                                  ),
+                                );
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        TelaPrincipalOperador(1),
                                   ),
                                 );
                               } catch (e) {
