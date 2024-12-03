@@ -8,7 +8,7 @@ class TelaDetalhamentoProducao extends StatefulWidget {
   int qtd;
   String status;
   Map<String,dynamic> produto;
-  List<String> idsProducao;
+  List<dynamic> idsProducao;
   Map<String,dynamic> productionPlan;
 
   TelaDetalhamentoProducao(this.qtd , this.status , this.produto , this.idsProducao , this.productionPlan);

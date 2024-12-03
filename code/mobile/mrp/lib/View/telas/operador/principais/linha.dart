@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mrp/View/artefatos/cartoes/operador/cartao_listagem_produtos.dart';
 import '../../../../Controller/operador/production_plan.dart';
 
-encheLista() async {
+/*encheLista() async {
   try {
     List<Map<String, dynamic>> productionPlan =
         await ProductionPlan.getProductionPlan();
@@ -27,7 +27,7 @@ encheLista() async {
   } catch (e) {
     return null;
   }
-}
+}*/
 
 class LinhaProducao extends StatefulWidget {
   const LinhaProducao({super.key});
@@ -41,12 +41,12 @@ class _LinhaProducaoState extends State<LinhaProducao> {
 
   @override
   void initState() {
-    encheLista().then((valor) {
+/*    encheLista().then((valor) {
       setState(() {
         listaCartoes = valor;
       });
     });
-    super.initState();
+    super.initState();*/
   }
 
   @override

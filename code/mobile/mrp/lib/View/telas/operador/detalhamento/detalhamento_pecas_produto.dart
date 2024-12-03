@@ -32,7 +32,7 @@ Future<List<CartaoListagemPecas>> encheLista(String idProduto) async {
 
 class TelaDetalhamentoPecasProduto extends StatefulWidget {
   String idProduto;
-  List<String> idsProducao;
+  List<dynamic> idsProducao;
 
   TelaDetalhamentoPecasProduto(this.idProduto, this.idsProducao);
 
