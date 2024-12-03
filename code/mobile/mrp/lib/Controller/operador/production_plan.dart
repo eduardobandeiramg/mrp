@@ -89,10 +89,21 @@ class ProductionPlan {
     }
   }
 
-  static pausarProducao(String idProducao) async {
+  static Future<String> pausarProducao(String idProducao) async {
+    String stringExtra = "productionId=$idProducao";
     String urlPausarProducao =
-        "http://10.0.2.2:3000/production/stop-production";
-    http.Response resposta = await http.patch(Uri.parse(urlPausarProducao),
-        headers: {"Authorization": TokenApp.tokenApp!});
+        "http://10.0.2.2:3000/production/stop-production?$stringExtra";
+    http.Response resposta = await http.patch(
+      Uri.parse(urlPausarProducao),
+      headers: {
+        "Authorization": TokenApp.tokenApp!,
+      },
+    );
+    if (resposta.statusCode == 200) {
+      await Future.delayed(Duration(seconds: 1));
+      return "ok";
+    } else {
+      throw new Exception("erro");
+    }
   }
 }

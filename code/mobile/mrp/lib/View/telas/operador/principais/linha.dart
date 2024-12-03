@@ -9,14 +9,14 @@ encheLista() async {
     List<Widget> listaCartoes = [];
     if (emProducao.isNotEmpty) {
       for (var a = 0; a < emProducao.length; a++) {
-          listaCartoes.add(
-            CartaoListagemProducao(
-                emProducao[a]["qtd"],
-                emProducao[a]["status"],
-                emProducao[a]["product"],
-                emProducao[a]["productionIds"],
-                emProducao[a]["productionPlan"]),
-          );
+        listaCartoes.add(
+          CartaoListagemProducao(
+              emProducao[a]["qtd"],
+              emProducao[a]["status"],
+              emProducao[a]["product"],
+              emProducao[a]["productionIds"],
+              emProducao[a]["productionPlan"]),
+        );
       }
       return listaCartoes;
     }
