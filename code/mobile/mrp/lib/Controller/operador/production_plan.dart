@@ -71,6 +71,18 @@ class ProductionPlan {
     }
   }
 
+  static Future<List<Map<String, dynamic>>> getProdutosFinalizados() async {
+    String urlProdutosFinalizados =
+        "http://10.0.2.2:3000/production/finished-production";
+    http.Response resposta = await http.get(Uri.parse(urlProdutosFinalizados),
+        headers: {"Authorization": TokenApp.tokenApp!});
+    if (resposta.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(jsonDecode(resposta.body));
+    } else {
+      throw new Exception("erro");
+    }
+  }
+
   static solicitarPecas(String idDaProducao) async {
     String urlPausarProducao =
         "http://10.0.2.2:3000/production/stop-production";
@@ -107,7 +119,7 @@ class ProductionPlan {
     }
   }
 
-  static Future<String> retomarProducao (String idProducao) async {
+  static Future<String> retomarProducao(String idProducao) async {
     String stringExtra = "productionId=$idProducao";
     String urlRetomarProducao =
         "http://10.0.2.2:3000/production/reestart-production?$stringExtra";
@@ -124,5 +136,4 @@ class ProductionPlan {
       throw new Exception("erro");
     }
   }
-
 }
