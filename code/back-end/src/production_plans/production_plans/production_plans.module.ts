@@ -13,6 +13,7 @@ import { RabbitMQModule } from '../../rabbit/rabbitmq.module';
     TypeOrmModule.forFeature([ProductionPlan, Production]),
     LineModule,
     ProductsModule,
+    Production,
     RabbitMQModule,
   ],
   controllers: [ProductionPlansController],
