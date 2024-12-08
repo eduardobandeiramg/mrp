@@ -8,11 +8,8 @@
         <v-card class="mb-4">
           <v-card-title>Produtos para Produzir</v-card-title>
           <v-card-text>
-            <v-data-table
-              :items="toProduction"
-              :headers="headersToProduction"
-              class="elevation-1 tabela-escura"
-            ></v-data-table>
+            <v-data-table :items="toProduction" :headers="headersToProduction"
+              class="elevation-1 tabela-escura"></v-data-table>
           </v-card-text>
         </v-card>
       </v-col>
@@ -24,11 +21,8 @@
         <v-card class="mb-4">
           <v-card-title>Produtos em Produção</v-card-title>
           <v-card-text>
-            <v-data-table
-              :items="onProduction"
-              :headers="headersOnProduction"
-              class="elevation-1 tabela-escura"
-            ></v-data-table>
+            <v-data-table :items="onProduction" :headers="headersToProduction"
+              class="elevation-1 tabela-escura"></v-data-table>
           </v-card-text>
         </v-card>
       </v-col>
@@ -40,11 +34,8 @@
         <v-card class="mb-4">
           <v-card-title>Produtos Finalizados</v-card-title>
           <v-card-text>
-            <v-data-table
-              :items="finishedProduction"
-              :headers="headersFinishedProduction"
-              class="elevation-1 tabela-escura"
-            ></v-data-table>
+            <v-data-table :items="finishedProduction" :headers="headersToProduction"
+              class="elevation-1 tabela-escura"></v-data-table>
           </v-card-text>
         </v-card>
       </v-col>
@@ -56,20 +47,27 @@
         <v-card class="mb-4">
           <v-card-title>Status dos Produtos</v-card-title>
           <v-card-text>
-            <v-data-table
-              :items="statusProduction"
-              :headers="headersStatusProduction"
-              class="elevation-1 tabela-escura"
-            ></v-data-table>
+            <v-data-table :items="statusProduction" :headers="headersStatusProduction" class="elevation-1 tabela-escura">
+              <template v-slot:[`item.acao`]="{ item }">
+                <v-btn :color="isItemRead(item) ? 'red' : 'green'" @click="toggleLida(item)">
+                  {{ isItemRead(item) ? 'Marcar como não lida' : 'Marcar como lida' }}
+                </v-btn>
+              </template>
+            </v-data-table>
+
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
   </v-container>
+
+
+
 </template>
 
 <script>
 import productionService from "@/services/Producao";
+import dayjs from "dayjs";
 
 export default {
   data() {
@@ -78,25 +76,33 @@ export default {
       onProduction: [],
       finishedProduction: [],
       statusProduction: [],
+      updatedItems: new Set(),
       headersToProduction: [
-        { align: "center", text: "Descrição do Produto", value: "product.description" },
-        { align: "center", text: "Código do Produto", value: "product.code" },
-        { align: "center", text: "Data Prevista", value: "productionPlan.datePrev" },
+        { align: "center", title: "Descrição do Produto", key: "product.description" },
+        { align: "center", title: "Código do Produto", key: "product.code" },
+        { align: "center", title: "Quantidade", key: "qtd" },
+        { align: "center", title: "Status", key: "status" },
+        { align: "center", title: "Data Prevista", key: "productionPlan.datePrev" },
       ],
-      headersOnProduction: [
-        { align: "center", text: "Descrição do Produto", value: "product.description" },
-        { align: "center", text: "Status", value: "status" },
-        { align: "center", text: "Data de Início", value: "startDate" },
-      ],
-      headersFinishedProduction: [
-        { align: "center", text: "Descrição do Produto", value: "product.description" },
-        { align: "center", text: "Status", value: "status" },
-        { align: "center", text: "Data Finalizada", value: "endDate" },
-      ],
+      // headersOnProduction: [
+      //   { align: "center", title: "Descrição do Produto", key: "product.description" },
+      //   { align: "center", title: "Código do Produto", key: "product.code" },
+      //   { align: "center", title: "Quantidade", key: "qtd" },
+      //   { align: "center", title: "Status", key: "status" },
+      //   { align: "center", title: "Data de Previsão", key: "productionPlan.qtd" },
+      // ],
+      // headersFinishedProduction: [
+      //   { align: "center", title: "Descrição do Produto", key: "product.description" },
+      //   { align: "center", title: "Código do Produto", key: "product.code" },
+      //   { align: "center", title: "Quantidade", key: "qtd" },
+      //   { align: "center", title: "Status", key: "status" },
+      //   { align: "center", title: "Data de Previsão", key: "productionPlan.qtd" },
+      // ],
       headersStatusProduction: [
-        { align: "center", text: "Descrição do Produto", value: "product.description" },
-        { align: "center", text: "Status", value: "status" },
-        { align: "center", text: "Última Atualização", value: "lastUpdate" },
+        { align: "center", title: "Data de Início", key: "dateInit" },
+        { align: "center", title: "Status", key: "status" },
+        { align: "center", title: "Produção", key: "producao" },
+        { align: "center", title: "Última Atualização", key: "datePrev" },
       ],
       pollingInterval: null, // Intervalo para polling
     };
@@ -129,18 +135,29 @@ export default {
     async carregarStatusProduction() {
       try {
         const data = await productionService.getStatusProduction();
-        this.statusProduction = data;
+        this.statusProduction = data.map((item) => ({
+          ...item,
+          dateInit: this.formatarData(item.dateInit),
+          datePrev: this.formatarData(item.datePrev),
+          highlight: this.updatedItems.has(item.id), // Verifica se o item está destacado
+        }));
       } catch (error) {
         console.error("Erro ao carregar 'Status dos Produtos':", error);
       }
     },
+
+    formatarData(data, formato = "DD/MM/YYYY HH:mm") {
+      return data ? dayjs(data).format(formato) : "N/A";
+    },
+
+
     iniciarPolling() {
       this.pollingInterval = setInterval(() => {
         this.carregarToProduction();
         this.carregarOnProduction();
         this.carregarFinishedProduction();
         this.carregarStatusProduction();
-      }, 1000); 
+      }, 1000);
     },
   },
   mounted() {
@@ -176,4 +193,6 @@ export default {
 .tabela-escura th {
   background-color: #555;
 }
+
+
 </style>
