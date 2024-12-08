@@ -4,23 +4,19 @@ import '../../../../Controller/operador/production_plan.dart';
 
 encheLista() async {
   try {
-    List<Map<String, dynamic>> productionPlan =
-        await ProductionPlan.getProductionPlan();
+    List<Map<String, dynamic>> emProducao =
+        await ProductionPlan.getEmProducao();
     List<Widget> listaCartoes = [];
-    if (productionPlan.isNotEmpty) {
-      for (var a = 0; a < productionPlan.length; a++) {
-        if (productionPlan[a]["status"] == "em produção") {
-          listaCartoes.add(CartaoListagemProducao(
-              productionPlan[a]["id"],
-              productionPlan[a]["dateInit"],
-              productionPlan[a]["dateEnd"],
-              productionPlan[a]["status"],
-              productionPlan[a]["product"]["id"],
-              productionPlan[a]["product"]["description"],
-              productionPlan[a]["product"]["code"],
-              productionPlan[a]["product"]["isActive"],
-              productionPlan[a]["productionPlan"]["qtd"]));
-        }
+    if (emProducao.isNotEmpty) {
+      for (var a = 0; a < emProducao.length; a++) {
+        listaCartoes.add(
+          CartaoListagemProducao(
+              emProducao[a]["qtd"],
+              emProducao[a]["status"],
+              emProducao[a]["product"],
+              emProducao[a]["productionIds"],
+              emProducao[a]["productionPlan"]),
+        );
       }
       return listaCartoes;
     }

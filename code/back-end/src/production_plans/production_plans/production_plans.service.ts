@@ -6,12 +6,15 @@ import { Product } from '../../products/entities/product.entity';
 import { CreateProductionPlanDto } from '../dto/create-production_plan.dto';
 import { ProductionPlan } from '../entities/production_plan.entity';
 import { ClientProxy } from '@nestjs/microservices';
+import { Production } from '../entities/production.entity';
 
 @Injectable()
 export class ProductionPlansService {
   constructor(
     @InjectRepository(ProductionPlan)
     private productionPlansRepository: Repository<ProductionPlan>,
+    @InjectRepository(Production)
+    private productionsRepository: Repository<Production>,
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
     @InjectRepository(Line)
@@ -101,12 +104,17 @@ export class ProductionPlansService {
   async remove(id: string): Promise<void> {
     const productionPlan = await this.productionPlansRepository.findOne({
       where: { id },
+      relations: ['productions'],
     });
 
     if (!productionPlan) {
       throw new Error(`ProductionPlan with id ${id} not found`);
     }
-    // FAZER UM IF PARA VERIFICAR SE A PRODUCTION JÁ COMEÇOU
+
+    for (const child of productionPlan.productions) {
+      await this.productionsRepository.delete(child.id);
+    }
+
     await this.productionPlansRepository.delete(id);
   }
 }

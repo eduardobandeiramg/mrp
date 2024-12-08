@@ -2,30 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:mrp/Controller/operador/production_plan.dart';
 import 'package:mrp/View/artefatos/cartoes/operador/cartao_listagem_produtos.dart';
 
-encheLista() async {
+Future<List<Widget>> encheLista() async {
   try {
     List<Map<String, dynamic>> productionPlan =
-        await ProductionPlan.getProductionPlan();
-    List<Widget> listaCartoes = [];
+        await ProductionPlan.getAProduzir();
+    List<CartaoListagemProducao> listaCartoes = [];
     if (productionPlan.isNotEmpty) {
       for (var a = 0; a < productionPlan.length; a++) {
-        if (productionPlan[a]["status"] == "a produzir" || productionPlan[a]["status"] == "aguardando peças") {
-          listaCartoes.add(CartaoListagemProducao(
-              productionPlan[a]["id"],
-              productionPlan[a]["dateInit"],
-              productionPlan[a]["dateEnd"],
+        listaCartoes.add(
+          CartaoListagemProducao(
+              productionPlan[a]["qtd"],
               productionPlan[a]["status"],
-              productionPlan[a]["product"]["id"],
-              productionPlan[a]["product"]["description"],
-              productionPlan[a]["product"]["code"],
-              productionPlan[a]["product"]["isActive"],
-              productionPlan[a]["productionPlan"]["qtd"]));
-        }
+              productionPlan[a]["product"],
+              productionPlan[a]["productionIds"],
+              productionPlan[a]["productionPlan"]),
+        );
       }
       return listaCartoes;
+    } else {
+      throw new Exception("lista-vazia");
     }
   } catch (e) {
-    return null;
+    return [];
   }
 }
 

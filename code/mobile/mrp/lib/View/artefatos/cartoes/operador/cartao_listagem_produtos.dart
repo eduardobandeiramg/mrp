@@ -2,26 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mrp/View/telas/operador/detalhamento/detalhamento_producao.dart';
 
 class CartaoListagemProducao extends StatelessWidget {
-  String idProducao;
-  String dateInit;
-  String dateEnd;
+  int qtd;
   String status;
-  String idProduto;
-  String nomeProduto;
-  String codeProduto;
-  var isActiveProduto;
-  int qtdProduto;
+  Map<String, dynamic> produto;
+  List<dynamic> idsProducao;
+  Map<String, dynamic> productionPlan;
 
-  CartaoListagemProducao(
-      this.idProducao,
-      this.dateInit,
-      this.dateEnd,
-      this.status,
-      this.idProduto,
-      this.nomeProduto,
-      this.codeProduto,
-      this.isActiveProduto,
-      this.qtdProduto);
+  CartaoListagemProducao(this.qtd, this.status, this.produto, this.idsProducao,
+      this.productionPlan);
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +21,8 @@ class CartaoListagemProducao extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => TelaDetalhamentoProducao(nomeProduto, idProduto,
-                  codeProduto, status, qtdProduto, idProducao),
+              builder: (context) => TelaDetalhamentoProducao(
+                  qtd, status, produto, idsProducao, productionPlan),
             ),
           );
         },
@@ -56,24 +44,25 @@ class CartaoListagemProducao extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Text("Item: $nomeProduto"),
+                  child: Text("Item: ${produto["description"]}"),
                 ),
                 Expanded(
                   flex: 1,
-                  child: Text("Código: $codeProduto"),
+                  child: Text("Código: ${produto["code"]}"),
                 ),
 /*                Expanded(
                   flex: 1,
                   child: Text("status: $status"),
                 ),*/
-                if (dateInit != null)
+                if (productionPlan["datePrev"] != null)
                   Expanded(
                     flex: 1,
-                    child: Text("Data da produção: $dateInit"),
+                    child:
+                        Text("Data da produção: ${productionPlan["datePrev"]}"),
                   ),
                 Expanded(
                   flex: 1,
-                  child: Text("Quantidade: $qtdProduto"),
+                  child: Text("Quantidade: $qtd"),
                 ),
               ],
             ),

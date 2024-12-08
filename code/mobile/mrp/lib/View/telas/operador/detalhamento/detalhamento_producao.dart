@@ -5,15 +5,14 @@ import 'package:mrp/View/telas/operador/detalhamento/detalhamento_pecas_produto.
 import '../tela_principal_operador.dart';
 
 class TelaDetalhamentoProducao extends StatefulWidget {
-  String nome;
-  String idProduto;
-  String codigo;
+  int qtd;
   String status;
-  int quantidade;
-  String idProducao;
+  Map<String, dynamic> produto;
+  List<dynamic> idsProducao;
+  Map<String, dynamic> productionPlan;
 
-  TelaDetalhamentoProducao(this.nome, this.idProduto, this.codigo, this.status,
-      this.quantidade, this.idProducao);
+  TelaDetalhamentoProducao(this.qtd, this.status, this.produto,
+      this.idsProducao, this.productionPlan);
 
   @override
   State<TelaDetalhamentoProducao> createState() =>
@@ -25,6 +24,7 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.idsProducao);
     double altura = MediaQuery.of(context).size.height;
     double largura = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -56,15 +56,15 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Produto: ${widget.nome}"),
+                    Text("Produto: ${widget.produto["description"]}"),
                     SizedBox(
                       height: altura * 0.01,
                     ),
-                    Text("Código: ${widget.codigo}"),
+                    Text("Código: ${widget.produto["code"]}"),
                     SizedBox(
                       height: altura * 0.01,
                     ),
-                    Text("Quantidade: ${widget.quantidade}"),
+                    Text("Quantidade: ${widget.qtd}"),
                     SizedBox(
                       height: altura * 0.01,
                     ),
@@ -82,7 +82,8 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       TelaDetalhamentoPecasProduto(
-                                          widget.idProduto, widget.idProducao),
+                                          widget.produto["id"],
+                                          widget.idsProducao),
                                 ),
                               );
                             },
@@ -116,7 +117,7 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                               });
                               try {
                                 await ProductionPlan.iniciarProducao(
-                                    widget.idProducao);
+                                    widget.idsProducao[0]);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content:
@@ -254,13 +255,18 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                                 carregando = true;
                               });
                               try {
-                                await ProductionPlan.iniciarProducao(
-                                    widget.idProducao);
-                                Navigator.of(context).pop();
+                                await ProductionPlan.retomarProducao(
+                                    widget.idsProducao[0]);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content:
                                         Text("Produção retomada com sucesso!"),
+                                  ),
+                                );
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        TelaPrincipalOperador(1),
                                   ),
                                 );
                               } catch (e) {
@@ -294,8 +300,34 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                         child: SizedBox(
                           width: largura * 0.9,
                           child: ElevatedButton(
-                            onPressed: () {
-                              ProductionPlan.pausarProducao(widget.idProducao);
+                            onPressed: () async {
+                              setState(() {
+                                carregando = true;
+                              });
+                              try {
+                                print(
+                                    "mandando pausar a seguinte producao: ${widget.idsProducao[0]}");
+                                await ProductionPlan.pausarProducao(
+                                    widget.idsProducao[0]);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Produção pausada!"),
+                                  ),
+                                );
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            TelaPrincipalOperador(1)));
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Erro ao pausar produção!"),
+                                  ),
+                                );
+                                setState(() {
+                                  carregando = false;
+                                });
+                              }
                             },
                             child: Text(
                               "Pausar produção",
@@ -352,7 +384,7 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                               });
                               try {
                                 await ProductionPlan.finalizarProducao(
-                                    widget.idProducao);
+                                    widget.idsProducao[0]);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
