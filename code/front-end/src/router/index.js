@@ -66,6 +66,11 @@ const manualRoutes = [
     name: 'Funcionarios',
     component: () => import('@/pages/Funcionarios.vue'), 
   },
+  {
+    path: '/relatorios',
+    name: 'Relatórios',
+    component: () => import('@/pages/Relatorios.vue'), 
+  },
 
   // Você pode adicionar mais rotas manualmente aqui
 ]
