@@ -22,17 +22,17 @@ export default {
     }
   },
 
-  async updateUser(userData) {
-    try {
-      const response = await axios.put(`${API_URL_USER}`, userData, {
-        headers: getAuthHeader(),
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Erro ao atualizar dados do usuário:', error);
-      throw error;
-    }
-  },
+  // async updateUser(userData) {
+  //   try {
+  //     const response = await axios.put(`${API_URL_USER}`, userData, {
+  //       headers: getAuthHeader(),
+  //     });
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error('Erro ao atualizar dados do usuário:', error);
+  //     throw error;
+  //   }
+  // },
 
   async getAllUsers() {
     try {

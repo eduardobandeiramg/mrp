@@ -19,9 +19,9 @@
           <template v-slot:item.actions="{ item }">
             <div class="d-flex justify-content-end">
               <v-spacer></v-spacer>
-              <v-btn color="blue" @click="abrirModalEditar(item)">
+              <!-- <v-btn color="blue" @click="abrirModalEditar(item)">
                 <v-icon>mdi-pencil</v-icon> Editar
-              </v-btn>
+              </v-btn> -->
               <v-btn color="red" @click="abrirModalExcluir(item)">
                 <v-icon>mdi-delete</v-icon> Excluir
               </v-btn>
@@ -41,10 +41,10 @@
               required></v-text-field>
             <v-text-field v-model="novoFuncionario.email" label="E-mail" :rules="[rules.required, rules.email]"
               required></v-text-field>
-            <v-text-field v-model="novoFuncionario.password" label="Senha" type="password"
-              :rules="[rules.required, rules.password]" required></v-text-field>
+            <v-text-field v-model="novoFuncionario.password" v-show="!editando" label="Senha" type="password"
+              :rules="[rules.required, rules.password]"></v-text-field>
             <v-text-field v-model="novoFuncionario.confirmPassword" label="Confirmar Senha" type="password"
-              :rules="[rules.required, rules.confirmPassword]" required></v-text-field>
+              :rules="[rules.required, rules.confirmPassword]" v-show="!editando"></v-text-field>
             <v-select v-model="novoFuncionario.role" :items="roles" label="Função" :rules="[rules.required]"
               item-text="title" item-value="key" required></v-select>
           </v-form>
@@ -106,7 +106,7 @@ export default {
         { align: 'center', title: 'Nome do Funcionário', key: 'username' },
         { align: 'center', title: 'E-mail', key: 'email' },
         { align: 'center', title: 'Função', key: 'role' },
-        { align: 'center', title: 'Ações', key: 'actions', sortable: false, width: "150px"  },
+        { align: 'center', title: 'Ações', key: 'actions', sortable: false, width: "150px" },
       ],
       rules: {
         required: (value) => !!value || "Este campo é obrigatório.",
@@ -114,15 +114,22 @@ export default {
           /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || "E-mail inválido.",
         confirmPassword: (value) =>
           value === this.novoFuncionario.password || "As senhas não coincidem.",
-        password: (value) =>
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value) ||
-          "A senha deve conter no mínimo 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial.",
+        password: (value) => {
+          if (this.editando) {
+            return true; // Senha não é obrigatória ao editar
+          }
+          return (
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value) ||
+            "A senha deve conter no mínimo 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial."
+          );
+        },
       },
+
     };
 
   },
   methods: {
-    
+
     abrirModalIncluir() {
       this.modalTitulo = 'Incluir Novo Funcionário';
       this.editando = false;
@@ -162,7 +169,7 @@ export default {
     async salvar() {
       try {
         if (this.editando) {
-          await funcionarioService.updateUser(this.novoFuncionario.id, this.novoFuncionario);
+          // await funcionarioService.updateUser(this.novoFuncionario.id, this.novoFuncionario);
         } else {
           await funcionarioService.registerUser(this.novoFuncionario);
         }
