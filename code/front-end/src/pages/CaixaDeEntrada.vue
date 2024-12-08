@@ -3,46 +3,64 @@
     <h1 class="text-center">Caixa de Entrada</h1>
 
     <!-- Bloco 1: To Production -->
-    <!-- <v-row>
+    <v-row>
       <v-col cols="12">
         <v-card class="mb-4">
           <v-card-title>Produtos para Produzir</v-card-title>
           <v-card-text>
-            <v-data-table :items="toProduction" :headers="headers" class="elevation-1 tabela-escura"></v-data-table>
+            <v-data-table
+              :items="toProduction"
+              :headers="headersToProduction"
+              class="elevation-1 tabela-escura"
+            ></v-data-table>
           </v-card-text>
         </v-card>
       </v-col>
-    </v-row> -->
+    </v-row>
+
+    <!-- Bloco 2: On Production -->
     <v-row>
-      <!-- Bloco 2: On Production -->
       <v-col cols="12">
         <v-card class="mb-4">
           <v-card-title>Produtos em Produção</v-card-title>
           <v-card-text>
-            <v-data-table :items="onProduction" :headers="headers" class="elevation-1 tabela-escura"></v-data-table>
+            <v-data-table
+              :items="onProduction"
+              :headers="headersOnProduction"
+              class="elevation-1 tabela-escura"
+            ></v-data-table>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
+
+    <!-- Bloco 3: Finished Production -->
     <v-row>
-      <!-- Bloco 3: Finished Production -->
       <v-col cols="12">
         <v-card class="mb-4">
           <v-card-title>Produtos Finalizados</v-card-title>
           <v-card-text>
-            <v-data-table :items="finishedProduction" :headers="headers"
-              class="elevation-1 tabela-escura"></v-data-table>
+            <v-data-table
+              :items="finishedProduction"
+              :headers="headersFinishedProduction"
+              class="elevation-1 tabela-escura"
+            ></v-data-table>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
+
+    <!-- Bloco 4: Status Production -->
     <v-row>
-      <!-- Bloco 4: Status Production -->
       <v-col cols="12">
         <v-card class="mb-4">
           <v-card-title>Status dos Produtos</v-card-title>
           <v-card-text>
-            <v-data-table :items="statusProduction" :headers="headers" class="elevation-1 tabela-escura"></v-data-table>
+            <v-data-table
+              :items="statusProduction"
+              :headers="headersStatusProduction"
+              class="elevation-1 tabela-escura"
+            ></v-data-table>
           </v-card-text>
         </v-card>
       </v-col>
@@ -60,42 +78,69 @@ export default {
       onProduction: [],
       finishedProduction: [],
       statusProduction: [],
-      headers: [
-        { align: "center", title: "Produção", key: "production" },
-        { align: "center", title: "Status", key: "status" },
-        { align: "center", title: "Data de Início", key: "startDate" },
-        { align: "center", title: "Última Atualização", key: "lastUpdate" },
+      headersToProduction: [
+        { align: "center", text: "Descrição do Produto", value: "product.description" },
+        { align: "center", text: "Código do Produto", value: "product.code" },
+        { align: "center", text: "Data Prevista", value: "productionPlan.datePrev" },
       ],
+      headersOnProduction: [
+        { align: "center", text: "Descrição do Produto", value: "product.description" },
+        { align: "center", text: "Status", value: "status" },
+        { align: "center", text: "Data de Início", value: "startDate" },
+      ],
+      headersFinishedProduction: [
+        { align: "center", text: "Descrição do Produto", value: "product.description" },
+        { align: "center", text: "Status", value: "status" },
+        { align: "center", text: "Data Finalizada", value: "endDate" },
+      ],
+      headersStatusProduction: [
+        { align: "center", text: "Descrição do Produto", value: "product.description" },
+        { align: "center", text: "Status", value: "status" },
+        { align: "center", text: "Última Atualização", value: "lastUpdate" },
+      ],
+      pollingInterval: null, // Intervalo para polling
     };
   },
   methods: {
     async carregarToProduction() {
       try {
-        this.toProduction = await productionService.getToProduction();
+        const data = await productionService.getToProduction();
+        this.toProduction = data;
       } catch (error) {
-        console.error("Erro ao carregar 'To Production':", error);
+        console.error("Erro ao carregar 'Produtos para Produzir':", error);
       }
     },
     async carregarOnProduction() {
       try {
-        this.onProduction = await productionService.getOnProduction();
+        const data = await productionService.getOnProduction();
+        this.onProduction = data;
       } catch (error) {
-        console.error("Erro ao carregar 'On Production':", error);
+        console.error("Erro ao carregar 'Produtos em Produção':", error);
       }
     },
     async carregarFinishedProduction() {
       try {
-        this.finishedProduction = await productionService.getFinishedProduction();
+        const data = await productionService.getFinishedProduction();
+        this.finishedProduction = data;
       } catch (error) {
-        console.error("Erro ao carregar 'Finished Production':", error);
+        console.error("Erro ao carregar 'Produtos Finalizados':", error);
       }
     },
     async carregarStatusProduction() {
       try {
-        this.statusProduction = await productionService.getStatusProduction();
+        const data = await productionService.getStatusProduction();
+        this.statusProduction = data;
       } catch (error) {
-        console.error("Erro ao carregar 'Status Production':", error);
+        console.error("Erro ao carregar 'Status dos Produtos':", error);
       }
+    },
+    iniciarPolling() {
+      this.pollingInterval = setInterval(() => {
+        this.carregarToProduction();
+        this.carregarOnProduction();
+        this.carregarFinishedProduction();
+        this.carregarStatusProduction();
+      }, 1000); 
     },
   },
   mounted() {
@@ -103,6 +148,12 @@ export default {
     this.carregarOnProduction();
     this.carregarFinishedProduction();
     this.carregarStatusProduction();
+    this.iniciarPolling();
+  },
+  beforeDestroy() {
+    if (this.pollingInterval) {
+      clearInterval(this.pollingInterval);
+    }
   },
 };
 </script>

@@ -54,7 +54,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="fecharModal">Cancelar</v-btn>
-          <v-btn color="blue darken-1" text @click="salvar" :disabled="!isFormValid()">Salvar</v-btn>
+          <v-btn color="blue darken-1" text @click="salvar">Salvar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -122,6 +122,7 @@ export default {
 
   },
   methods: {
+    
     abrirModalIncluir() {
       this.modalTitulo = 'Incluir Novo Funcionário';
       this.editando = false;
