@@ -136,4 +136,17 @@ class ProductionPlan {
       throw new Exception("erro");
     }
   }
+
+  static Future<dynamic> cancelarProducao(String idProducao) async {
+    String urlCancelarProducao =
+        "http://10.0.2.2:3000/production/$idProducao/cancel";
+    http.Response resposta = await http.patch(Uri.parse(urlCancelarProducao),
+        headers: {"Authorization": TokenApp.tokenApp!});
+    if (resposta.statusCode == 200) {
+      await Future.delayed(Duration(seconds: 1));
+      return "ok";
+    } else {
+      throw new Exception("erro");
+    }
+  }
 }
