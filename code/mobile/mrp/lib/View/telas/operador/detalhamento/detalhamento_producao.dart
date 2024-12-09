@@ -353,7 +353,36 @@ class _TelaDetalhamentoProducaoState extends State<TelaDetalhamentoProducao> {
                         child: SizedBox(
                           width: largura * 0.9,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              setState(() {
+                                carregando = true;
+                              });
+                              try {
+                                await ProductionPlan.cancelarProducao(
+                                    widget.idsProducao[0]);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        Text("Produção cancelada com sucesso!"),
+                                  ),
+                                );
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        TelaPrincipalOperador(1),
+                                  ),
+                                );
+                              } catch (e) {
+                                setState(() {
+                                  carregando = false;
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Erro ao cancelar produção"),
+                                  ),
+                                );
+                              }
+                            },
                             child: Text(
                               "Cancelar produção",
                               style: TextStyle(color: Colors.white),
