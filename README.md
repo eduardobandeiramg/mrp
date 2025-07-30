@@ -11,11 +11,10 @@ This system integrates functionalities for inventory control, production order m
 ## How to run
 1. clone the repository
 2. open it in any IDE that supports mobile emulators (preferably Android Studio)
-3. run the back-end:
-</br>
-    3.1 step 1</br>
-    3.2 step 2</br>
-    3.2 step 3</br>
+3. run the back-end:   
+    3.1 step 1   
+    3.2 step 2   
+    3.2 step 3   
 5. fdfa
 6. 
 
