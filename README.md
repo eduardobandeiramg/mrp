@@ -1,9 +1,24 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/F_-jgkTW)
-# MRP
+# The Project
+This project was developed as part of a graduation subject assignment, along with other colleagues. 
 
-O objetivo do meu projeto é desenvolver um sistema de Manufacturing Resource Planning (MRP) que otimiza e automatiza os processos de planejamento de recursos em uma linha de produção. Este sistema integrará funcionalidades de controle de inventário, gestão de ordens de produção, e previsão de demanda, proporcionando uma visão clara e centralizada de todas as operações de manufatura. Com isso, busca-se melhorar a eficiência operacional, reduzir custos e garantir a disponibilidade de materiais, facilitando a tomada de decisões estratégicas dentro da empresa.
+I was the responsible for the mobile front-end development, and the others took care of the back-end and the web front-end.
 
-## Integrantes
+The system is a simple version of an hypothetical MRP (Manufacturing Resources Planning) system. It's goal is to optimise and automate the resources management in an production line. The system has 3 different role-based users: i) manufacturing manager; ii) manufacturing supervisor and factory worker.
+
+This system integrates functionalities for inventory control, production order management, material requisitions and demand forecasting, providing a clear and centralized view of all manufacturing operations. The goal is to improve operational efficiency, reduce costs, and ensure material availability, thereby supporting strategic decision-making within the company.
+
+## How to run
+1. clone the repository
+2. open it in any IDE that supports mobile emulators (preferably Android Studio)
+3. run the back-end:
+  3.1 step 1
+  3.2 step 2
+  3.2 step 3
+4. fdfa
+5. 
+
+## Participants of the project
 
 * Daniel Estevam Pacheco de Souza
 * Eduardo Bandeira de Melo Guimarães
@@ -11,23 +26,3 @@ O objetivo do meu projeto é desenvolver um sistema de Manufacturing Resource Pl
 * Lucas Machado de Oliveira Andrade
 * Mariana Eliza Alves Costa
 * Vítor Lion Guimarães Rodrigues
-
-## Orientadores
-
-* Hugo Bastos de Paula
-* Cleiton Silva Tavares
-* Ramon Lacerda Marques
-
-## Instruções de utilização
-
-Assim que a primeira versão do sistema estiver disponível, deverá complementar com as instruções de utilização. Descreva como instalar eventuais dependências e como executar a aplicação.
-
-## Histórico de versões
-
-* 0.1.1
-    * CHANGE: Atualização das documentacoes. Código permaneceu inalterado.
-* 0.1.0
-    * Implementação da funcionalidade X pertencente ao processo P.
-* 0.0.1
-    * Trabalhando na modelagem do processo de negócios.
-
