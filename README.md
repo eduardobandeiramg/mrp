@@ -19,9 +19,9 @@ This system integrates functionalities for inventory control, production order m
 
 ## Participants of the project
 
-* Daniel Estevam Pacheco de Souza
-* Eduardo Bandeira de Melo Guimarães
-* Eric Rodrigues Diniz
-* Lucas Machado de Oliveira Andrade
-* Mariana Eliza Alves Costa
-* Vítor Lion Guimarães Rodrigues
+* Daniel Estevam Pacheco de Souza (https://github.com/DanielStevam)
+* Eduardo Bandeira de Melo Guimarães (https://github.com/eduardobandeiramg)
+* Eric Rodrigues Diniz (https://github.com/ericdiniz)
+* Lucas Machado de Oliveira Andrade (https://github.com/lucasandrademo)
+* Mariana Eliza Alves Costa (https://github.com/xMarih)
+* Vítor Lion Guimarães Rodrigues (https://github.com/Lvion)
