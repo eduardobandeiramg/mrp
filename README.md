@@ -12,8 +12,8 @@ This system integrates functionalities for inventory control, production order m
 1. clone the repository
 2. open it in any IDE that supports mobile emulators (preferably Android Studio)
 3. run the back-end:   
-    3.1 navigate to the 'back-end' folder (`cd back-end`)   
-    3.2 follow the instructions available at the 'README.md' file inside the 'back-end' folder   
+    3.1. navigate to the 'back-end' folder (`cd back-end`)   
+    3.2. follow the instructions available at the 'README.md' file inside the 'back-end' folder
 5. start your emulator
 6. tap 'run'
 
